@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry kind="lib" path="/Users/jangyoungjin/JavaProject/tleaf_mobile/libs/httpclient-cache-4.2.5.jar"/>
+	<classpathentry kind="lib" path="/Users/jangyoungjin/JavaProject/tleaf_mobile/libs/jackson-annotations-2.2.2.jar"/>
+	<classpathentry kind="lib" path="/Users/jangyoungjin/JavaProject/tleaf_mobile/libs/jackson-core-2.2.2.jar"/>
+	<classpathentry kind="lib" path="/Users/jangyoungjin/JavaProject/tleaf_mobile/libs/jackson-core-asl-1.9.2.jar"/>
+	<classpathentry kind="lib" path="/Users/jangyoungjin/JavaProject/tleaf_mobile/libs/jackson-databind-2.2.2.jar"/>
+	<classpathentry kind="lib" path="/Users/jangyoungjin/JavaProject/tleaf_mobile/libs/jackson-mapper-asl-1.9.2.jar"/>
+	<classpathentry kind="lib" path="/Users/jangyoungjin/JavaProject/tleaf_mobile/libs/org.ektorp-1.2.2.jar"/>
+	<classpathentry kind="lib" path="/Users/jangyoungjin/JavaProject/tleaf_mobile/libs/org.ektorp.android-1.2.2.jar"/>
+	<classpathentry kind="lib" path="/Users/jangyoungjin/JavaProject/tleaf_mobile/libs/slf4j-api-1.7.5.jar"/>
+	<classpathentry kind="output" path="bin/classes"/>
+</classpath>
