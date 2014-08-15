@@ -1,7 +1,7 @@
 package com.tleaf.lifelog.util;
 
 import android.os.AsyncTask;
-import com.tleaf.lifelog.model.Documentation;
+import com.tleaf.lifelog.model.Document;
 import org.ektorp.CouchDbConnector;
 import org.ektorp.CouchDbInstance;
 import org.ektorp.android.http.AndroidHttpClient;
@@ -33,7 +33,7 @@ public class DBconnector extends AsyncTask<String, String, String> {
             CouchDbInstance dbInstance = new StdCouchDbInstance(client);
             CouchDbConnector db = dbInstance.createConnector(DATABASE, true);
 
-            Documentation documentation = new Documentation();
+            Document documentation = new Document();
             documentation.setData("richard");
 
             db.create(documentation);

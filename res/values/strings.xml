@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">tleaf_mobile</string>
+    <string name="app_name">lifelog</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="app_id">675376119207653</string>
+    
+    <!-- 프로필 페이지 -->
+    <string name="user_name"> </string>
 
 </resources>

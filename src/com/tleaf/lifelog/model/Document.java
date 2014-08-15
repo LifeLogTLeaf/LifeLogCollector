@@ -5,7 +5,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 /**
  * Created by jangyoungjin on 8/10/14.
  */
-public class Documentation {
+public class Document {
     @JsonProperty("_id")
     protected String id;
 
