@@ -18,7 +18,7 @@ import com.tleaf.lifelog.util.Mylog;
  * Created by jangyoungjin on 8/1/14.
  * 카우치 데이터베이스에 직접적으로 접속해서 데이터를 저장하는 쓰레드 클래스입니다.
  */
-public class CouchTask extends AsyncTask<Document, Void, String> {
+public class CouchDBConnector extends AsyncTask<Document, Void, String> {
     private static final String TAG = "카우치 디비 통신";
     private static final String URL = "http://54.191.147.237:5984";
     private static final String USER_NAME = "couchdb";
@@ -36,7 +36,7 @@ public class CouchTask extends AsyncTask<Document, Void, String> {
      * @param DBListener   : 데이터 요청에대한 응답이 왔을때 이를 받을 객체.
      * @param request_name : 요청명 (실질적으로 디비에는 전송되지 않는다 )
      */
-    public CouchTask(String dbName, String method, String request_name) {
+    public CouchDBConnector(String dbName, String method, String request_name) {
         this.db_name = dbName;
         this.http_method = method;
         //this.mDBListener = DBListener;

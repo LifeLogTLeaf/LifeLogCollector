@@ -12,9 +12,18 @@ public class Document {
     @JsonProperty("_rev")
     protected String rev;
 
-    private String Data;
+    private long date;
+    private String type;
 
-    public String getId() {
+    public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getId() {
         return id;
     }
 
@@ -30,11 +39,11 @@ public class Document {
         this.rev = rev;
     }
 
-    public String getData() {
-        return Data;
+    public long getDate() {
+        return date;
     }
 
-    public void setData(String data) {
-        Data = data;
+    public void setDate(long date) {
+    	this.date = date;
     }
 }
