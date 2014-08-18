@@ -12,6 +12,7 @@ import com.tleaf.lifelog.R;
 public class StartActivity extends Activity {
 	
 	Button startbtnmap;
+	Button startbtnfacebook;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,16 @@ public class StartActivity extends Activity {
 				startActivity( new Intent( StartActivity.this, MapActivity.class ) );
 			}
 		} );
+		
+		startbtnfacebook = (Button)findViewById(R.id.startbtnfacebook);
+		startbtnfacebook.setOnClickListener( new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				startActivity( new Intent( StartActivity.this, MainActivity.class ) );
+			}
+		});
 		
 	}
 
