@@ -10,17 +10,44 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="19" />
 
+    <permission
+        android:name="com.tleaf.lifelog.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.tleaf.lifelog.permission.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@android:style/Theme.NoTitleBar" >
 
         <!-- facebook meta data -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />
 
+        <!-- mapview meta data -->
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyCdiULPLyeyBqJpte27F1yn7Utx1tXVAKM" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        
         <!-- facebook sdk -->
         <activity
             android:name="com.facebook.LoginActivity"
@@ -30,6 +57,21 @@
         <activity
             android:name="com.tleaf.lifelog.activity.MainActivity"
             android:label="@string/app_name" >
+		</activity>
+
+        <!-- Bookmark Activity -->
+        <activity android:name="com.tleaf.lifelog.activity.BookmarkShareActivity" >
+        </activity>
+
+        <!-- Uploader Service -->
+        <service android:name="com.tleaf.lifelog.service.UploaderService" >
+            <intent-filter>
+                <action android:name="com.tleaf.service.uploader" />
+            </intent-filter>
+        </service>
+
+        <!-- Start Activity -->
+        <activity android:name="com.tleaf.lifelog.activity.StartActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,17 +79,9 @@
             </intent-filter>
         </activity>
 
-        <!-- Bookmark Activity -->
-        <activity android:name="com.tleaf.lifelog.activity.BookmarkShareActivity" >
+        <!-- Map Activity -->
+        <activity android:name="com.tleaf.lifelog.activity.MapActivity" >
         </activity>
-
-        <!-- Uploader Service -->
-        <service
-            android:name="com.tleaf.lifelog.service.UploaderService">
-            <intent-filter >
-                <action android:name="com.tleaf.service.uploader"/>
-            </intent-filter>
-        </service>
     </application>
 
 </manifest>

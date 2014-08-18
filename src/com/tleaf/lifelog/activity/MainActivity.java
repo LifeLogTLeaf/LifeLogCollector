@@ -19,7 +19,6 @@ import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.fragment.LoginFragment;
 
 
-
 public class MainActivity extends FragmentActivity {
 	private static final String TAG = "MAIN ACTIVITY";
 	private LoginFragment mLoginFragment;
@@ -34,8 +33,8 @@ public class MainActivity extends FragmentActivity {
 		// Mylog.i(TAG, "Created MainActivity");
 		setContentView(R.layout.activity_main);
 
-//		init();
-//		loadHashKey();
+		init();
+		loadHashKey();
 
 		// 멘인액티비티에서 모든일을 다 끝내고 최초 시작할 프래그먼트를 선택한다.
 		// 이때 로그인이 되있으면 메인프래그먼트를 안되있으면 로그인프래그먼트를 부른다.
@@ -49,8 +48,8 @@ public class MainActivity extends FragmentActivity {
 		// --- 지금은 생략 ---
 		//startUploaderService();
 		
-		Intent intent = new Intent(this, BookmarkShareActivity.class);
-		startActivity(intent);
+//		Intent intent = new Intent(this, BookmarkShareActivity.class);
+//		startActivity(intent);
 	}
 
 	@Override
