@@ -29,7 +29,7 @@ import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.model.FacebookUserInfor;
 import com.tleaf.lifelog.model.UserInfor;
 import com.tleaf.lifelog.util.Mylog;
-import com.tleaf.lifelog.util.network.CouchTask;
+import com.tleaf.lifelog.util.network.CouchDBConnector;
 
 public class LoginFragment extends Fragment implements StatusCallback {
 	private static final String TAG = "LOGIN FRAGMENT";
@@ -169,7 +169,7 @@ public class LoginFragment extends Fragment implements StatusCallback {
 							JSONObject json = new JSONObject(response.getRawResponse());
 							userInfor.setGender(json.getString("gender"));
 							userInfor.setUserName(json.getString("name"));
-							CouchTask couchTask = new CouchTask("young", "post", "userinsert");
+							CouchDBConnector couchTask = new CouchDBConnector("young", "post", "userinsert");
 							couchTask.execute(userInfor);
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block

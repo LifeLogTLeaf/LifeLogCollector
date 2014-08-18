@@ -10,7 +10,7 @@ import org.apache.http.params.HttpParams;
 
 import android.os.AsyncTask;
 
-public class HttpTask extends AsyncTask<List<NameValuePair>, Void, String> {
+public class ServerDBConnector extends AsyncTask<List<NameValuePair>, Void, String> {
     private static final int SOCKET_TIMEOUT     = 5000;
     private static final int CONNECTION_TIMEOUT = 5000;
     private static String httpMethod;
