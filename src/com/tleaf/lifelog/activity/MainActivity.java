@@ -17,8 +17,8 @@ import android.util.Log;
 
 import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.fragment.LoginFragment;
-import com.tleaf.lifelog.service.UploaderService;
-import com.tleaf.lifelog.util.Mylog;
+
+
 
 public class MainActivity extends FragmentActivity {
 	private static final String TAG = "MAIN ACTIVITY";

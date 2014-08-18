@@ -16,8 +16,6 @@ import com.couchbase.lite.android.AndroidContext;
 import com.couchbase.lite.replicator.Replication;
 import com.couchbase.lite.replicator.Replication.ChangeEvent;
 import com.couchbase.lite.replicator.Replication.ChangeListener;
-import com.tleaf.lifelog.model.FacebookUserInfor;
-import com.tleaf.lifelog.model.UserInfor;
 import com.tleaf.lifelog.util.Mylog;
 
 /**
