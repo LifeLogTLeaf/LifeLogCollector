@@ -1,7 +1,12 @@
 package com.tleaf.lifelog.util.network;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 
+import org.ektorp.AttachmentInputStream;
 import org.ektorp.CouchDbConnector;
 import org.ektorp.CouchDbInstance;
 import org.ektorp.android.http.AndroidHttpClient;
@@ -12,6 +17,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.tleaf.lifelog.model.Document;
+import com.tleaf.lifelog.model.Photo;
 import com.tleaf.lifelog.util.Mylog;
 
 /**
@@ -66,6 +72,21 @@ public class CouchTask extends AsyncTask<Document, Void, String> {
         }
     }
 
+    AttachmentInputStream addAttachmentStream(Photo photo){
+    	String imagePath = photo.getImgPath();
+    	File file = new File(imagePath);
+
+		InputStream is = null;
+		try {
+			is = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		AttachmentInputStream attInput = new AttachmentInputStream(
+				photo.getFileName(), is, "image/png");
+		return attInput;
+    }
 
     @Override
     protected String doInBackground(Document... data) {
@@ -79,7 +100,16 @@ public class CouchTask extends AsyncTask<Document, Void, String> {
 
             CouchDbInstance dbInstance = new StdCouchDbInstance(client);
             CouchDbConnector db = dbInstance.createConnector(db_name, true);
+            //사진에 대한 작업인지 확인하기 위한 작업, 리펙토링 해야
 
+			Photo photo = (Photo) data[0];
+			String filePath = photo.getImgPath();
+			if(filePath!=null){
+				AttachmentInputStream attInput= addAttachmentStream(photo);
+				db.createAttachment(photo.getFileName(), attInput);
+			}
+			//사진작업 끝 
+            
             if (http_method.equals("post")) {
                 result = requestPost(db, data[0]);
             } else if (http_method.equals("get")) {
@@ -98,6 +128,8 @@ public class CouchTask extends AsyncTask<Document, Void, String> {
         }
 
     }
+    
+    
 
     @Override
     protected void onPostExecute(String result) {
