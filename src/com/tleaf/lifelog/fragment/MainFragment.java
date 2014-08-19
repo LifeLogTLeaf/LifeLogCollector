@@ -106,7 +106,7 @@ public class MainFragment extends Fragment implements StatusCallback {
 			Exception exception) {
 		if (state.isOpened()) {
 			Mylog.i(TAG, "logged in");
-			// - 데모 - 
+			// - �곕え - 
 			reqeustUserProfile(session);
 		} else if (state.isClosed()) {
 			Mylog.i(TAG, "logged out...");
@@ -120,7 +120,7 @@ public class MainFragment extends Fragment implements StatusCallback {
 					public void onCompleted(GraphUser user, Response response) {
 						// TODO Auto-generated method stub
 						if (session == Session.getActiveSession() && user != null) {
-							//User가 null값이 되는 경우가 있기때문에 이를 체크해줘야한다. 이유는 인터넷 커넥션때문에.
+							//User媛�null媛믪씠 �섎뒗 寃쎌슦媛��덇린�뚮Ц���대� 泥댄겕�댁쨾�쇳븳�� �댁쑀���명꽣��而ㅻ꽖�섎븣臾몄뿉.
 							Mylog.i(TAG, " user id : " + user.getId() 
 									+ "\n user name : " + user.getName()
 									+ "\n user birthday : " + user.getBirthday()
@@ -135,7 +135,7 @@ public class MainFragment extends Fragment implements StatusCallback {
 				});
 		request.executeAsync();
 		
-		// 그래프 API를 사용해서 호출할때 쓰는 소스코드 
+		// 洹몃옒��API瑜��ъ슜�댁꽌 �몄텧�좊븣 �곕뒗 �뚯뒪肄붾뱶 
 		RequestAsyncTask reqeust2 = new Request(
 			    session,
 			    "/me",

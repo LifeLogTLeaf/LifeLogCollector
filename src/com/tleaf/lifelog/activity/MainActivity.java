@@ -1,80 +1,94 @@
 package com.tleaf.lifelog.activity;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Base64;
-import android.util.Log;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.tleaf.lifelog.R;
-import com.tleaf.lifelog.fragment.LoginFragment;
-import com.tleaf.lifelog.util.Mylog;
+import com.tleaf.lifelog.pkg.FragmentListener;
+import com.tleaf.lifelog.pkg.PagerAdapter;
 
-public class MainActivity extends FragmentActivity {
-	private static final String TAG = "MAIN ACTIVITY";
-	private LoginFragment mLoginFragment;
-	private FragmentManager mFragmentManager;
+
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener, FragmentListener {
+
+	static public PagerAdapter mPagerAdapter;
+	static public ViewPager mViewPager;
+    int saleBookNo;
+    String isbn;
+    
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
+        final ActionBar actionBar = getActionBar();
+
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+ 
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setAdapter(mPagerAdapter);
+        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                actionBar.setSelectedNavigationItem(position);
+            }
+        });
+
+        for (int i = 0; i < mPagerAdapter.getCount(); i++) {
+            actionBar.addTab(
+                    actionBar.newTab()
+                            .setText(mPagerAdapter.getPageTitle(i))
+                            .setTabListener(this));
+        }
+    }
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		Mylog.i(TAG, "Created MainActivity!!!");
-		setContentView(R.layout.activity_main);
-		init();
-		loadHashKey();
-		// 멘인액티비티에서 모든일을 다 끝내고 최초 시작할 프래그먼트를 선택한다.
-		// 이때 로그인이 되있으면 메인프래그먼트를 안되있으면 로그인프래그먼트를 부른다.
-		// SharedPreference에 저장하고 관리할 예정
-		// ---지금은 생략---
-		/*
-		 * if(true){
-		 * 
-		 * } else {
-		 * 
-		 * }
-		 */
+	public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
+        // When the given tab is selected, switch to the corresponding page in the ViewPager.
+        mViewPager.setCurrentItem(tab.getPosition());
+
 	}
 
-	private void init() {
-		mFragmentManager = getSupportFragmentManager();
-		FragmentTransaction ft = mFragmentManager.beginTransaction();
-		LoginFragment loginFragment = new LoginFragment(mFragmentManager);
-		ft.add(R.id.fragment_container, loginFragment);
-		ft.commit();
+	@Override
+	public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) {
+		// TODO Auto-generated method stub
+		
 	}
 
-	private void loadHashKey() {
-		// Add code to print out the key hash
-		try {
-			PackageInfo info = getPackageManager().getPackageInfo(
-					getPackageName(), PackageManager.GET_SIGNATURES);
-			for (Signature signature : info.signatures) {
-				MessageDigest md = MessageDigest.getInstance("SHA");
-				md.update(signature.toByteArray());
-				Log.d("KeyHash:",
-						Base64.encodeToString(md.digest(), Base64.DEFAULT));
-				System.out.println("hello");
-			}
-		} catch (NameNotFoundException e) {
-
-		} catch (NoSuchAlgorithmException e) {
-
-		}
+	@Override
+	public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) {
+		// TODO Auto-generated method stub
+		
 	}
+
 	public void onClick(View v){
 		if(v.getId()==R.id.btn_photo){
 			Intent intent = new Intent(this,PhotoActivity.class);
 			startActivity(intent);
 		}
 	}
+
+/*    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    }
+
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+        // When the given tab is selected, switch to the corresponding page in the ViewPager.
+        mViewPager.setCurrentItem(tab.getPosition());
+    }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    }
+
+    */
+
+   
+
 }

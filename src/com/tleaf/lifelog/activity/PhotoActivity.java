@@ -2,9 +2,6 @@ package com.tleaf.lifelog.activity;
 
 import java.util.ArrayList;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -19,9 +16,9 @@ import android.widget.TextView;
 
 import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.model.Photo;
+import com.tleaf.lifelog.network.CouchDBConnector;
 import com.tleaf.lifelog.util.PhotoAction;
 import com.tleaf.lifelog.util.adapter.PhotoListAdapter;
-import com.tleaf.lifelog.util.network.CouchTask;
 
 public class PhotoActivity extends Activity {
 	ImageView imgView;
@@ -67,7 +64,7 @@ public class PhotoActivity extends Activity {
 		String imgPath = getPathFromUri(imgUri);
 		lifeLog.setFileName(fileName);
 		lifeLog.setImgPath(imgPath);
-		CouchTask couchDBTask = new CouchTask("photo", "post", "insert-photo");
+		CouchDBConnector couchDBTask = new CouchDBConnector("photo", "post", "insert-photo");
 		couchDBTask.setContext(getApplicationContext());
 		couchDBTask.execute(lifeLog);
 	}

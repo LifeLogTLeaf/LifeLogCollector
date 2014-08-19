@@ -2,6 +2,8 @@ package com.tleaf.lifelog.model;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import com.tleaf.lifelog.util.Util;
+
 /**
  * Created by jangyoungjin on 8/10/14.
  */
@@ -12,9 +14,30 @@ public class Document {
     @JsonProperty("_rev")
     protected String rev;
 
-    private String Data;
+    private long time;
+    private Position position;
 
-    public String getId() {
+    private String type;
+
+	public Document() {
+    	this.time = Util.getCurrentTime();
+    	this.position = Util.getCurrentPostion();
+	}
+    
+    public Document(long time, Position position) {
+    	this.time = time;
+    	this.position = position;
+    }
+    
+	public Position getPosition() {
+		return position;
+	}
+
+	public void setPosition(Position position) {
+		this.position = position;
+	}
+
+	public String getId() {
         return id;
     }
 
@@ -30,11 +53,20 @@ public class Document {
         this.rev = rev;
     }
 
-    public String getData() {
-        return Data;
-    }
+	public long getTime() {
+		return time;
+	}
 
-    public void setData(String data) {
-        Data = data;
-    }
+	public void setTime(long time) {
+		this.time = time;
+	}
+
+    public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 }
