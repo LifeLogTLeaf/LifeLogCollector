@@ -17,6 +17,7 @@ import android.widget.ListView;
 import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.db.DataManager;
 import com.tleaf.lifelog.listAdapter.SmsListAdapter;
+import com.tleaf.lifelog.log.SmsLog;
 import com.tleaf.lifelog.model.Sms;
 import com.tleaf.lifelog.pkg.FragmentListener;
 import com.tleaf.lifelog.util.Util;
@@ -44,15 +45,15 @@ public class SmsFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_list, container, false);
 		Log.e("first onCreateView", "");
 
-		dataManager = new DataManager(mContext);
+//		dataManager = new DataManager(mContext);
 		arItem = new ArrayList<Sms>();
 		//서버에서 받아오기
-		//arItem = dataManager.getSmsList();
+		//arItem = dataManager.getSmsList();		
+//		for(int i=0; i<30; i++)
+//			arItem.add(new Sms("최슬기", 20140819, "메시지"));
 		
-		for(int i=0; i<30; i++)
-			arItem.add(new Sms("최슬기", 20140819, "메시지"));
-		
-		
+		SmsLog sl= new SmsLog(mContext);
+		arItem = sl.collectSms();
 		mAdapter = new SmsListAdapter(mContext, R.layout.item_sms, arItem);
 
 		lv = (ListView) rootView.findViewById(R.id.list);

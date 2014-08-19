@@ -42,12 +42,17 @@
         </activity>
 
         <!-- Uploader Service -->
-        <service
-            android:name="com.tleaf.lifelog.service.UploaderService">
-            <intent-filter >
-                <action android:name="com.tleaf.service.uploader"/>
+        <service android:name="com.tleaf.lifelog.service.UploaderService" >
+            <intent-filter>
+                <action android:name="com.tleaf.service.uploader" />
             </intent-filter>
         </service>
     </application>
+
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
 
 </manifest>
