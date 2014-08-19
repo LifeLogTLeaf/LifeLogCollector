@@ -46,4 +46,10 @@ public class Document {
     public void setDate(long date) {
     	this.date = date;
     }
+    
+    @Override
+    public String toString() {
+    	// TODO Auto-generated method stub
+    	return super.toString();
+    }
 }

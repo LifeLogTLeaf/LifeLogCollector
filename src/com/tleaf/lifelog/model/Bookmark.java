@@ -3,7 +3,7 @@ package com.tleaf.lifelog.model;
 public class Bookmark extends Document{
     private String title;
     private String siteUrl;
-
+    
     public String getTitle() {
         return title;
     }
