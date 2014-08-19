@@ -1,5 +1,7 @@
 package com.tleaf.lifelog.model;
 
+import java.util.Map;
+
 public class Bookmark extends Document{
     private String title;
     private String siteUrl;
@@ -19,4 +21,15 @@ public class Bookmark extends Document{
     public void setSiteUrl(String siteUrl) {
         this.siteUrl = siteUrl;
     }
+
+	@Override
+	public void setMap(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		map.put("title", this.title);
+		map.put("siteUrl", this.siteUrl);
+		map.put("type", super.getType());
+		map.put("date", super.getDate());
+	}
+	
+	
 }

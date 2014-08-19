@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:onClick="onSendDataToService" >
 
     <ImageView
         android:id="@+id/facebook_profile_imageview"
@@ -38,5 +39,13 @@
         android:text="Hello Lifelog"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/facebook_name_textview"
+        android:layout_centerHorizontal="true"
+        android:text="Button" />
 
 </RelativeLayout>

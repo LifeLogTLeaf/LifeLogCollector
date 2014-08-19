@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="15"
         android:targetSdkVersion="19" />
 
     <application
@@ -43,7 +43,7 @@
 
         <!-- Uploader Service -->
         <service
-            android:name="com.tleaf.lifelog.service.UploaderService">
+            android:name="com.tleaf.lifelog.service.DataAccessService">
             <intent-filter >
                 <action android:name="com.tleaf.service.uploader"/>
             </intent-filter>

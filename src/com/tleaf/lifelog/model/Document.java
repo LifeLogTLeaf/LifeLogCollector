@@ -1,11 +1,13 @@
 package com.tleaf.lifelog.model;
 
+import java.util.Map;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Created by jangyoungjin on 8/10/14.
  */
-public class Document {
+public abstract class Document {
     @JsonProperty("_id")
     protected String id;
 
@@ -46,4 +48,6 @@ public class Document {
     public void setDate(long date) {
     	this.date = date;
     }
+    
+    public abstract void setMap(Map<String,Object> map);
 }

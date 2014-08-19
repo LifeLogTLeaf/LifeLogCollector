@@ -1,5 +1,12 @@
 package com.tleaf.lifelog.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,15 +14,18 @@ import android.widget.EditText;
 
 import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.model.Bookmark;
-import com.tleaf.lifelog.util.network.CouchDBLiteConnector;
+import com.tleaf.lifelog.util.Mylog;
+import com.tleaf.lifelog.util.database.CouchDBLiteTask;
+import com.tleaf.lifelog.util.database.DatabaseConnector;
+import com.tleaf.lifelog.util.database.OnDataListener;
 
 /**
  * Created by jangyoungjin on 8/10/14.
  */
-public class BookmarkShareActivity extends Activity {
+public class BookmarkShareActivity extends Activity implements OnDataListener {
 	private static final String TAG = "BOOKMARK ACTIVITY";
 	private EditText dbname_edittext;
-	private CouchDBLiteConnector connector;
+	private CouchDBLiteTask connector;
 	
 	/**
 	 * 2014.08.18 MainActivity Life Cycle
@@ -26,7 +36,10 @@ public class BookmarkShareActivity extends Activity {
 		// Mylog.i(TAG, "Created MainActivity");
 		setContentView(R.layout.activity_bookmark);
 		dbname_edittext = (EditText) findViewById(R.id.dbname_edittext);
-		connector = new CouchDBLiteConnector(this);
+		connector = new CouchDBLiteTask(this);
+		
+		DatabaseConnector databaseConnector = new DatabaseConnector(this);
+		databaseConnector.getDocument("bookmarks");
 	}
 
 	@Override
@@ -67,6 +80,7 @@ public class BookmarkShareActivity extends Activity {
 		bookmark.setTitle("짜장면");
 		bookmark.setType("bookmark");
 		bookmark.setSiteUrl("www.korea.com");
+		bookmark.setId("young20141011");
 		connector.createDocument(dbname_edittext.getText().toString(), bookmark);
 	}
 	
@@ -80,6 +94,35 @@ public class BookmarkShareActivity extends Activity {
 	public void onReplicationStop(View view){
 		connector.stopReplication();
 	}
+
+	@Override
+	public void onSendData(String data) {
+		// TODO Auto-generated method stub
+		//제이슨 객체 뽑아쓰는 형식!
+		Mylog.i(TAG,"data : " + data);
+		try {
+			JSONObject jsonObject = new JSONObject(data);
+			JSONArray jsonArray =jsonObject.getJSONArray("data");
+			List<Bookmark> list = new ArrayList<Bookmark>();
+			for(int i = 0; i < jsonArray.length(); i++){
+			    Bookmark bookmark = new Bookmark();
+			    bookmark.setType(jsonArray.getJSONObject(i).getString("type"));
+			    bookmark.setTitle(jsonArray.getJSONObject(i).getString("title"));
+			    bookmark.setSiteUrl(jsonArray.getJSONObject(i).getString("siteUrl"));
+			    bookmark.setDate(jsonArray.getJSONObject(i).getLong("date"));
+			    list.add(bookmark);
+			}
+			for(Bookmark bookmark : list){
+				Mylog.i(TAG, "bookmark title ; "+bookmark.getTitle());
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
 	
 	
 }
