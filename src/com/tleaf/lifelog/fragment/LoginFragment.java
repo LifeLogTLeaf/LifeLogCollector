@@ -31,6 +31,9 @@ import com.tleaf.lifelog.model.UserInfor;
 import com.tleaf.lifelog.network.CouchDBConnector;
 import com.tleaf.lifelog.util.Mylog;
 
+
+
+
 public class LoginFragment extends Fragment implements StatusCallback {
 	private static final String TAG = "LOGIN FRAGMENT";
 	private FragmentManager mFragmentManager;
@@ -185,6 +188,10 @@ public class LoginFragment extends Fragment implements StatusCallback {
 	                    		//MainFragment mainFragment = new MainFragment(mFragmentManager);
 	                    		//ft.replace(R.id.fragment_container, mainFragment);
 	                    		//ft.commit();
+	                    		FragmentTransaction ft = mFragmentManager.beginTransaction();
+	                    		MainFragment mainFragment = new MainFragment(mFragmentManager);
+	                    		ft.replace(R.id.fragment_container, mainFragment);
+	                    		ft.commit();
 	                        }
 	                    });
 					}
