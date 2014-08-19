@@ -1,4 +1,4 @@
-package com.tleaf.lifelog.util.network;
+package com.tleaf.lifelog.network;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -16,8 +16,6 @@ import com.couchbase.lite.android.AndroidContext;
 import com.couchbase.lite.replicator.Replication;
 import com.couchbase.lite.replicator.Replication.ChangeEvent;
 import com.couchbase.lite.replicator.Replication.ChangeListener;
-import com.tleaf.lifelog.model.FacebookUserInfor;
-import com.tleaf.lifelog.model.UserInfor;
 import com.tleaf.lifelog.util.Mylog;
 
 /**
@@ -91,12 +89,11 @@ public class CouchDBLiteConnector implements ChangeListener{
 	 * 2014.08.18 by young 도큐먼트 관련 연산자
 	 */
 	/* 2014.08.18 by young 도큐먼트 생성 */
-	public boolean createDocument(String dbName,
-			com.tleaf.lifelog.model.Document lifelog) {
+	public boolean createDocument(String dbName, com.tleaf.lifelog.model.Document doc) {
 		Map<String, Object> data = new HashMap<String, Object>();
 		// 시간 추가 해줘야한다.
 		// lifelog.setDate(long date);
-		data.put(lifelog.getType(), lifelog);
+		data.put(doc.getType(), doc);
 
 		Database database = null;
 		try {

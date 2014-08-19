@@ -1,4 +1,4 @@
-package com.tleaf.lifelog.util.network;
+package com.tleaf.lifelog.network;
 
 import java.net.MalformedURLException;
 

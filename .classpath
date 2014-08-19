@@ -5,8 +5,6 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry exported="true" kind="lib" path="D:/facebook-android-sdk-3.17.1/facebook/src/com"/>
-	<classpathentry kind="src" path="/FacebookSDK"/>
-	<classpathentry kind="lib" path="D:/facebook-android-sdk-3.17.1/facebook/bin/facebooksdk.jar" sourcepath="/FacebookSDK/src"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/FacebookSDK"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

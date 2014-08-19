@@ -28,8 +28,8 @@ import com.facebook.widget.LoginButton;
 import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.model.FacebookUserInfor;
 import com.tleaf.lifelog.model.UserInfor;
+import com.tleaf.lifelog.network.CouchDBConnector;
 import com.tleaf.lifelog.util.Mylog;
-import com.tleaf.lifelog.util.network.CouchDBConnector;
 
 public class LoginFragment extends Fragment implements StatusCallback {
 	private static final String TAG = "LOGIN FRAGMENT";
@@ -37,7 +37,7 @@ public class LoginFragment extends Fragment implements StatusCallback {
 	private UiLifecycleHelper uiHelper; // to track the session and trigger a
 										// session state change listener.
 	private ArrayList<String> mPermissionList;
-	
+
 	public LoginFragment(FragmentManager fm) {
 		this.mFragmentManager = fm;
 	}
@@ -136,19 +136,19 @@ public class LoginFragment extends Fragment implements StatusCallback {
 	}
 
 	/*
-	 * 2014.08.14 Young �ъ슜�먭� �섏씠�ㅻ턿 濡쒓렇�몄쓣 �꾨즺�섎㈃ 洹��몄뀡��媛��怨��ъ슜�먯쓽 �뺣낫瑜��쎌뼱�⑤떎. �쎌뼱���뺣낫���곕━
-	 * �쒕쾭����옣�댁꽌 愿�━�쒕떎. ( 踰뺣쪧���댁뒋 �⑥븘�덉쓬 - �섏씠�ㅻ턿 �쒓났 �곗씠�곗쓽 媛�났泥�)
+	 * 2014.08.14 Young 사용자가 페이스북 로그인을 완료하면 그 세션을 가지고 사용자의 정보를 읽어온다. 읽어온 정보는 우리
+	 * 서버에 저장해서 관리한다. ( 법률적 이슈 남아있음 - 페이스북 제공 데이터의 가공처 )
 	 */
 	private void sendUserDataToServer(final Session session) {
-		// 洹몃옒��API瑜��ъ슜�댁꽌 �몄텧�좊븣 �곕뒗 �뚯뒪肄붾뱶
+		// 그래프 API를 사용해서 호출할때 쓰는 소스코드
 		if(session == null ) return;
 		
-		//�덈줈���꾪걧癒쇳듃 �앹꽦���꾨땲���낅뜲�댄듃濡�媛�린 �뚮Ц��
-		//�ш린��癒쇱� �붾퉬�먯꽌 .userInfor�쇰뒗 �곗씠�곕� 媛�졇��꽌 rev 媛믪쓣 �쎌뼱�⑤떎
-		//洹몃━怨���rev媛믪쓣 �댁슜�댁꽌 �낅뜲�댄듃瑜�吏꾪뻾�쒕떎. 異뷀썑
+		//새로운 도큐먼트 생성이 아니라 업데이트로 가기 때문에
+		//여기서 먼저 디비에서 .userInfor라는 데이터를 가져와서 rev 값을 읽어온다
+		//그리고 이 rev값을 이용해서 업데이트를 진행한다. 추후
 		final UserInfor userInfor = new UserInfor();
 		
-		RequestAsyncTask reqeust2 = ( new Request(
+		RequestAsyncTask reqeust2 = new Request(
 				session, 
 				"/me", 
 				null,
@@ -157,11 +157,11 @@ public class LoginFragment extends Fragment implements StatusCallback {
 						/* handle the result */
 						Mylog.i(TAG, response.getRawResponse());
 						FacebookUserInfor facebookUserInfor = new FacebookUserInfor();
-						// access Token ��옣 
+						// access Token 저장 
 						facebookUserInfor.setFacebookAccesskey(session.getAccessToken());
-						// facebook id ��옣 
+						// facebook id 저장 
 						facebookUserInfor.setFacebookId(session.getApplicationId());
-						// facebook permission ��옣
+						// facebook permission 저장
 						//userInfor.setFacebookPermission(session.getPermissions());
 						userInfor.setUserFacebookUserInfor(facebookUserInfor);
 						
@@ -176,7 +176,7 @@ public class LoginFragment extends Fragment implements StatusCallback {
 							e.printStackTrace();
 						}
 						
-						//UI�곕젅�쒖뿉��硫붿씤�꾨옒洹몃㉫�몃� �ㅽ뻾�섍쾶 �댁���
+						//UI쓰레드에서 메인프래그먼트를 실행하게 해준다.
 						getActivity().runOnUiThread(new Runnable() {
 	                        @Override
 	                        public void run() {
@@ -188,7 +188,8 @@ public class LoginFragment extends Fragment implements StatusCallback {
 	                        }
 	                    });
 					}
-				})).executeAsync();
+				}).executeAsync();
 		
 	}
+
 }
