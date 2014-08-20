@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.model.Photo;
-import com.tleaf.lifelog.network.CouchDBConnector;
+import com.tleaf.lifelog.network.CouchDBTask;
 import com.tleaf.lifelog.util.PhotoAction;
 import com.tleaf.lifelog.util.adapter.PhotoListAdapter;
 
@@ -64,7 +64,7 @@ public class PhotoActivity extends Activity {
 		String imgPath = getPathFromUri(imgUri);
 		lifeLog.setFileName(fileName);
 		lifeLog.setImgPath(imgPath);
-		CouchDBConnector couchDBTask = new CouchDBConnector("photo", "post", "insert-photo");
+		CouchDBTask couchDBTask = new CouchDBTask("photo", "post", "insert-photo");
 		couchDBTask.setContext(getApplicationContext());
 		couchDBTask.execute(lifeLog);
 	}

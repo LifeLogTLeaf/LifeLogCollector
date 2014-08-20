@@ -1,5 +1,7 @@
 package com.tleaf.lifelog.model;
 
+import java.util.Map;
+
 public class UserInfor extends Document {
 	private String userName;
 	private String gender;
@@ -29,4 +31,13 @@ public class UserInfor extends Document {
 		this.userFacebookInfor = userFacebookUserInfor;
 	}
 
+	@Override
+	public void setMap(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		map.put("userName", this.userName);
+		map.put("gender", this.gender);
+		map.put("userFacebookInfor", this.userFacebookInfor);
+		map.put("type", super.getType());
+		map.put("uploadTime", super.getUploadtime());
+	}
 }

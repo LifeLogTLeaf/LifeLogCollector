@@ -28,7 +28,7 @@ import com.facebook.widget.LoginButton;
 import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.model.FacebookUserInfor;
 import com.tleaf.lifelog.model.UserInfor;
-import com.tleaf.lifelog.network.CouchDBConnector;
+import com.tleaf.lifelog.network.CouchDBTask;
 import com.tleaf.lifelog.util.Mylog;
 
 
@@ -172,7 +172,7 @@ public class LoginFragment extends Fragment implements StatusCallback {
 							JSONObject json = new JSONObject(response.getRawResponse());
 							userInfor.setGender(json.getString("gender"));
 							userInfor.setUserName(json.getString("name"));
-							CouchDBConnector couchTask = new CouchDBConnector("young", "post", "userinsert");
+							CouchDBTask couchTask = new CouchDBTask("young", "post", "userinsert");
 							couchTask.execute(userInfor);
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
