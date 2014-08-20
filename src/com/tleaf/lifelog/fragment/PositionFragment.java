@@ -15,10 +15,17 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.model.LatLng;
 import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.db.DataManager;
 import com.tleaf.lifelog.listAdapter.SmsListAdapter;
 import com.tleaf.lifelog.pkg.FragmentListener;
+
 public class PositionFragment extends Fragment { 
 
 	private Context mContext;
@@ -27,6 +34,8 @@ public class PositionFragment extends Fragment {
 	private SmsListAdapter mAdapter = null;
 	private DataManager dataManager;
 	private int pos = -1;
+	private MapView mapView;
+	private GoogleMap map;
 
 	private FragmentListener fListener;
 
@@ -40,20 +49,30 @@ public class PositionFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_list, container, false);
+		View v = inflater.inflate(R.layout.fragment_mapview, container, false);
 		Log.e("first onCreateView", "");
+		
+		/*
+		 * 2014.8.20 WED Edited By Susu
+		 * Included MapView FragmentLayout and Disabled Original Commands
+		 */
 
-		dataManager = new DataManager(mContext);
-		arItem = new ArrayList<Sms>();
-		//서버에서 받아오기
-		//arItem = dataManager.getSmsList(); 		
-//		mAdapter = new SmsListAdapter(mContext, R.layout.item_sms, arItem);
+		// Gets the MapView from the XML layout and creates it
+		mapView = (MapView) v.findViewById(R.id.mapview);
+		mapView.onCreate(savedInstanceState);
 
-		lv = (ListView) rootView.findViewById(R.id.list);
-		lv.setAdapter(mAdapter);
-		lv.setOnItemLongClickListener(mItemLongClickListener);
+		// Gets to GoogleMap from the MapView and does initialization stuff
+		map = mapView.getMap();
+		map.getUiSettings().setMyLocationButtonEnabled(false);
+		map.setMyLocationEnabled(true);
 
-		return rootView;
+		MapsInitializer.initialize(this.getActivity());
+
+		// Updates the location and zoom of the MapView
+		CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(37.503711, 127.045137), 16);
+		map.animateCamera(cameraUpdate);
+
+		return v;
 	}
 
 	private AdapterView.OnItemLongClickListener mItemLongClickListener = new AdapterView.OnItemLongClickListener() {
@@ -75,7 +94,7 @@ public class PositionFragment extends Fragment {
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
+		/*switch (item.getItemId()) {
 		case 1:
 			deleteItem(pos);
 			pos = -1;
@@ -85,18 +104,37 @@ public class PositionFragment extends Fragment {
 //			Log.e("arItem.get(pos).isbn", ""+arItem.get(pos).getDealLocation());
 //			intent.putExtra("location", arItem.get(pos).getDealLocation());
 //			startActivity(intent);
-		}
+		}*/
 		return true;
 	}
 
 	private void deleteItem(int position) {
-//		if (dataManager.deleteSms(arItem.get(pos).getIsbn())) {
-//			arItem.remove(position);
-//			lv.clearChoices();
-//			mAdapter.notifyDataSetChanged();
-//			utill.tst(mContext, "�����Ϸ�");
-//		} else {
-//			utill.tst(mContext, "��������");
-//		}
+		//		if (dataManager.deleteSms(arItem.get(pos).getIsbn())) {
+		//			arItem.remove(position);
+		//			lv.clearChoices();
+		//			mAdapter.notifyDataSetChanged();
+		//			utill.tst(mContext, "�����Ϸ�");
+		//		} else {
+		//			utill.tst(mContext, "��������");
+		//		}
+	}
+	
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		mapView.onResume();
+		super.onResume();
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		mapView.onDestroy();
+	}
+ 
+	@Override
+	public void onLowMemory() {
+		super.onLowMemory();
+		mapView.onLowMemory();
 	}
 }

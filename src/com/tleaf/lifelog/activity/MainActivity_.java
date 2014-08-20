@@ -31,7 +31,7 @@ public class MainActivity_ extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// Mylog.i(TAG, "Created MainActivity");
-		setContentView(R.layout.activity_main_);
+		setContentView(R.layout.activity_main);
 
 //		init();
 //		loadHashKey();
