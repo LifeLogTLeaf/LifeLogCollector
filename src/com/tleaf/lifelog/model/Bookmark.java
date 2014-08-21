@@ -1,22 +1,36 @@
 package com.tleaf.lifelog.model;
 
-public class Bookmark extends Document{
-    private String title;
-    private String siteUrl;
-    
-    public String getTitle() {
-        return title;
-    }
+import java.util.Map;
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+public class Bookmark extends Lifelog {
+	private String title;
+	private String url;
 
-    public String getSiteUrl() {
-        return siteUrl;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public void setSiteUrl(String siteUrl) {
-        this.siteUrl = siteUrl;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getSiteUrl() {
+		return url;
+	}
+
+	public void setSiteUrl(String siteUrl) {
+		this.url = siteUrl;
+	}
+
+	@Override
+	public void setMap(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		map.put("title", this.title);
+		map.put("url", this.url);
+		map.put("longitude", super.getLongitude());
+		map.put("latitude", super.getLatitude());
+		map.put("locationtime", super.getLocationTime());
+		map.put("type", super.getType());
+		map.put("logtime", super.getLogTime());
+	}
 }

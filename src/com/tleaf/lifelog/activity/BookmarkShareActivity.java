@@ -7,7 +7,7 @@ import android.widget.EditText;
 
 import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.model.Bookmark;
-import com.tleaf.lifelog.util.network.CouchDBLiteConnector;
+import com.tleaf.lifelog.network.CouchDBLiteConnector;
 
 /**
  * Created by jangyoungjin on 8/10/14.
@@ -67,6 +67,7 @@ public class BookmarkShareActivity extends Activity {
 		bookmark.setTitle("짜장면");
 		bookmark.setType("bookmark");
 		bookmark.setSiteUrl("www.korea.com");
+		bookmark.setId("young20141011");
 		connector.createDocument(dbname_edittext.getText().toString(), bookmark);
 	}
 	

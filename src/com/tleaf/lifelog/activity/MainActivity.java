@@ -3,91 +3,106 @@ package com.tleaf.lifelog.activity;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 
 import com.tleaf.lifelog.R;
-import com.tleaf.lifelog.fragment.LoginFragment;
+import com.tleaf.lifelog.pkg.FragmentListener;
+import com.tleaf.lifelog.pkg.PagerAdapter;
 
+public class MainActivity extends FragmentActivity implements
+		ActionBar.TabListener, FragmentListener {
 
-public class MainActivity extends FragmentActivity {
-	private static final String TAG = "MAIN ACTIVITY";
-	private LoginFragment mLoginFragment;
-	private FragmentManager mFragmentManager;
+	static public PagerAdapter mPagerAdapter;
+	static public ViewPager mViewPager;
+	int saleBookNo;
+	String isbn;
 
-	/**
-	 * 2014.08.18 MainActivity Life Cycle
-	 */
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// Mylog.i(TAG, "Created MainActivity");
 		setContentView(R.layout.activity_main);
-
+		// 2014.08.20 by young 슬기가 작성한 페이저뷰 설정 부분을
+		// 따로 init 메소드로 보내서 설정하게 했습니다.
 		init();
-		loadHashKey();
+	}
+	
+	/* 2014.08.20 by young 메인액티비티에서 필요한 부분을 초기화시켜주는 메소드입니다. */
+	private void init(){
+		mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
+		final ActionBar actionBar = getActionBar();
 
-		// 멘인액티비티에서 모든일을 다 끝내고 최초 시작할 프래그먼트를 선택한다.
-		// 이때 로그인이 되있으면 메인프래그먼트를 안되있으면 로그인프래그먼트를 부른다.
-		// SharedPreference에 저장하고 관리할 예정
-		// --- 지금은 생략 ---
-		// init();
-		// loadHashKey();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-		// 백그라운드에 서비스가 제대로 동작하는지 확인하고 서비스가 죽었거나
-		// 오류가 발생했다면 서비스를 다시 생성해준다.
-		// --- 지금은 생략 ---
-		//startUploaderService();
-		
-//		Intent intent = new Intent(this, BookmarkShareActivity.class);
-//		startActivity(intent);
+		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mViewPager.setAdapter(mPagerAdapter);
+		mViewPager
+				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+					@Override
+					public void onPageSelected(int position) {
+						actionBar.setSelectedNavigationItem(position);
+					}
+				});
+
+		for (int i = 0; i < mPagerAdapter.getCount(); i++) {
+			actionBar.addTab(actionBar.newTab()
+					.setText(mPagerAdapter.getPageTitle(i))
+					.setTabListener(this));
+		}
 	}
 
 	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-		//2014.08.18 by Young
-		//서비스를 중지하는 코드 ( 테스트 코드입니다 )
-		//Intent intent = new Intent("com.tleaf.service.uploader");
-		//stopService(intent);
+	public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
+		// When the given tab is selected, switch to the corresponding page in
+		// the ViewPager.
+		mViewPager.setCurrentItem(tab.getPosition());
 	}
 
 	@Override
-	protected void onPause() {
+	public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) {
 		// TODO Auto-generated method stub
-		super.onPause();
+
 	}
 
 	@Override
-	protected void onResume() {
+	public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) {
 		// TODO Auto-generated method stub
-		super.onResume();
+
 	}
 
 	/**
-	 * 2014.08.18 By Young 로그인 프래그먼트를 실행한다.
+	 *	메인 액티비티에서 발생하는 버튼 터치에 대한 이벤트 리스너 입니다. 
 	 */
-	private void init() {
-		mFragmentManager = getSupportFragmentManager();
-		FragmentTransaction ft = mFragmentManager.beginTransaction();
-		LoginFragment loginFragment = new LoginFragment(mFragmentManager);
-		ft.add(R.id.fragment_container, loginFragment);
-		ft.commit();
+	public void onClick(View v) {
+		if (v.getId() == R.id.btn_photo) {
+			Intent intent = new Intent(this, PhotoActivity.class);
+			startActivity(intent);
+		}
 	}
 
-	/**
-	 * 2014.08.18 By Young 페이스북 연동에 필요한 해쉬키를 로드한다.
-	 */
+	/* 2014.08.20 슬기가 주석처리한 부분. */
+	// @Override public void onTabUnselected(ActionBar.Tab tab,
+	// FragmentTransaction fragmentTransaction) { }
+	//
+	// @Override public void onTabSelected(ActionBar.Tab tab,
+	// FragmentTransaction fragmentTransaction) { // When the given tab is
+	// selected, switch to the corresponding page in the ViewPager.
+	// mViewPager.setCurrentItem(tab.getPosition()); }
+	//
+	// @Override public void onTabReselected(ActionBar.Tab tab,
+	// FragmentTransaction fragmentTransaction) { }
+
+	/* 2014.08.18 By Young 페이스북 연동에 필요한 해쉬키를 로드한다. */
 	private void loadHashKey() {
 		// Add code to print out the key hash
 		try {
@@ -107,11 +122,10 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 
-	/**
-	 * By Young 백그라운드 서비스인 데이터 업로드 서비스를 실핸한다.
-	 */
+	/* 2014.08.20 By Young 백그라운드 서비스인 데이터 업로드 서비스를 실핸한다. */
 	private void startUploaderService() {
 		Intent intent = new Intent("com.tleaf.service.uploader");
 		startService(intent);
 	}
+
 }
