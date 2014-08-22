@@ -16,7 +16,7 @@ import org.ektorp.impl.StdCouchDbInstance;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.tleaf.lifelog.model.Lifelog;
+import com.tleaf.lifelog.model.Document;
 import com.tleaf.lifelog.model.Photo;
 import com.tleaf.lifelog.util.Mylog;
 
@@ -24,7 +24,7 @@ import com.tleaf.lifelog.util.Mylog;
  * Created by jangyoungjin on 8/1/14.
  * 카우치 데이터베이스에 직접적으로 접속해서 데이터를 저장하는 쓰레드 클래스입니다.
  */
-public class CouchDBConnector extends AsyncTask<Lifelog, Void, String> {
+public class CouchDBConnector extends AsyncTask<Document, Void, String> {
     private static final String TAG = "카우치 디비 통신";
     private static final String URL = "http://54.191.147.237:5984";
     private static final String USER_NAME = "couchdb";
@@ -62,7 +62,7 @@ public class CouchDBConnector extends AsyncTask<Lifelog, Void, String> {
      * @param lifeLog : 저장할 객체 데이터 ( JSON으로 시리얼라이제이션 된다.)
      * @return
      */
-    public boolean requestPost(CouchDbConnector db, Lifelog document) {
+    public boolean requestPost(CouchDbConnector db, Document document) {
         db.create(document);
 
         if (document.getId() != null) {
@@ -89,7 +89,7 @@ public class CouchDBConnector extends AsyncTask<Lifelog, Void, String> {
     }
 
     @Override
-    protected String doInBackground(Lifelog... data) {
+    protected String doInBackground(Document... data) {
         boolean result = false;
         try {
             HttpClient client = new AndroidHttpClient.Builder()

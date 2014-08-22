@@ -89,7 +89,7 @@ public class CouchDBLiteConnector implements ChangeListener{
 	 * 2014.08.18 by young 도큐먼트 관련 연산자
 	 */
 	/* 2014.08.18 by young 도큐먼트 생성 */
-	public boolean createDocument(String dbName, com.tleaf.lifelog.model.Lifelog doc) {
+	public boolean createDocument(String dbName, com.tleaf.lifelog.model.Document doc) {
 		Map<String, Object> data = new HashMap<String, Object>();
 		// 시간 추가 해줘야한다.
 		// lifelog.setDate(long date);

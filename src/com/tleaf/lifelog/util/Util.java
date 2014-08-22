@@ -1,4 +1,4 @@
-package com.tleaf.lifelog.util;
+﻿package com.tleaf.lifelog.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

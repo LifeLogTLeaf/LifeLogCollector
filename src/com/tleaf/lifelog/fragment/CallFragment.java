@@ -1,4 +1,4 @@
-package com.tleaf.lifelog.fragment;
+﻿package com.tleaf.lifelog.fragment;
 
 import java.util.ArrayList;
 

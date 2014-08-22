@@ -18,8 +18,8 @@ public class Bookmark extends Lifelog {
 		return url;
 	}
 
-	public void setSiteUrl(String siteUrl) {
-		this.url = siteUrl;
+	public void setSiteUrl(String rrl) {
+		this.url = url;
 	}
 
 	@Override

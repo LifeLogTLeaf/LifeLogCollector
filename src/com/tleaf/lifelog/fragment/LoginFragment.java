@@ -1,4 +1,4 @@
-package com.tleaf.lifelog.fragment;
+﻿package com.tleaf.lifelog.fragment;
 
 import java.util.ArrayList;
 
@@ -26,8 +26,8 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
 import com.tleaf.lifelog.R;
-import com.tleaf.lifelog.model.FacebookUserInfo;
-import com.tleaf.lifelog.model.UserInfo;
+import com.tleaf.lifelog.model.FacebookUserInfor;
+import com.tleaf.lifelog.model.UserInfor;
 import com.tleaf.lifelog.network.CouchDBTask;
 import com.tleaf.lifelog.util.Mylog;
 
@@ -149,7 +149,7 @@ public class LoginFragment extends Fragment implements StatusCallback {
 		//새로운 도큐먼트 생성이 아니라 업데이트로 가기 때문에
 		//여기서 먼저 디비에서 .userInfor라는 데이터를 가져와서 rev 값을 읽어온다
 		//그리고 이 rev값을 이용해서 업데이트를 진행한다. 추후
-		final UserInfo userInfor = new UserInfo();
+		final UserInfor userInfor = new UserInfor();
 		
 		RequestAsyncTask reqeust2 = new Request(
 				session, 
@@ -159,7 +159,7 @@ public class LoginFragment extends Fragment implements StatusCallback {
 					public void onCompleted(Response response) {
 						/* handle the result */
 						Mylog.i(TAG, response.getRawResponse());
-						FacebookUserInfo facebookUserInfor = new FacebookUserInfo();
+						FacebookUserInfor facebookUserInfor = new FacebookUserInfor();
 						// access Token 저장 
 						facebookUserInfor.setFacebookAccesskey(session.getAccessToken());
 						// facebook id 저장 

@@ -1,4 +1,4 @@
-package com.tleaf.lifelog.db;
+﻿package com.tleaf.lifelog.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

@@ -33,5 +33,4 @@ public class Photo extends Lifelog {
 		map.put("type", super.getType());
 		map.put("logtime", super.getLogTime());
 	}
-
 }

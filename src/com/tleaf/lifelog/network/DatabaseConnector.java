@@ -1,4 +1,4 @@
-package com.tleaf.lifelog.network;
+﻿package com.tleaf.lifelog.network;
 
 import java.util.ArrayList;
 import java.util.List;

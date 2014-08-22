@@ -1,4 +1,4 @@
-package com.tleaf.lifelog.activity;
+﻿package com.tleaf.lifelog.activity;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

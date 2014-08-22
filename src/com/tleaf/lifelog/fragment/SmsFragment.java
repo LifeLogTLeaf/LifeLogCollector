@@ -1,4 +1,4 @@
-package com.tleaf.lifelog.fragment;
+﻿package com.tleaf.lifelog.fragment;
 
 import java.util.ArrayList;
 
@@ -103,6 +103,7 @@ public class SmsFragment extends Fragment {
 //			utill.tst(mContext, "�����Ϸ�");
 //		} else {
 //			utill.tst(mContext, "��������");
-//		}
+//	
+		}
 	}
 }

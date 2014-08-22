@@ -1,4 +1,4 @@
-package com.tleaf.lifelog.model;
+﻿package com.tleaf.lifelog.model;
 
 import java.util.Map;
 
@@ -55,7 +55,3 @@ public class Call extends Lifelog{
 //	int duridx = cursor.getColumnIndex(CallLog.Calls.DURATION);
 //	int typeidx = cursor.getColumnIndex(CallLog.Calls.TYPE);
 }
-
-
-
-

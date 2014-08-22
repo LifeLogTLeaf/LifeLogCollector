@@ -1,4 +1,4 @@
-package com.tleaf.lifelog.fragment;
+﻿package com.tleaf.lifelog.fragment;
 
 import java.util.ArrayList;
 
@@ -99,4 +99,5 @@ public class PictureFragment extends Fragment {
 //			utill.tst(mContext, "��������");
 //		}
 	}
+>>>>>>> FETCH_HEAD
 }
