@@ -1,102 +1,70 @@
-﻿package com.tleaf.lifelog.fragment;
-
-import java.util.ArrayList;
+package com.tleaf.lifelog.fragment;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.provider.Telephony.Sms;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.tleaf.lifelog.R;
-import com.tleaf.lifelog.db.DataManager;
-import com.tleaf.lifelog.listAdapter.SmsListAdapter;
-import com.tleaf.lifelog.pkg.FragmentListener;
-public class BookMarkFragment extends Fragment { 
+import com.tleaf.lifelog.model.Bookmark;
+import com.tleaf.lifelog.network.DbConnector;
+import com.tleaf.lifelog.network.OnDataListener;
+import com.tleaf.lifelog.util.Mylog;
 
+public class BookMarkFragment extends Fragment implements OnDataListener {
 	private Context mContext;
-	private ArrayList<Sms> arItem = null;
-	private ListView lv;
-	private SmsListAdapter mAdapter = null;
-	private DataManager dataManager;
-	private int pos = -1;
-
-	private FragmentListener fListener;
+	private BookMarkFragment fragment;
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		mContext = activity;
-		fListener = (FragmentListener)activity;
+		Mylog.i("온어테치", "컨텍스트 : " + mContext.getApplicationContext().toString());
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_list, container, false);
-		Log.e("first onCreateView", "");
+		View rootView = inflater.inflate(R.layout.activity_bookmark, container,
+				false);
+		fragment = this;
 
-		dataManager = new DataManager(mContext);
-		arItem = new ArrayList<Sms>();
-		//서버에서 받아오기
-		//arItem = dataManager.getSmsList(); 		
-//		mAdapter = new SmsListAdapter(mContext, R.layout.item_sms, arItem);
+		rootView.findViewById(R.id.replication_start_btn).setOnClickListener(
+				new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						DbConnector db = new DbConnector(fragment, mContext
+								.getApplicationContext());
+						db.postData("young", "signup");
+					}
+				});
 
-		lv = (ListView) rootView.findViewById(R.id.list);
-		lv.setAdapter(mAdapter);
-		lv.setOnItemLongClickListener(mItemLongClickListener);
+		rootView.findViewById(R.id.createdoc_btn).setOnClickListener(
+				new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						DbConnector db = new DbConnector(fragment, mContext
+								.getApplicationContext());
+						Bookmark bookmark = new Bookmark();
+						bookmark.setTitle("짜장면");
+						bookmark.setType("bookmark");
+						bookmark.setSiteUrl("www.korea.com");
+						db.postData("young", bookmark);
+					}
+				});
 
 		return rootView;
 	}
 
-	private AdapterView.OnItemLongClickListener mItemLongClickListener = new AdapterView.OnItemLongClickListener() {
-
-		@Override
-		public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-			registerForContextMenu(view);
-			pos = position;
-			return false;
-		}
-
-	};
-
-	public void onCreateContextMenu(android.view.ContextMenu menu, View v, 
-			android.view.ContextMenu.ContextMenuInfo menuInfo) {
-		menu.add(0, 1, 0, "삭제하기");
-		menu.add(0, 2, 0, "지도보기");
-	}
-
 	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case 1:
-			deleteItem(pos);
-			pos = -1;
-			break;
-		case 2:
-//			Intent intent = new Intent(mContext, MapActivity.class);
-//			Log.e("arItem.get(pos).isbn", ""+arItem.get(pos).getDealLocation());
-//			intent.putExtra("location", arItem.get(pos).getDealLocation());
-//			startActivity(intent);
-		}
-		return true;
-	}
+	public void onSendData(String data) {
+		// TODO Auto-generated method stub
 
-	private void deleteItem(int position) {
-//		if (dataManager.deleteSms(arItem.get(pos).getIsbn())) {
-//			arItem.remove(position);
-//			lv.clearChoices();
-//			mAdapter.notifyDataSetChanged();
-//			utill.tst(mContext, "�����Ϸ�");
-//		} else {
-//			utill.tst(mContext, "��������");
-//		}
 	}
 }

@@ -23,12 +23,12 @@ public class UserInfo extends Lifelog {
 		this.gender = gender;
 	}
 
-	public FacebookUserInfo getUserFacebookUserInfor() {
+	public FacebookUserInfo getUserFacebookUserInfo() {
 		return userFacebookInfo;
 	}
 
-	public void setUserFacebookUserInfor(FacebookUserInfo userFacebookUserInfor) {
-		this.userFacebookInfo = userFacebookUserInfor;
+	public void setUserFacebookUserInfo(FacebookUserInfo userFacebookUserInfo) {
+		this.userFacebookInfo = userFacebookUserInfo;
 	}
 
 	@Override

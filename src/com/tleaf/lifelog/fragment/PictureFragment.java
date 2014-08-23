@@ -99,5 +99,4 @@ public class PictureFragment extends Fragment {
 //			utill.tst(mContext, "��������");
 //		}
 	}
->>>>>>> FETCH_HEAD
 }

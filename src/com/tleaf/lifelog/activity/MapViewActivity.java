@@ -17,13 +17,13 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.model.Bookmark;
-import com.tleaf.lifelog.model.Document;
+import com.tleaf.lifelog.model.Lifelog;
 
 public class MapViewActivity extends Activity {
 	
 	private Marker marker;
 	private GoogleMap map;
-	private Map<String,Document> markerInfo;
+	private Map<String,Lifelog> markerInfo;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,19 +36,18 @@ public class MapViewActivity extends Activity {
 		map = ((MapFragment)getFragmentManager().findFragmentById(R.id.map)).getMap();
 		
 		Bookmark bookmark = new Bookmark();
-		bookmark.setDate( System.currentTimeMillis() );
 		bookmark.setId("susu-20140819132954-bookmark");
 		bookmark.setSiteUrl("cloudant.com/doc");
 		bookmark.setTitle("Cloudant Document");
 		
 		Log.i("Create", "Bookmark");
 		
-		ArrayList<Document> queryData = new ArrayList<Document>();
+		ArrayList<Lifelog> queryData = new ArrayList<Lifelog>();
 		queryData.add( bookmark ); // 가져오는 가정을 위해 객체 추가
 		
-		markerInfo = new HashMap<String, Document>();
+		markerInfo = new HashMap<String, Lifelog>();
 		
-		for( Document i:queryData )
+		for( Lifelog i:queryData )
 		{
 			marker = map.addMarker( new MarkerOptions().position(new LatLng(37.485784, 126.924912)));
 			markerInfo.put( marker.getId(), i);

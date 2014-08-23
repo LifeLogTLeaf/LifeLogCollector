@@ -57,17 +57,19 @@ public class PhotoActivity extends Activity {
 		}
 	}
 
-	public void dbConnecnt() {
-		Photo lifeLog = new Photo();
-		Uri imgUri = shareAction.getImgUri();
-		String fileName = shareAction.getFileName();
-		String imgPath = getPathFromUri(imgUri);
-		lifeLog.setFileName(fileName);
-		lifeLog.setImgPath(imgPath);
-		CouchDBTask couchDBTask = new CouchDBTask("photo", "post", "insert-photo");
-		couchDBTask.setContext(getApplicationContext());
-		couchDBTask.execute(lifeLog);
-	}
+	// 2014.08.21 by Young
+	// 네트워크 모듈을 위헤서 주석처림했음.
+//	public void dbConnecnt() {
+//		Photo lifeLog = new Photo();
+//		Uri imgUri = shareAction.getImgUri();
+//		String fileName = shareAction.getFileName();
+//		String imgPath = getPathFromUri(imgUri);
+//		lifeLog.setFileName(fileName);
+//		lifeLog.setImgPath(imgPath);
+//		CouchDBTask couchDBTask = new CouchDBTask("photo", "post", "insert-photo");
+//		couchDBTask.setContext(getApplicationContext());
+//		couchDBTask.execute(lifeLog);
+//	}
 
 	public String getPathFromUri(Uri uri) {
 
@@ -80,8 +82,9 @@ public class PhotoActivity extends Activity {
 	}
 
 	public void onClick(View view) {
-
-		dbConnecnt();
+		// 2014.08.21 by Young
+		// 네트워크 모듈을 위헤서 주석처림했음.
+		//dbConnecnt();
 
 	}
 
