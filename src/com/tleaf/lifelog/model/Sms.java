@@ -2,7 +2,7 @@ package com.tleaf.lifelog.model;
 
 import java.util.Map;
 
-public class Sms extends Document {
+public class Sms extends Lifelog {
 	private String address;
 	private long date;
 	private String body;

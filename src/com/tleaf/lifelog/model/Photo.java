@@ -2,7 +2,7 @@ package com.tleaf.lifelog.model;
 
 import java.util.Map;
 
-public class Photo extends Document {
+public class Photo extends Lifelog {
 	private String fileName;
 	private String imgPath;
 

@@ -1,15 +1,9 @@
 package com.tleaf.lifelog.network;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.tleaf.lifelog.model.Bookmark;
-import com.tleaf.lifelog.model.Document;
+import com.tleaf.lifelog.model.Lifelog;
 import com.tleaf.lifelog.util.Mylog;
+
+import android.content.Context;
 
 /**
  * 
@@ -17,36 +11,68 @@ import com.tleaf.lifelog.util.Mylog;
  *         저장되있으면 내부에서 가져온다 ]
  * 
  */
-public class DatabaseConnector {
+public class DbConnector {
 	private static final String TAG = "데이터베이스접근객체";
-	private String userId = "youngjin"; // 나중에는 sharedpreference에서 가져온다.
 	private OnDataListener listener;
-	private String URL;
+	private DbAccessInterface db;
+	private DbAccessOption option;
+	private Context context;
+	private String URL, dbName, dataName;
 
-	public DatabaseConnector(OnDataListener listener) {
+	public DbConnector(OnDataListener listener, Context context) {
 		this.listener = listener;
+		this.context = context;
 	}
 
-	public void getDocument(String docType) {
-		// 내부 디비에 해당 데이터의 유무에 따라서
-		// 데이터 엑세스가 달라진다. [ 나중에 구현 ]
-		URL = userId + "/" + docType;
-		connectServerDB();
+	/**
+	 * 
+	 * @param dataName
+	 */
+	public void getData(String dataName) {
+		if (checkNetwork()) {
+		} else {
+		}
 	}
 
-	public void connectServerDB() {
-		// 분석된 데이터를 요청할때
-		// 최초 사용자 회원가입시 내부에서 데이터베이스 생성하기 위해서.
-		ServerDBTask serverDBTask = new ServerDBTask(URL, "get", "", listener);
-		serverDBTask.execute();
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean checkNetwork() {
+		return true;
 	}
 
-	public void connectCouchDB() {
-		// ?? ..
+
+	/**
+	 * 
+	 * @param dbName
+	 * @param type
+	 */
+	public void postData(String dbName, String requestName) {
+		Mylog.i(TAG, "레플리케이션중.");
+		if (requestName.equals("signup")) {
+			db = new CouchDBLiteTask(context);
+			option = new DbAccessOption();
+			option.setType("signup");
+			option.setDbName(dbName);
+			db.postData(option, null);
+		} else {
+			
+		}
 	}
 
-	public void connectCouchDBLite() {
-		// 모바일에서 생성되는 데이터 저장.
+	/**
+	 * 
+	 * @param dbName
+	 * @param document
+	 */
+	public void postData(String dbName, Lifelog document) {
+		Mylog.i(TAG, "데이터를 삽입 중");
+		db = new CouchDBLiteTask(context);
+		option = new DbAccessOption();
+		option.setType("post");
+		option.setDbName(dbName);
+		db.postData(option, document);
 	}
 
 }

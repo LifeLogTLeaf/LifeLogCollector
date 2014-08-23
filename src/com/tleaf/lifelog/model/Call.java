@@ -2,7 +2,7 @@ package com.tleaf.lifelog.model;
 
 import java.util.Map;
 
-public class Call extends Document{
+public class Call extends Lifelog{
 	private String name;
 	private String date;
 	private String number;

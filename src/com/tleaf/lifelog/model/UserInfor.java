@@ -2,7 +2,7 @@ package com.tleaf.lifelog.model;
 
 import java.util.Map;
 
-public class UserInfor extends Document {
+public class UserInfor extends Lifelog {
 	private String userName;
 	private String gender;
 	private FacebookUserInfor userFacebookInfor;

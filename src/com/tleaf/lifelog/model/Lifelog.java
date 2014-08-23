@@ -14,7 +14,7 @@ import com.tleaf.lifelog.util.Util;
  * Map 객체를 생성해서 데이터를 넣기 때문입니다. 따라서 라이프로그 객체의 멤버변수의 값들을 하나하나
  * 맵에 넣는것이 이 함수의 역할이 됩니다.
  */
-public abstract class Document {
+public abstract class Lifelog {
 	@JsonProperty("_id")
 	protected String id;
 
@@ -24,11 +24,11 @@ public abstract class Document {
 	private long uploadtime;
 	private String type;
 
-	public Document() {
+	public Lifelog() {
 		this.uploadtime = Util.getCurrentTime();
 	}
 
-	public Document(long uploadtime) {
+	public Lifelog(long uploadtime) {
 		this.uploadtime = uploadtime;
 	}
 

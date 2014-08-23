@@ -8,8 +8,8 @@ import android.app.ActionBar.Tab;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -18,11 +18,12 @@ import android.util.Log;
 import android.view.View;
 
 import com.tleaf.lifelog.R;
+import com.tleaf.lifelog.network.OnDataListener;
 import com.tleaf.lifelog.pkg.FragmentListener;
 import com.tleaf.lifelog.pkg.PagerAdapter;
 
 public class MainActivity extends FragmentActivity implements
-		ActionBar.TabListener, FragmentListener {
+		ActionBar.TabListener, FragmentListener, OnDataListener {
 
 	static public PagerAdapter mPagerAdapter;
 	static public ViewPager mViewPager;
@@ -37,11 +38,21 @@ public class MainActivity extends FragmentActivity implements
 		init();
 	}
 	
+	
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+	}
+
+
+
 	/* 2014.08.20 by young 메인액티비티에서 필요한 부분을 초기화시켜주는 메소드입니다. */
 	private void init(){
 		mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
 		final ActionBar actionBar = getActionBar();
-
+		
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -128,4 +139,9 @@ public class MainActivity extends FragmentActivity implements
 		startService(intent);
 	}
 
+	@Override
+	public void onSendData(String data) {
+		// TODO Auto-generated method stub
+		
+	}
 }

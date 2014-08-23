@@ -20,95 +20,107 @@ import org.apache.http.params.HttpParams;
 
 import android.os.AsyncTask;
 
+import com.google.android.gms.internal.db;
+import com.tleaf.lifelog.model.Lifelog;
 import com.tleaf.lifelog.util.Mylog;
 
-public class ServerDBTask extends AsyncTask<List<NameValuePair>, Void, String> {
+public class ServerTask implements DbAccessInterface {
 	private static final String TAG = "서버통신";
-	private static final String URL = "http://192.168.0.7:8080/api/";
+	private static final String URL = "http://172.16.101.159:8080/api/";
 	private static final int SOCKET_TIMEOUT = 5000;
 	private static final int CONNECTION_TIMEOUT = 5000;
-	private static String httpMethod, requestType, url;
+	private static String httpMethod, reqeustName;
 	private int resultcode; // 응답에따른 결과코드
 	private OnDataListener listener;
 
-	public ServerDBTask(String url, String method, String reqeustType,
-			OnDataListener onDataListener) {
-		this.url = URL + url;
+	public ServerTask(String method, String reqeustName, OnDataListener onDataListener) {
 		this.httpMethod = method;
-		this.requestType = reqeustType;
+		this.reqeustName = reqeustName;
 		this.listener = onDataListener;
 	}
 
-	/**
-	 * HTTP GET통신을 사용하는 메소드
-	 * 
-	 * @param client
-	 *            : HTTP 클라이언트
-	 * @return : StringBuilder타입의 결과값.
-	 */
-	public StringBuilder requestGet(HttpClient client) {
-		StringBuilder builder = new StringBuilder();
-		HttpGet httpGet = new HttpGet(url);
-		try {
-			HttpResponse response = client.execute(httpGet);
-			StatusLine statusLine = response.getStatusLine();
 
-			resultcode = statusLine.getStatusCode();
-			Mylog.i(TAG, "(Get) StatusCode = " + resultcode);
+	/* 데이터베이스  CRUD */
+	@Override
+	public void getData(DbAccessOption option) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void postData(DbAccessOption option, Lifelog document) {
+		// TODO Auto-generated method stub
+		DbTask dbTask = new DbTask();
+		dbTask.equals(null);
+	}
+	
+	
+	private class DbTask extends AsyncTask<List<NameValuePair>, Void, String>{
+
+		@Override
+		protected String doInBackground(List<NameValuePair>... data) {
+			// TODO Auto-generated method stub
+			HttpClient client = new DefaultHttpClient();
+			HttpParams HttpParams = client.getParams();
+			HttpConnectionParams.setConnectionTimeout(HttpParams,
+					CONNECTION_TIMEOUT);
+			HttpConnectionParams.setSoTimeout(HttpParams, SOCKET_TIMEOUT);
+			StringBuilder builder = null;
+			String result = null;
+
+			if (httpMethod.equals("get")) {
+				builder = requestGet(client);
+			} else if (httpMethod.equals("post")) {
+				// builder = requestPost(client, data);
+			}
+
+			if (builder != null) {
+				result = builder.toString();
+			}
+
+			return result;
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
 			if (resultcode == 200) {
-				HttpEntity resultEntity = response.getEntity();
-				InputStream result = resultEntity.getContent();
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(result));
-				String line;
-				while ((line = reader.readLine()) != null) {
-					builder.append(line);
+				if (httpMethod.equals("get")) {
+					Mylog.i(TAG, "HTTP GET 완료" + result);
+					listener.onSendData(result);
+				} else if (httpMethod.equals("get")) {
 				}
 			}
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
-		return builder;
-	}
+		
+		public StringBuilder requestGet(HttpClient client) {
+			StringBuilder builder = new StringBuilder();
+			HttpGet httpGet = new HttpGet(URL+reqeustName);
+			try {
+				HttpResponse response = client.execute(httpGet);
+				StatusLine statusLine = response.getStatusLine();
 
-	@Override
-	protected String doInBackground(List<NameValuePair>... data) {
-		// TODO Auto-generated method stub
-		HttpClient client = new DefaultHttpClient();
-		HttpParams HttpParams = client.getParams();
-		HttpConnectionParams.setConnectionTimeout(HttpParams,
-				CONNECTION_TIMEOUT);
-		HttpConnectionParams.setSoTimeout(HttpParams, SOCKET_TIMEOUT);
-		StringBuilder builder = null;
-		String result = null;
-
-		if (httpMethod.equals("get")) {
-			builder = requestGet(client);
-		} else if (httpMethod.equals("post")) {
-			// builder = requestPost(client, data);
-		}
-
-		if (builder != null) {
-			result = builder.toString();
-		}
-
-		return result;
-	}
-
-	@Override
-	protected void onPostExecute(String result) {
-		super.onPostExecute(result);
-		if (resultcode == 200) {
-			if (httpMethod.equals("get")) {
-				Mylog.i(TAG, "HTTP GET 완료" + result);
-				listener.onSendData(result);
-			} else if (httpMethod.equals("get")) {
+				resultcode = statusLine.getStatusCode();
+				Mylog.i(TAG, "(Get) StatusCode = " + resultcode);
+				if (resultcode == 200) {
+					HttpEntity resultEntity = response.getEntity();
+					InputStream result = resultEntity.getContent();
+					BufferedReader reader = new BufferedReader(
+							new InputStreamReader(result));
+					String line;
+					while ((line = reader.readLine()) != null) {
+						builder.append(line);
+					}
+				}
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
+			return builder;
 		}
 	}
+	
 
 }

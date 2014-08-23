@@ -2,7 +2,7 @@ package com.tleaf.lifelog.model;
 
 import java.util.Map;
 
-public class Bookmark extends Document {
+public class Bookmark extends Lifelog {
 	private String title;
 	private String siteUrl;
 

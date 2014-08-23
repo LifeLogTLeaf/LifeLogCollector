@@ -2,7 +2,7 @@ package com.tleaf.lifelog.model;
 
 import java.util.Map;
 
-public class Location extends Document {
+public class Location extends Lifelog {
 
     private double latitude;
 	private double longitude;
