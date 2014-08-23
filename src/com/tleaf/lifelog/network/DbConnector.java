@@ -28,9 +28,12 @@ public class DbConnector {
 	 * 
 	 * @param dataName
 	 */
-	public void getData(String dataName) {
+	public void getData(String dataName,String requestName) {
 		if (checkNetwork()) {
+			
 		} else {
+			db = new ServerTask("get", requestName, listener);
+			db.getData(null);
 		}
 	}
 
@@ -39,7 +42,7 @@ public class DbConnector {
 	 * @return
 	 */
 	public boolean checkNetwork() {
-		return true;
+		return false;
 	}
 
 	/**

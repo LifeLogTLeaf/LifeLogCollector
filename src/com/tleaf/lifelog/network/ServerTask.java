@@ -26,16 +26,16 @@ import com.tleaf.lifelog.util.Mylog;
 
 public class ServerTask implements DbAccessInterface {
 	private static final String TAG = "서버통신";
-	private static final String URL = "http://172.16.101.159:8080/api/";
+	private static final String URL = "http://192.168.0.7:8080/api/lifelogs";
 	private static final int SOCKET_TIMEOUT = 5000;
 	private static final int CONNECTION_TIMEOUT = 5000;
 	private static String httpMethod, reqeustName;
 	private int resultcode; // 응답에따른 결과코드
 	private OnDataListener listener;
 
-	public ServerTask(String method, String reqeustName, OnDataListener onDataListener) {
+	public ServerTask(String method, String requestName, OnDataListener onDataListener) {
 		this.httpMethod = method;
-		this.reqeustName = reqeustName;
+		//this.reqeustName = reqeustName; //Test용 나중에 변경할꺼임.
 		this.listener = onDataListener;
 	}
 
@@ -44,13 +44,17 @@ public class ServerTask implements DbAccessInterface {
 	@Override
 	public void getData(DbAccessOption option) {
 		// TODO Auto-generated method stub
+		Mylog.i(TAG, "서버에서 데이터를 가져옵니다.");
+		DbTask dbTask = new DbTask();
+		dbTask.execute();
+	
 	}
 
 	@Override
 	public void postData(DbAccessOption option, Lifelog document) {
 		// TODO Auto-generated method stub
 		DbTask dbTask = new DbTask();
-		dbTask.equals(null);
+		dbTask.execute();
 	}
 	
 	
@@ -94,7 +98,7 @@ public class ServerTask implements DbAccessInterface {
 		
 		public StringBuilder requestGet(HttpClient client) {
 			StringBuilder builder = new StringBuilder();
-			HttpGet httpGet = new HttpGet(URL+reqeustName);
+			HttpGet httpGet = new HttpGet(URL);
 			try {
 				HttpResponse response = client.execute(httpGet);
 				StatusLine statusLine = response.getStatusLine();

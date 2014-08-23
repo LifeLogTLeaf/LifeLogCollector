@@ -10,7 +10,7 @@ public class Call extends Lifelog{
 	// 타입 속성은 라이프로그 전체에 걸쳐 쓰이는데 이거 이름 변경이 필요할것 같은데..
 	// 지금 데이터 모델링 명세서에는 타입은 라이프로그가 어떤 타입인가를 지정해주는건데.
 	// 이 타입은 모야 ?.
-	private String type; 
+	//private String type; 
 	public String getName() {
 		return name;
 	}
@@ -29,12 +29,14 @@ public class Call extends Lifelog{
 	public void setNumber(String number) {
 		this.number = number;
 	}
+	/*
 	public String getType() {
 		return type;
 	}
 	public void setType(String type) {
 		this.type = type;
 	}
+	*/
 	@Override
 	public void setMap(Map<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -43,9 +45,9 @@ public class Call extends Lifelog{
 		map.put("number", this.number);
 		map.put("longitude", super.getLongitude());
 		map.put("latitude", super.getLatitude());
-		map.put("locationtime", super.getLocationTime());
+		map.put("locationTime", super.getLocationTime());
 		map.put("type", super.getType());
-		map.put("logtime", super.getLogTime());
+		map.put("logTime", super.getLogTime());
 	}
 
 	
@@ -53,5 +55,5 @@ public class Call extends Lifelog{
 //	int dateidx = cursor.getColumnIndex(CallLog.Calls.DATE);
 //	int numidx = cursor.getColumnIndex(CallLog.Calls.NUMBER);
 //	int duridx = cursor.getColumnIndex(CallLog.Calls.DURATION);
-//	int typeidx = cursor.getColumnIndex(CallLog.Calls.TYPE);
+	// int typeidx = cursor.getColumnIndex(CallLog.Calls.TYPE);
 }

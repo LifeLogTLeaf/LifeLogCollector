@@ -19,4 +19,13 @@
         android:layout_centerHorizontal="true"
         android:text="DOC생성" />
 
+    <Button
+        android:id="@+id/getdoc_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/replication_start_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="54dp"
+        android:text="DOC읽기" />
+
 </RelativeLayout>

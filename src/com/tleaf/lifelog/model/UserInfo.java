@@ -39,8 +39,8 @@ public class UserInfo extends Lifelog {
 		map.put("userfacebookinfo", this.userFacebookInfo);
 		map.put("longitude", super.getLongitude());
 		map.put("latitude", super.getLatitude());
-		map.put("locationtime", super.getLocationTime());
+		map.put("locationTime", super.getLocationTime());
 		map.put("type", super.getType());
-		map.put("logtime", super.getLogTime());
+		map.put("logTime", super.getLogTime());
 	}
 }
