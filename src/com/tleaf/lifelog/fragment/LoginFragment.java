@@ -1,4 +1,4 @@
-﻿package com.tleaf.lifelog.fragment;
+package com.tleaf.lifelog.fragment;
 
 import java.util.ArrayList;
 
@@ -28,7 +28,6 @@ import com.facebook.widget.LoginButton;
 import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.model.FacebookUserInfo;
 import com.tleaf.lifelog.model.UserInfo;
-import com.tleaf.lifelog.network.CouchDBTask;
 import com.tleaf.lifelog.util.Mylog;
 
 public class LoginFragment extends Fragment implements StatusCallback {

@@ -18,7 +18,7 @@ import com.tleaf.lifelog.network.DbConnector;
 import com.tleaf.lifelog.network.OnDataListener;
 import com.tleaf.lifelog.util.Mylog;
 
-/**
+/**O
  * Created by jangyoungjin on 8/10/14.
  */
 public class BookmarkShareActivity extends Activity implements OnDataListener {

@@ -3,6 +3,7 @@ package com.tleaf.lifelog.activity;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import com.tleaf.lifelog.pkg.PagerAdapter;
 
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener, FragmentListener, OnDataListener {
+
 
 	static public PagerAdapter mPagerAdapter;
 	static public ViewPager mViewPager;
@@ -74,9 +76,10 @@ public class MainActivity extends FragmentActivity implements
 
 	@Override
 	public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
+        // When the given tab is selected, switch to the corresponding page in the ViewPager.
+        mViewPager.setCurrentItem(tab.getPosition());
 		// When the given tab is selected, switch to the corresponding page in
 		// the ViewPager.
-		mViewPager.setCurrentItem(tab.getPosition());
 	}
 
 	@Override

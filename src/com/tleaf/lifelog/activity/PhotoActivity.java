@@ -5,17 +5,21 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.Images;
+import android.provider.MediaStore.Images.Thumbnails;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.model.Photo;
+import com.tleaf.lifelog.network.CouchDBConnector;
 import com.tleaf.lifelog.network.CouchDBTask;
 import com.tleaf.lifelog.util.PhotoAction;
 import com.tleaf.lifelog.util.adapter.PhotoListAdapter;
@@ -27,10 +31,11 @@ public class PhotoActivity extends Activity {
 	PhotoListAdapter arrAdapter;
 	ArrayList<String> arrList;
 
+	ImageView img;
 	PhotoAction shareAction;
 
 	ArrayList<Photo> arrFileList;
-	public final static String FINAL_DATE = "1408250101000";
+	public final static String FINAL_DATE = "1408640101000";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +48,6 @@ public class PhotoActivity extends Activity {
 			txtView.setText(shareAction.getFileName());
 			imgView.setImageURI(shareAction.getImgUri());
 
-
 		} else {
 			initWidget();
 			// 업로드 되지 않은 파일 목록을 표시하는 과정
@@ -54,22 +58,37 @@ public class PhotoActivity extends Activity {
 
 			listView.setAdapter(arrAdapter);
 
+			CouchDBConnector couchDBTask = new CouchDBConnector("photo",
+					"post", "insert-photo");
+			couchDBTask.setContext(getApplication());
+
+			// 리스트의 사진들을 하나씩 업로드 한다 
+//			while (arrFileList.isEmpty()==false) {
+				Toast.makeText(getApplicationContext(), arrFileList.size()+"개 남았습니다", 1000).show();
+				
+				couchDBTask.execute(arrFileList);
+				arrAdapter = new PhotoListAdapter(this,
+						R.layout.layout_photo_preview, arrFileList);
+				Toast.makeText(getApplicationContext(),"전송완료 ", 1000).show();
+				listView.setAdapter(arrAdapter);
+//			}
+
 		}
 	}
 
-	// 2014.08.21 by Young
-	// 네트워크 모듈을 위헤서 주석처림했음.
-//	public void dbConnecnt() {
-//		Photo lifeLog = new Photo();
-//		Uri imgUri = shareAction.getImgUri();
-//		String fileName = shareAction.getFileName();
-//		String imgPath = getPathFromUri(imgUri);
-//		lifeLog.setFileName(fileName);
-//		lifeLog.setImgPath(imgPath);
-//		CouchDBTask couchDBTask = new CouchDBTask("photo", "post", "insert-photo");
-//		couchDBTask.setContext(getApplicationContext());
+	public void dbConnecnt() {
+		Photo lifeLog = new Photo();
+		Uri imgUri = shareAction.getImgUri();
+		String fileName = shareAction.getFileName();
+		String imgPath = getPathFromUri(imgUri);
+		lifeLog.setFileName(fileName);
+		lifeLog.setImgPath(imgPath);
+		CouchDBConnector couchDBTask = new CouchDBConnector("photo", "post",
+				"insert-photo");
+		couchDBTask.setContext(getApplicationContext());
 //		couchDBTask.execute(lifeLog);
-//	}
+	}
+
 
 	public String getPathFromUri(Uri uri) {
 
@@ -97,7 +116,7 @@ public class PhotoActivity extends Activity {
 
 		if ((Intent.ACTION_SEND.equals(action) || Intent.ACTION_SEND_MULTIPLE
 				.equals(action)) && type != null) {
-			setContentView(R.layout.activity_share_main);
+			setContentView(R.layout.activity_photo_share);
 			shareAction = new PhotoAction(intent, getBaseContext());
 			shareAction.run();
 			return true;
@@ -122,6 +141,13 @@ public class PhotoActivity extends Activity {
 			int nSize = mManagedCursor.getColumnCount();
 			while (mManagedCursor.moveToNext()) {
 
+				String mini_thumb_magic = mManagedCursor
+						.getString(mManagedCursor
+
+						.getColumnIndex(Images.ImageColumns.MINI_THUMB_MAGIC)); // 작은
+				// 썸네일
+
+				System.out.println("thumb : " + mini_thumb_magic);
 				String data = mManagedCursor.getString(mManagedCursor
 						.getColumnIndex(Images.ImageColumns.DATA)); // 데이터 스트림.
 																	// 파일의 경로
@@ -172,12 +198,6 @@ public class PhotoActivity extends Activity {
 				String bucket_id = mManagedCursor.getString(mManagedCursor
 						.getColumnIndex(Images.ImageColumns.BUCKET_ID)); // 버킷
 				// ID
-
-				String mini_thumb_magic = mManagedCursor
-						.getString(mManagedCursor
-
-						.getColumnIndex(Images.ImageColumns.MINI_THUMB_MAGIC)); // 작은
-				// 썸네일
 
 				String orientation = mManagedCursor.getString(mManagedCursor
 						.getColumnIndex(Images.ImageColumns.ORIENTATION)); // 사진의
@@ -235,10 +255,9 @@ public class PhotoActivity extends Activity {
 	}
 
 	void initWidget() {
-		imgView = (ImageView) findViewById(R.id.imgFile);
+		imgView = (ImageView) findViewById(R.id.img);
 		txtView = (TextView) findViewById(R.id.txtFileName);
 		listView = (ListView) findViewById(R.id.list);
 	}
-
 
 }
