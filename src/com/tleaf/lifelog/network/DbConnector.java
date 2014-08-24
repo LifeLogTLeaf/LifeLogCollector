@@ -11,72 +11,66 @@ import android.content.Context;
  *         저장되있으면 내부에서 가져온다 ]
  * 
  */
-public class DbConnector {
+public class DbConnector implements OnDataListener {
 	private static final String TAG = "데이터베이스접근객체";
 	private OnDataListener listener;
 	private DbAccessInterface db;
 	private DbAccessOption option;
 	private Context context;
-	private String URL, dbName, dataName;
 
 	public DbConnector(OnDataListener listener, Context context) {
 		this.listener = listener;
 		this.context = context;
 	}
 
-	/**
-	 * 
-	 * @param dataName
-	 */
-	public void getData(String dataName,String requestName) {
-		if (checkNetwork()) {
-			
-		} else {
-			db = new ServerTask("get", requestName, listener);
-			option = new DbAccessOption();
-			option.setDbName(dataName);
-			db.getData(option);
-		}
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean checkNetwork() {
-		return false;
-	}
-
-	/**
-	 * 
-	 * @param dbName
-	 * @param type
-	 */
-	public void postData(String dbName, String requestName) {
-		Mylog.i(TAG, "레플리케이션중.");
-		if (requestName.equals("signup")) {
-			db = new CouchDBLiteTask(context, listener);
-			option = new DbAccessOption();
-			option.setType("signup");
-			option.setDbName(dbName);
-			db.postData(option, null);
-		} else {
-
-		}
-	}
-
-	/**
-	 * 
-	 * @param dbName
-	 * @param document
-	 */
-	public void postData(String dbName, Lifelog document) {
-		Mylog.i(TAG, "데이터를 삽입 중");
-		db = new CouchDBLiteTask(context, listener);
+	public void getData(String dbName,String requestName) {
+		//네트워크 셋팅이 추가될예정이다.
+		db = DbTaskFactory.createTask("serverTask");
 		option = new DbAccessOption();
-		option.setType("post");
+		option.setContext(context);
 		option.setDbName(dbName);
-		db.postData(option, document);
+		option.setDbType("serverTask");
+		option.setRequestMethod("get");
+		option.setUrl(requestName);
+		option.setListener(this);
+		db.getData(option);
+	}
+	
+	public void getData(String dataName,String requestName, boolean isWifi) {
+		if(isWifi){
+			
+		}else {
+			
+		}
+	}
+
+
+	public void postData(String dbName, Lifelog lifelog) {
+		db = DbTaskFactory.createTask("CouchDBLiteTask");
+		option = new DbAccessOption();
+		option.setContext(context);
+		option.setDbName(dbName);
+		option.setDbType("CouchDBLiteTask");
+		option.setRequestMethod("post");
+		option.setListener(this);
+		db.postData(option, lifelog);
+	}
+	
+	public void startReplication(String dbName){
+		db = DbTaskFactory.createTask("CouchDBLiteTask");
+		option = new DbAccessOption();
+		option.setDbName(dbName);
+		option.setContext(context);
+		option.setDbType("CouchDBLiteTask");
+		option.setRequestMethod("replication");
+		option.setListener(this);
+		db.postData(option, null);
+	}
+
+	@Override
+	public void onSendData(String data) {
+		// TODO Auto-generated method stub
+		listener.onSendData(data);
 	}
 
 	

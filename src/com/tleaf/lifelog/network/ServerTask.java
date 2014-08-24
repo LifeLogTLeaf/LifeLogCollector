@@ -36,14 +36,11 @@ public class ServerTask implements DbAccessInterface {
 	private static final String URL = "http://54.191.147.237:8080/lifelog/api/"; //사설 아이피 
 	private static final int SOCKET_TIMEOUT = 5000;
 	private static final int CONNECTION_TIMEOUT = 5000;
-	private String httpMethod, requestName, dbName;
+	private String requestMethod, dbName, requestUrl;
 	private int resultcode; // 응답에따른 결과코드
 	private OnDataListener listener;
 
-	public ServerTask(String method, String requestName, OnDataListener onDataListener) {
-		this.httpMethod = method;
-		this.requestName = requestName;
-		this.listener = onDataListener;
+	public ServerTask(){
 	}
 
 
@@ -54,6 +51,9 @@ public class ServerTask implements DbAccessInterface {
 		Mylog.i(TAG, "서버에서 데이터를 가져옵니다.");
 		DbTask dbTask = new DbTask();
 		dbName = option.getDbName();
+		requestMethod = option.getRequestMethod();
+		requestUrl = option.getUrl();
+		listener = option.getListener();
 		dbTask.execute();
 	
 	}
@@ -72,10 +72,10 @@ public class ServerTask implements DbAccessInterface {
 		String url;
 
 		List<NameValuePair> params = new LinkedList<NameValuePair>();
-		params.add(new BasicNameValuePair("useid", dbName));
+		params.add(new BasicNameValuePair("userid", dbName));
 		String paramString = URLEncodedUtils.format(params, "utf-8");
 		
-		url = URL + requestName + "?" + paramString;
+		url = URL + requestUrl + "?" + paramString;
 		Mylog.i(TAG, url);
 		return url;
 	}
@@ -94,9 +94,9 @@ public class ServerTask implements DbAccessInterface {
 			StringBuilder builder = null;
 			String result = null;
 
-			if (httpMethod.equals("get")) {
+			if (requestMethod.equals("get")) {
 				builder = requestGet(client);
-			} else if (httpMethod.equals("post")) {
+			} else if (requestMethod.equals("post")) {
 				// builder = requestPost(client, data);
 			}
 
@@ -111,10 +111,10 @@ public class ServerTask implements DbAccessInterface {
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			if (resultcode == 200) {
-				if (httpMethod.equals("get")) {
+				if (requestMethod.equals("get")) {
 					Mylog.i(TAG, "HTTP GET 완료" + result);
 					listener.onSendData(result);
-				} else if (httpMethod.equals("get")) {
+				} else if (requestMethod.equals("get")) {
 				}
 			}
 		}

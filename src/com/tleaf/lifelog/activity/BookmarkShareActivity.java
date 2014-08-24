@@ -102,7 +102,7 @@ public class BookmarkShareActivity extends Activity implements OnDataListener {
 		Bookmark bookmark = new Bookmark();
 		bookmark.setUrl(url);
 		bookmark.setTitle(title);
-		bookmark.setType("bookmakr");
+		bookmark.setType("bookmark");
 		DbConnector db = new DbConnector(this, getApplicationContext());
 		db.postData(dbName, bookmark);
 	}
