@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -14,28 +15,34 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
 import android.os.AsyncTask;
 
-import com.google.android.gms.internal.db;
 import com.tleaf.lifelog.model.Lifelog;
 import com.tleaf.lifelog.util.Mylog;
 
+/**
+ * 2014.08.24
+ * @author jangyoungjin
+ * requestName 반드시 문자열이여한다.
+ */
 public class ServerTask implements DbAccessInterface {
 	private static final String TAG = "서버통신";
-	private static final String URL = "http://192.168.0.7:8080/api/lifelogs";
+	private static final String URL = "http://54.191.147.237:8080/lifelog/api/"; //사설 아이피 
 	private static final int SOCKET_TIMEOUT = 5000;
 	private static final int CONNECTION_TIMEOUT = 5000;
-	private static String httpMethod, reqeustName;
+	private String httpMethod, requestName, dbName;
 	private int resultcode; // 응답에따른 결과코드
 	private OnDataListener listener;
 
 	public ServerTask(String method, String requestName, OnDataListener onDataListener) {
 		this.httpMethod = method;
-		//this.reqeustName = reqeustName; //Test용 나중에 변경할꺼임.
+		this.requestName = requestName;
 		this.listener = onDataListener;
 	}
 
@@ -46,15 +53,31 @@ public class ServerTask implements DbAccessInterface {
 		// TODO Auto-generated method stub
 		Mylog.i(TAG, "서버에서 데이터를 가져옵니다.");
 		DbTask dbTask = new DbTask();
+		dbName = option.getDbName();
 		dbTask.execute();
 	
 	}
+	
 
 	@Override
 	public void postData(DbAccessOption option, Lifelog document) {
 		// TODO Auto-generated method stub
 		DbTask dbTask = new DbTask();
 		dbTask.execute();
+	}
+	
+	//@issue
+	//나중에 배열로 파라미터의 종류를 받는다.
+	private String getURI(){
+		String url;
+
+		List<NameValuePair> params = new LinkedList<NameValuePair>();
+		params.add(new BasicNameValuePair("useid", dbName));
+		String paramString = URLEncodedUtils.format(params, "utf-8");
+		
+		url = URL + requestName + "?" + paramString;
+		Mylog.i(TAG, url);
+		return url;
 	}
 	
 	
@@ -98,7 +121,7 @@ public class ServerTask implements DbAccessInterface {
 		
 		public StringBuilder requestGet(HttpClient client) {
 			StringBuilder builder = new StringBuilder();
-			HttpGet httpGet = new HttpGet(URL);
+			HttpGet httpGet = new HttpGet(getURI());
 			try {
 				HttpResponse response = client.execute(httpGet);
 				StatusLine statusLine = response.getStatusLine();

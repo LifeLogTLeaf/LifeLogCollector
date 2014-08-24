@@ -28,4 +28,12 @@
         android:layout_marginBottom="54dp"
         android:text="DOC읽기" />
 
+    <EditText
+        android:id="@+id/get_edittext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/getdoc_btn"
+        android:layout_centerHorizontal="true"
+        android:ems="10" />
+
 </RelativeLayout>

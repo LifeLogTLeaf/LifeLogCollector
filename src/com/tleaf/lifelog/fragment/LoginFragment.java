@@ -170,9 +170,7 @@ public class LoginFragment extends Fragment implements StatusCallback {
 									.getRawResponse());
 							UserInfo.setGender(json.getString("gender"));
 							UserInfo.setUserName(json.getString("name"));
-							CouchDBTask couchTask = new CouchDBTask("young",
-									"post", "userinsert");
-							couchTask.execute(UserInfo);
+							
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

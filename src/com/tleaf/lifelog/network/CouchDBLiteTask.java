@@ -35,12 +35,14 @@ public class CouchDBLiteTask implements DbAccessInterface {
 	private static final String TAG = "카우치디비라이트작업";
 	private ClassLoader classLoader;
 	private Context context;
+	private OnDataListener listener;
 
 	/**
 	 * 2014.08.18 by young 생성자
 	 */
-	public CouchDBLiteTask(Context context) {
+	public CouchDBLiteTask(Context context, OnDataListener onDataListener) {
 		this.context = context;
+		this.listener = onDataListener;
 		// 클래스 로더를 메인 액티비티것을 사용해줘야 하느데 이 부분은 잘 모르겠다..
 		// 해결해야할 아주 중요한 부분이다.
 		classLoader = context.getClassLoader();
@@ -110,6 +112,7 @@ public class CouchDBLiteTask implements DbAccessInterface {
 			Mylog.i(TAG, "(쓰레드 onPost) 작업완료 : " + result);
 			if (result.equals("true")) {
 				Mylog.i(TAG, "리소스 close");
+				listener.onSendData(result);
 				mManger.close();
 			}
 		}

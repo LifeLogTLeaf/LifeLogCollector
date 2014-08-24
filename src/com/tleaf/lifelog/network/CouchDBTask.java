@@ -38,8 +38,7 @@ public class CouchDBTask extends AsyncTask<Lifelog, Void, String> {
 	/**
 	 * 생성자
 	 * 
-	 * @param dbName
-	 *            : 데이터베이스 이름
+	 * @param dbName : 데이터베이스 이름
 	 * @param method
 	 *            : CRUD
 	 * @param DBListener

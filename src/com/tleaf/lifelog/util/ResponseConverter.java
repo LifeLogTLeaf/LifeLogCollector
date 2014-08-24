@@ -57,7 +57,7 @@ public class ResponseConverter {
 		bookmark.setLongitude(json.getDouble("longitude"));
 		bookmark.setLocationTime(json.getLong("locationtime"));
 
-		bookmark.setSiteUrl(json.getString("url"));
+		bookmark.setUrl(json.getString("url"));
 		bookmark.setTitle(json.getString("title"));
 
 		return bookmark;

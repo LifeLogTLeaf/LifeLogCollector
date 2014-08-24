@@ -37,7 +37,7 @@ public class MapViewActivity extends Activity {
 		
 		Bookmark bookmark = new Bookmark();
 		bookmark.setId("susu-20140819132954-bookmark");
-		bookmark.setSiteUrl("cloudant.com/doc");
+		bookmark.setUrl("cloudant.com/doc");
 		bookmark.setTitle("Cloudant Document");
 		
 		Log.i("Create", "Bookmark");

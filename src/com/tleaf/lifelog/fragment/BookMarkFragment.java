@@ -1,6 +1,12 @@
 package com.tleaf.lifelog.fragment;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,11 +16,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
-import com.google.android.gms.drive.internal.p;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.model.Bookmark;
 import com.tleaf.lifelog.model.Call;
+import com.tleaf.lifelog.model.Lifelog;
 import com.tleaf.lifelog.model.Location;
 import com.tleaf.lifelog.model.Photo;
 import com.tleaf.lifelog.model.Sms;
@@ -26,7 +35,8 @@ public class BookMarkFragment extends Fragment implements OnDataListener {
 	private static final String TAG = "북마크 프래그먼트";
 	private Context mContext;
 	private BookMarkFragment fragment;
-	private String DbName = "yoon";
+	private String DbName = "jin";
+	private EditText get_edittext;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -70,6 +80,8 @@ public class BookMarkFragment extends Fragment implements OnDataListener {
 						getLifelog();
 					}
 				});
+		
+		get_edittext = (EditText) rootView.findViewById(R.id.get_edittext);
 
 		return rootView;
 	}
@@ -84,7 +96,7 @@ public class BookMarkFragment extends Fragment implements OnDataListener {
 			Bookmark bookmark = new Bookmark();
 			bookmark.setTitle("짜장면");
 			bookmark.setType("bookmark");
-			bookmark.setSiteUrl("www.korea.com");
+			bookmark.setUrl("www.korea.com");
 			db.postData(DbName, bookmark);
 			break;
 		case 1:
@@ -123,13 +135,33 @@ public class BookMarkFragment extends Fragment implements OnDataListener {
 
 	public void getLifelog() {
 		DbConnector db = new DbConnector(this, mContext.getApplicationContext());
-		db.getData(DbName, "lifelogs");
+		db.getData(DbName, get_edittext.getText().toString());
 	}
 
 	@Override
 	public void onSendData(String data) {
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		// TODO Auto-generated method stub
-		Mylog.i(TAG, data);
+		// Mylog.i(TAG, data);
+		try {
+			JSONObject jsonObject = new JSONObject(data);
+			Mylog.i(TAG, "version : " + jsonObject.getString("count"));
+			Mylog.i(TAG, "count : " + jsonObject.getString("version"));
+			JSONArray jsonArray = jsonObject.getJSONArray("data");
+			List<Lifelog> list = new ArrayList<Lifelog>();
+			for (int i = 0; i < jsonArray.length(); i++) {
+
+				list.add(gson.fromJson(jsonArray.getString(i), Bookmark.class));
+			}
+
+			for (Lifelog lifelog : list) {
+				Mylog.i(TAG, "type : " + lifelog.getType());
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 }

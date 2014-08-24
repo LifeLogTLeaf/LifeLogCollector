@@ -33,7 +33,9 @@ public class DbConnector {
 			
 		} else {
 			db = new ServerTask("get", requestName, listener);
-			db.getData(null);
+			option = new DbAccessOption();
+			option.setDbName(dataName);
+			db.getData(option);
 		}
 	}
 
@@ -53,7 +55,7 @@ public class DbConnector {
 	public void postData(String dbName, String requestName) {
 		Mylog.i(TAG, "레플리케이션중.");
 		if (requestName.equals("signup")) {
-			db = new CouchDBLiteTask(context);
+			db = new CouchDBLiteTask(context, listener);
 			option = new DbAccessOption();
 			option.setType("signup");
 			option.setDbName(dbName);
@@ -70,11 +72,12 @@ public class DbConnector {
 	 */
 	public void postData(String dbName, Lifelog document) {
 		Mylog.i(TAG, "데이터를 삽입 중");
-		db = new CouchDBLiteTask(context);
+		db = new CouchDBLiteTask(context, listener);
 		option = new DbAccessOption();
 		option.setType("post");
 		option.setDbName(dbName);
 		db.postData(option, document);
 	}
 
+	
 }
