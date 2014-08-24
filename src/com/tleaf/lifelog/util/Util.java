@@ -1,9 +1,10 @@
 package com.tleaf.lifelog.util;
 
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.tleaf.lifelog.model.Position;
+import com.tleaf.lifelog.model.Location;
 
 public class Util {
 
@@ -11,15 +12,13 @@ public class Util {
 	private final static String SEND ="발신";
 	
 	private final static String TAG = "UTIL";
-	
+
 	public static String formatLongTime(Long time) {
         Date date = new Date(time);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentDate = dateFormat.format(date);
         return currentDate;
 	}
-
-	
 	
 	/*public static long getCurrentTime() {
 		long now = System.currentTimeMillis();
@@ -52,8 +51,8 @@ public class Util {
 
 	}
 	 */	
-	public static Position getCurrentPostion() {
-		return new Position();
+	public static Location getCurrentPostion() {
+		return new Location();
 	}
 
 	public static long getCurrentTime() {

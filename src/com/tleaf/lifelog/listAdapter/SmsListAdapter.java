@@ -57,6 +57,7 @@ public class SmsListAdapter extends BaseAdapter {
 		txt_sms_address.setText(mArr.get(position).getAddress());
 		txt_sms_date.setText(Util.formatLongTime(mArr.get(position).getDate()));
 		txt_sms_body.setText(mArr.get(position).getBody());
+		
 		return convertView;
 	}
 

@@ -4,18 +4,19 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-import com.tleaf.lifelog.network.CouchDBLiteConnector;
+import com.tleaf.lifelog.network.CouchDBLiteTask;
 import com.tleaf.lifelog.util.Mylog;
 
 public class UploaderService extends Service{
 	private static final String TAG = "UPLOADER SERVICE";
-	private CouchDBLiteConnector connector;
+	private CouchDBLiteTask connector;
 	
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
 		Mylog.i(TAG, "Uploader Service is starting");
+		
 		return super.onStartCommand(intent, flags, startId);
 	}
 

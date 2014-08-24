@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.model.Call;
+import com.tleaf.lifelog.model.Sms;
 import com.tleaf.lifelog.util.Util;
 
 
@@ -19,12 +20,13 @@ public class CallListAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 	private ArrayList<Call> mArr;
 	private int mLayout;
-	
+
 	private TextView txt_call_name;
 	private TextView txt_call_number;
 	private TextView txt_call_type;
 	private TextView txt_call_date;
 	private TextView txt_call_duration;
+
 
 	public CallListAdapter(Context context, int layout, ArrayList<Call> arr) {
 		mContext = context;
@@ -60,11 +62,10 @@ public class CallListAdapter extends BaseAdapter {
 		//		Log.e("salebookno", ""+mArr.get(position).getSaleBookNo());
 		txt_call_name.setText(mArr.get(position).getName());
 		txt_call_number.setText(mArr.get(position).getNumber());
-		txt_call_type.setText(mArr.get(position).getType());
+		txt_call_type.setText(mArr.get(position).getCallType());
 		txt_call_date.setText(Util.formatLongTime(mArr.get(position).getDate()));
 		txt_call_duration.setText(""+mArr.get(position).getDuration());
 		
-
 		return convertView;
 	}
 

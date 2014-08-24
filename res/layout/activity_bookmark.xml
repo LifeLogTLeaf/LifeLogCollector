@@ -4,69 +4,36 @@
     android:layout_height="match_parent" >
 
     <Button
-        android:id="@+id/replication_stop_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:onClick="onReplicationStop"
-        android:text="레플리케이션중지" />
-
-    <Button
         android:id="@+id/replication_start_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/replication_stop_btn"
-        android:layout_alignParentRight="true"
-        android:onClick="onReplicationStart"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:text="레플리케이션시작" />
-
-    <EditText
-        android:id="@+id/dbname_edittext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:ems="10" >
-
-        <requestFocus />
-    </EditText>
-
-    <Button
-        android:id="@+id/createdb_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/dbname_edittext"
-        android:onClick="onDBCreate"
-        android:text="DB생성" />
-
-    <Button
-        android:id="@+id/deletedb_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/createdb_btn"
-        android:layout_alignBottom="@+id/createdb_btn"
-        android:layout_toLeftOf="@+id/createdb_btn"
-        android:onClick="onDBDelete"
-        android:text="DB삭제" />
 
     <Button
         android:id="@+id/createdoc_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/replication_start_btn"
-        android:onClick="onDocCreate"
+        android:layout_above="@+id/replication_start_btn"
+        android:layout_centerHorizontal="true"
         android:text="DOC생성" />
 
     <Button
-        android:id="@+id/deletedoc_btn"
+        android:id="@+id/getdoc_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/createdoc_btn"
-        android:layout_alignParentLeft="true"
-        android:text="DOC삭제" />
+        android:layout_above="@+id/replication_start_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="54dp"
+        android:text="DOC읽기" />
+
+    <EditText
+        android:id="@+id/get_edittext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/getdoc_btn"
+        android:layout_centerHorizontal="true"
+        android:ems="10" />
 
 </RelativeLayout>

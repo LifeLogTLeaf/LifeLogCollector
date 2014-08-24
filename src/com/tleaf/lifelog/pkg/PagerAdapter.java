@@ -1,9 +1,11 @@
 package com.tleaf.lifelog.pkg;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
+import android.view.LayoutInflater;
 
 import com.tleaf.lifelog.fragment.BookMarkFragment;
 import com.tleaf.lifelog.fragment.CallFragment;
@@ -30,6 +32,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
 		case 3:
 			return new PictureFragment();
 		case 4:
+			
 			return new PositionFragment();
 		}
 		return null;

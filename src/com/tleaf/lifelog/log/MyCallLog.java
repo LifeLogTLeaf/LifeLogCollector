@@ -68,7 +68,7 @@ public class MyCallLog {
 				stype = "기타:" + type;
 				break;
 			}
-			call.setType(stype);
+			call.setCallType(stype);
 			call.setDate(cursor.getLong(dateidx));
 
 			

@@ -1,5 +1,6 @@
 package com.tleaf.lifelog.fragment;
 
+
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -17,11 +18,8 @@ import android.widget.ListView;
 import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.db.DataManager;
 import com.tleaf.lifelog.listAdapter.CallListAdapter;
-import com.tleaf.lifelog.listAdapter.SmsListAdapter;
 import com.tleaf.lifelog.log.MyCallLog;
-import com.tleaf.lifelog.log.SmsLog;
 import com.tleaf.lifelog.model.Call;
-import com.tleaf.lifelog.model.Sms;
 import com.tleaf.lifelog.pkg.FragmentListener;
 public class CallFragment extends Fragment { 
 
@@ -47,7 +45,6 @@ public class CallFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_list, container, false);
 		Log.e("first onCreateView", "");
 
-
 //		arItem = new ArrayList<Call>();
 		//서버에서 받아오기
 		//arItem = dataManager.getCallList();
@@ -55,7 +52,6 @@ public class CallFragment extends Fragment {
 		MyCallLog cl= new MyCallLog(mContext);
 		arItem = cl.collectCall();
 		mAdapter = new CallListAdapter(mContext, R.layout.item_call, arItem);
-
 
 		lv = (ListView) rootView.findViewById(R.id.list);
 		lv.setAdapter(mAdapter);
@@ -89,22 +85,22 @@ public class CallFragment extends Fragment {
 			pos = -1;
 			break;
 		case 2:
-			//			Intent intent = new Intent(mContext, MapActivity.class);
-			//			Log.e("arItem.get(pos).isbn", ""+arItem.get(pos).getDealLocation());
-			//			intent.putExtra("location", arItem.get(pos).getDealLocation());
-			//			startActivity(intent);
+//			Intent intent = new Intent(mContext, MapActivity.class);
+//			Log.e("arItem.get(pos).isbn", ""+arItem.get(pos).getDealLocation());
+//			intent.putExtra("location", arItem.get(pos).getDealLocation());
+//			startActivity(intent);
 		}
 		return true;
 	}
 
 	private void deleteItem(int position) {
-		//		if (dataManager.deleteCall(arItem.get(pos).getIsbn())) {
-		//			arItem.remove(position);
-		//			lv.clearChoices();
-		//			mAdapter.notifyDataSetChanged();
-		//			utill.tst(mContext, "�����Ϸ�");
-		//		} else {
-		//			utill.tst(mContext, "��������");
-		//		}
+//		if (dataManager.deleteCall(arItem.get(pos).getIsbn())) {
+//			arItem.remove(position);
+//			lv.clearChoices();
+//			mAdapter.notifyDataSetChanged();
+//			utill.tst(mContext, "�����Ϸ�");
+//		} else {
+//			utill.tst(mContext, "��������");
+//		}
 	}
 }
