@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.model.Sms;
+import com.tleaf.lifelog.util.Util;
 
 
 public class SmsListAdapter extends BaseAdapter {
@@ -54,7 +55,7 @@ public class SmsListAdapter extends BaseAdapter {
 
 //		Log.e("salebookno", ""+mArr.get(position).getSaleBookNo());
 		txt_sms_address.setText(mArr.get(position).getAddress());
-		txt_sms_date.setText(""+mArr.get(position).getDate());
+		txt_sms_date.setText(Util.formatLongTime(mArr.get(position).getDate()));
 		txt_sms_body.setText(mArr.get(position).getBody());
 		return convertView;
 	}

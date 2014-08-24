@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.model.Call;
+import com.tleaf.lifelog.util.Util;
 
 
 public class CallListAdapter extends BaseAdapter {
@@ -60,7 +61,7 @@ public class CallListAdapter extends BaseAdapter {
 		txt_call_name.setText(mArr.get(position).getName());
 		txt_call_number.setText(mArr.get(position).getNumber());
 		txt_call_type.setText(mArr.get(position).getType());
-		txt_call_date.setText(""+mArr.get(position).getDate());
+		txt_call_date.setText(Util.formatLongTime(mArr.get(position).getDate()));
 		txt_call_duration.setText(""+mArr.get(position).getDuration());
 		
 

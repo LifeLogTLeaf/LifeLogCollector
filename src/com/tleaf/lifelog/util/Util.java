@@ -11,7 +11,16 @@ public class Util {
 	private final static String SEND ="발신";
 	
 	private final static String TAG = "UTIL";
+	
+	public static String formatLongTime(Long time) {
+        Date date = new Date(time);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentDate = dateFormat.format(date);
+        return currentDate;
+	}
 
+	
+	
 	/*public static long getCurrentTime() {
 		long now = System.currentTimeMillis();
         Date date = new Date(now);
