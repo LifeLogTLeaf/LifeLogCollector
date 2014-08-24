@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.model.Photo;
 import com.tleaf.lifelog.network.CouchDBConnector;
+import com.tleaf.lifelog.network.CouchDBTask;
 import com.tleaf.lifelog.util.PhotoAction;
 import com.tleaf.lifelog.util.adapter.PhotoListAdapter;
 
@@ -88,6 +89,7 @@ public class PhotoActivity extends Activity {
 //		couchDBTask.execute(lifeLog);
 	}
 
+
 	public String getPathFromUri(Uri uri) {
 
 		Cursor cursor = getContentResolver().query(uri, null, null, null, null);
@@ -99,8 +101,9 @@ public class PhotoActivity extends Activity {
 	}
 
 	public void onClick(View view) {
-
-		dbConnecnt();
+		// 2014.08.21 by Young
+		// 네트워크 모듈을 위헤서 주석처림했음.
+		//dbConnecnt();
 
 	}
 

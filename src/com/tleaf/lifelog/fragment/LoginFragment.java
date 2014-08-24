@@ -26,13 +26,9 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
 import com.tleaf.lifelog.R;
-import com.tleaf.lifelog.model.FacebookUserInfor;
-import com.tleaf.lifelog.model.UserInfor;
-import com.tleaf.lifelog.network.CouchDBConnector;
+import com.tleaf.lifelog.model.FacebookUserInfo;
+import com.tleaf.lifelog.model.UserInfo;
 import com.tleaf.lifelog.util.Mylog;
-
-
-
 
 public class LoginFragment extends Fragment implements StatusCallback {
 	private static final String TAG = "LOGIN FRAGMENT";
@@ -70,7 +66,7 @@ public class LoginFragment extends Fragment implements StatusCallback {
 		facebook_login_btn.setReadPermissions(mPermissionList);
 		// facebook_login_btn.setReadPermissions(Arrays.asList("user_likes",
 		// "user_status", "read_stream"));
-		
+
 		return rootView;
 	}
 
@@ -144,59 +140,65 @@ public class LoginFragment extends Fragment implements StatusCallback {
 	 */
 	private void sendUserDataToServer(final Session session) {
 		// 그래프 API를 사용해서 호출할때 쓰는 소스코드
-		if(session == null ) return;
-		
-		//새로운 도큐먼트 생성이 아니라 업데이트로 가기 때문에
-		//여기서 먼저 디비에서 .userInfor라는 데이터를 가져와서 rev 값을 읽어온다
-		//그리고 이 rev값을 이용해서 업데이트를 진행한다. 추후
-		final UserInfor userInfor = new UserInfor();
-		
-		RequestAsyncTask reqeust2 = new Request(
-				session, 
-				"/me", 
-				null,
+		if (session == null)
+			return;
+
+		// 새로운 도큐먼트 생성이 아니라 업데이트로 가기 때문에
+		// 여기서 먼저 디비에서 .UserInfor라는 데이터를 가져와서 rev 값을 읽어온다
+		// 그리고 이 rev값을 이용해서 업데이트를 진행한다. 추후
+		final UserInfo UserInfo = new UserInfo();
+
+		RequestAsyncTask reqeust2 = new Request(session, "/me", null,
 				HttpMethod.GET, new Request.Callback() {
 					public void onCompleted(Response response) {
 						/* handle the result */
 						Mylog.i(TAG, response.getRawResponse());
-						FacebookUserInfor facebookUserInfor = new FacebookUserInfor();
-						// access Token 저장 
-						facebookUserInfor.setFacebookAccesskey(session.getAccessToken());
-						// facebook id 저장 
-						facebookUserInfor.setFacebookId(session.getApplicationId());
+						FacebookUserInfo FacebookUserInfo = new FacebookUserInfo();
+						// access Token 저장
+						FacebookUserInfo.setFacebookAccesskey(session
+								.getAccessToken());
+						// facebook id 저장
+						FacebookUserInfo.setFacebookId(session
+								.getApplicationId());
 						// facebook permission 저장
-						//userInfor.setFacebookPermission(session.getPermissions());
-						userInfor.setUserFacebookUserInfor(facebookUserInfor);
-						
+						// UserInfor.setFacebookPermission(session.getPermissions());
+						UserInfo.setUserFacebookUserInfo(FacebookUserInfo);
+
 						try {
-							JSONObject json = new JSONObject(response.getRawResponse());
-							userInfor.setGender(json.getString("gender"));
-							userInfor.setUserName(json.getString("name"));
-							CouchDBConnector couchTask = new CouchDBConnector("young", "post", "userinsert");
-//							couchTask.execute(userInfor);
+							JSONObject json = new JSONObject(response
+									.getRawResponse());
+							UserInfo.setGender(json.getString("gender"));
+							UserInfo.setUserName(json.getString("name"));
+							
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						
-						//UI쓰레드에서 메인프래그먼트를 실행하게 해준다.
+
+						// UI쓰레드에서 메인프래그먼트를 실행하게 해준다.
 						getActivity().runOnUiThread(new Runnable() {
-	                        @Override
-	                        public void run() {
-	                    		Mylog.i(TAG, "replace to MAIN FRAGMENT...");
-	                    		//FragmentTransaction ft = mFragmentManager.beginTransaction();
-	                    		//MainFragment mainFragment = new MainFragment(mFragmentManager);
-	                    		//ft.replace(R.id.fragment_container, mainFragment);
-	                    		//ft.commit();
-	                    		FragmentTransaction ft = mFragmentManager.beginTransaction();
-	                    		MainFragment mainFragment = new MainFragment(mFragmentManager);
-	                    		ft.replace(R.id.fragment_container, mainFragment);
-	                    		ft.commit();
-	                        }
-	                    });
+							@Override
+							public void run() {
+								Mylog.i(TAG, "replace to MAIN FRAGMENT...");
+								// FragmentTransaction ft =
+								// mFragmentManager.beginTransaction();
+								// MainFragment mainFragment = new
+								// MainFragment(mFragmentManager);
+								// ft.replace(R.id.fragment_container,
+								// mainFragment);
+								// ft.commit();
+								FragmentTransaction ft = mFragmentManager
+										.beginTransaction();
+								MainFragment mainFragment = new MainFragment(
+										mFragmentManager);
+								ft.replace(R.id.fragment_container,
+										mainFragment);
+								ft.commit();
+							}
+						});
 					}
 				}).executeAsync();
-		
+
 	}
 
 }

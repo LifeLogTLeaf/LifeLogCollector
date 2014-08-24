@@ -2,7 +2,7 @@ package com.tleaf.lifelog.model;
 
 import java.util.ArrayList;
 
-public class FacebookUserInfor{
+public class FacebookUserInfo{
 	private String facebookId;
 	private String facebookAccesskey;
 	private String facebookLastpostDate;

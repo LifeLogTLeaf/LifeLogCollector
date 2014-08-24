@@ -1,4 +1,4 @@
-package com.tleaf.lifelog.fragment;
+﻿package com.tleaf.lifelog.fragment;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,8 @@ import com.tleaf.lifelog.listAdapter.SmsListAdapter;
 import com.tleaf.lifelog.model.Sms;
 import com.tleaf.lifelog.pkg.FragmentListener;
 import com.tleaf.lifelog.util.Util;
-public class SmsFragment extends Fragment { 
+
+public class SmsFragment extends Fragment {
 
 	private Context mContext;
 	private ArrayList<Sms> arItem = null;
@@ -35,24 +36,24 @@ public class SmsFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		mContext = activity;
-		fListener = (FragmentListener)activity;
+		fListener = (FragmentListener) activity;
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_list, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_list, container,
+				false);
 		Log.e("first onCreateView", "");
 
 		dataManager = new DataManager(mContext);
 		arItem = new ArrayList<Sms>();
-		//서버에서 받아오기
-		//arItem = dataManager.getSmsList();
-		
-		for(int i=0; i<30; i++)
+		// 서버에서 받아오기
+		// arItem = dataManager.getSmsList();
+
+		for (int i = 0; i < 30; i++)
 			arItem.add(new Sms("최슬기", 20140819, "메시지"));
-		
-		
+
 		mAdapter = new SmsListAdapter(mContext, R.layout.item_sms, arItem);
 
 		lv = (ListView) rootView.findViewById(R.id.list);
@@ -65,7 +66,8 @@ public class SmsFragment extends Fragment {
 	private AdapterView.OnItemLongClickListener mItemLongClickListener = new AdapterView.OnItemLongClickListener() {
 
 		@Override
-		public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+		public boolean onItemLongClick(AdapterView<?> parent, View view,
+				int position, long id) {
 			registerForContextMenu(view);
 			pos = position;
 			return false;
@@ -73,7 +75,7 @@ public class SmsFragment extends Fragment {
 
 	};
 
-	public void onCreateContextMenu(android.view.ContextMenu menu, View v, 
+	public void onCreateContextMenu(android.view.ContextMenu menu, View v,
 			android.view.ContextMenu.ContextMenuInfo menuInfo) {
 		menu.add(0, 1, 0, "삭제하기");
 		menu.add(0, 2, 0, "지도보기");
@@ -87,22 +89,23 @@ public class SmsFragment extends Fragment {
 			pos = -1;
 			break;
 		case 2:
-//			Intent intent = new Intent(mContext, MapActivity.class);
-//			Log.e("arItem.get(pos).isbn", ""+arItem.get(pos).getDealLocation());
-//			intent.putExtra("location", arItem.get(pos).getDealLocation());
-//			startActivity(intent);
+			// Intent intent = new Intent(mContext, MapActivity.class);
+			// Log.e("arItem.get(pos).isbn",
+			// ""+arItem.get(pos).getDealLocation());
+			// intent.putExtra("location", arItem.get(pos).getDealLocation());
+			// startActivity(intent);
 		}
 		return true;
 	}
 
 	private void deleteItem(int position) {
-//		if (dataManager.deleteSms(arItem.get(pos).getIsbn())) {
-//			arItem.remove(position);
-//			lv.clearChoices();
-//			mAdapter.notifyDataSetChanged();
-//			utill.tst(mContext, "�����Ϸ�");
-//		} else {
-//			utill.tst(mContext, "��������");
-//		}
+		// if (dataManager.deleteSms(arItem.get(pos).getIsbn())) {
+		// arItem.remove(position);
+		// lv.clearChoices();
+		// mAdapter.notifyDataSetChanged();
+		// utill.tst(mContext, "�����Ϸ�");
+		// } else {
+		// utill.tst(mContext, "��������");
+		//
 	}
 }

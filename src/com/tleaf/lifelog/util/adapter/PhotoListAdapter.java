@@ -1,4 +1,4 @@
-package com.tleaf.lifelog.util.adapter;
+﻿package com.tleaf.lifelog.util.adapter;
 
 import java.util.ArrayList;
 
@@ -62,6 +62,4 @@ public class PhotoListAdapter extends BaseAdapter{
 	public String getItem(int position) {
 		return arrFileList.get(position).getImgPath();
 	}
-
-
 }
