@@ -1,6 +1,5 @@
 package com.tleaf.lifelog.activity;
 
-
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.content.Intent;
@@ -12,6 +11,8 @@ import android.view.View;
 import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.pkg.FragmentListener;
 import com.tleaf.lifelog.pkg.PagerAdapter;
+
+
 
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener, FragmentListener {
@@ -51,7 +52,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
         // When the given tab is selected, switch to the corresponding page in the ViewPager.
         mViewPager.setCurrentItem(tab.getPosition());
-
 	}
 
 	@Override

@@ -9,7 +9,7 @@ import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.model.Bookmark;
 import com.tleaf.lifelog.network.CouchDBLiteConnector;
 
-/**
+/**O
  * Created by jangyoungjin on 8/10/14.
  */
 public class BookmarkShareActivity extends Activity {
