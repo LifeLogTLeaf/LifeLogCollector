@@ -5,30 +5,45 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.provider.Telephony.Sms;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.db.DataManager;
+import com.tleaf.lifelog.listAdapter.PhotoListAdapter;
 import com.tleaf.lifelog.listAdapter.SmsListAdapter;
+import com.tleaf.lifelog.model.Photo;
 import com.tleaf.lifelog.pkg.FragmentListener;
+import com.tleaf.lifelog.util.PhotoAction;
+import com.tleaf.lifelog.util.PhotoStorage;
 public class PictureFragment extends Fragment { 
 
 	private Context mContext;
-	private ArrayList<Sms> arItem = null;
-	private ListView lv;
 	private SmsListAdapter mAdapter = null;
 	private DataManager dataManager;
 	private int pos = -1;
 
 	private FragmentListener fListener;
+	
+	
+	
+	ImageView imgView;
+	TextView txtView;
+	ListView listView;
+	PhotoListAdapter arrAdapter;
+	ArrayList<String> arrList;
+
+	ImageView img;
+	PhotoAction shareAction;
+	View rootView;
+	ArrayList<Photo> arrFileList;
+	PhotoStorage photoStorage;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -40,63 +55,29 @@ public class PictureFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_list, container, false);
+		rootView = inflater.inflate(R.layout.activity_photo, container, false);
 		Log.e("first onCreateView", "");
+		
+//		startService(new Intent("com.tleaf.lifelog.service.UploaderService"));
+		initWidget();
+//		 업로드 되지 않은 파일 목록을 표시하는 과정
+		photoStorage = new PhotoStorage(mContext);
+		arrFileList = photoStorage.getImagesInfo();
 
-		dataManager = new DataManager(mContext);
-		arItem = new ArrayList<Sms>();
-		//서버에서 받아오기
-		//arItem = dataManager.getSmsList(); 		
-//		mAdapter = new SmsListAdapter(mContext, R.layout.item_sms, arItem);
+		arrAdapter = new PhotoListAdapter(mContext,
+				R.layout.layout_photo_preview, arrFileList);
 
-		lv = (ListView) rootView.findViewById(R.id.list);
-		lv.setAdapter(mAdapter);
-		lv.setOnItemLongClickListener(mItemLongClickListener);
+		listView.setAdapter(arrAdapter);
+
 
 		return rootView;
 	}
-
-	private AdapterView.OnItemLongClickListener mItemLongClickListener = new AdapterView.OnItemLongClickListener() {
-
-		@Override
-		public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-			registerForContextMenu(view);
-			pos = position;
-			return false;
-		}
-
-	};
-
-	public void onCreateContextMenu(android.view.ContextMenu menu, View v, 
-			android.view.ContextMenu.ContextMenuInfo menuInfo) {
-		menu.add(0, 1, 0, "삭제하기");
-		menu.add(0, 2, 0, "지도보기");
+	
+	void initWidget() {
+		imgView = (ImageView) rootView.findViewById(R.id.img);
+		txtView = (TextView) rootView.findViewById(R.id.txtFileName);
+		listView = (ListView) rootView.findViewById(R.id.list);
 	}
 
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case 1:
-			deleteItem(pos);
-			pos = -1;
-			break;
-		case 2:
-//			Intent intent = new Intent(mContext, MapActivity.class);
-//			Log.e("arItem.get(pos).isbn", ""+arItem.get(pos).getDealLocation());
-//			intent.putExtra("location", arItem.get(pos).getDealLocation());
-//			startActivity(intent);
-		}
-		return true;
-	}
 
-	private void deleteItem(int position) {
-//		if (dataManager.deleteSms(arItem.get(pos).getIsbn())) {
-//			arItem.remove(position);
-//			lv.clearChoices();
-//			mAdapter.notifyDataSetChanged();
-//			utill.tst(mContext, "�����Ϸ�");
-//		} else {
-//			utill.tst(mContext, "��������");
-//		}
-	}
 }

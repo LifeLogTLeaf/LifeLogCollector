@@ -19,7 +19,6 @@ import com.tleaf.lifelog.db.DataManager;
 import com.tleaf.lifelog.listAdapter.CallListAdapter;
 import com.tleaf.lifelog.model.Call;
 import com.tleaf.lifelog.pkg.FragmentListener;
-import com.tleaf.lifelog.util.Util;
 public class CallFragment extends Fragment { 
 
 	private Context mContext;

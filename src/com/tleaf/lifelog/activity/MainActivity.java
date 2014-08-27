@@ -3,7 +3,6 @@ package com.tleaf.lifelog.activity;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.content.Intent;
@@ -23,9 +22,7 @@ import com.tleaf.lifelog.network.OnDataListener;
 import com.tleaf.lifelog.pkg.FragmentListener;
 import com.tleaf.lifelog.pkg.PagerAdapter;
 
-public class MainActivity extends FragmentActivity implements
-		ActionBar.TabListener, FragmentListener, OnDataListener {
-
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener, FragmentListener, OnDataListener {
 
 	static public PagerAdapter mPagerAdapter;
 	static public ViewPager mViewPager;
@@ -39,22 +36,18 @@ public class MainActivity extends FragmentActivity implements
 		// 따로 init 메소드로 보내서 설정하게 했습니다.
 		init();
 	}
-	
-	
-	
+
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 	}
 
-
-
 	/* 2014.08.20 by young 메인액티비티에서 필요한 부분을 초기화시켜주는 메소드입니다. */
-	private void init(){
+	private void init() {
 		mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
 		final ActionBar actionBar = getActionBar();
-		
+
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -76,8 +69,9 @@ public class MainActivity extends FragmentActivity implements
 
 	@Override
 	public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
-        // When the given tab is selected, switch to the corresponding page in the ViewPager.
-        mViewPager.setCurrentItem(tab.getPosition());
+		// When the given tab is selected, switch to the corresponding page in
+		// the ViewPager.
+		mViewPager.setCurrentItem(tab.getPosition());
 		// When the given tab is selected, switch to the corresponding page in
 		// the ViewPager.
 	}
@@ -95,7 +89,7 @@ public class MainActivity extends FragmentActivity implements
 	}
 
 	/**
-	 *	메인 액티비티에서 발생하는 버튼 터치에 대한 이벤트 리스너 입니다. 
+	 * 메인 액티비티에서 발생하는 버튼 터치에 대한 이벤트 리스너 입니다.
 	 */
 	public void onClick(View v) {
 		if (v.getId() == R.id.btn_photo) {
@@ -145,6 +139,6 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	public void onSendData(String data) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

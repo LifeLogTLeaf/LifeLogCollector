@@ -25,7 +25,8 @@ import com.tleaf.lifelog.util.Mylog;
 
 /**
  * Created by jangyoungjin on 8/1/14. 카우치 데이터베이스에 직접적으로 접속해서 데이터를 저장하는 쓰레드
- * 클래스입니다.
+ * 클래스입니다. 현재 사진위주의 데이터 저장에 사용됩니다. 만약, lite 디비에 값 저장이 되고, 사진만 따로 복제가 가능하다면 그렇게
+ * 하는것이 좋을것 같다
  */
 public class CouchDBConnector extends
 		AsyncTask<ArrayList<? extends Lifelog>, Void, String> {
@@ -112,20 +113,29 @@ public class CouchDBConnector extends
 				System.out.println(data[0].size() + " 중에 " + (i + 1) + "개 작업중");
 				Photo photo = (Photo) data[0].get(i);
 				String filePath = photo.getImgPath();
+				try{
 				if (filePath != null) {
+					System.out.println(photo.getFileName());
 					AttachmentInputStream attInput = addAttachmentStream(photo);
-					db.createAttachment(photo.getFileName(), attInput);//이것으로 바로 전송 
+					// 이것으로 바로 전송
+					db.createAttachment(photo.getFileName(), attInput);
+				}
+				}catch(Exception e){
+					//사진 전송에 실패했을 경우.
+					//통상적으로 이미 사진이 업로드 되어있을떄 생기거나, out Of Memory일 가능성이 매우 높다
+					e.getStackTrace();
 				}
 				// 사진작업 끝
 			}
 			if (http_method.equals("post")) {
-				result = requestPost(db, data[0].get(0));
+//				result = requestPost(db, data[0].get(0));
 			} else if (http_method.equals("get")) {
 
 			}
 
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			e.getStackTrace();
+			return "false";
 		}
 
 		if (result) {
