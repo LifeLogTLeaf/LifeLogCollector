@@ -35,7 +35,7 @@ public class BookMarkFragment extends Fragment implements OnDataListener {
 	private static final String TAG = "북마크 프래그먼트";
 	private Context mContext;
 	private BookMarkFragment fragment;
-	private String DbName = "jin";
+	private String DBNAME = "jin";
 	private EditText get_edittext;
 
 	@Override
@@ -59,7 +59,7 @@ public class BookMarkFragment extends Fragment implements OnDataListener {
 						// TODO Auto-generated method stub
 						DbConnector db = new DbConnector(fragment, mContext
 								.getApplicationContext());
-						db.postData(DbName, "signup");
+						db.startReplication(DBNAME);
 					}
 				});
 
@@ -80,7 +80,7 @@ public class BookMarkFragment extends Fragment implements OnDataListener {
 						getLifelog();
 					}
 				});
-		
+
 		get_edittext = (EditText) rootView.findViewById(R.id.get_edittext);
 
 		return rootView;
@@ -97,7 +97,7 @@ public class BookMarkFragment extends Fragment implements OnDataListener {
 			bookmark.setTitle("짜장면");
 			bookmark.setType("bookmark");
 			bookmark.setUrl("www.korea.com");
-			db.postData(DbName, bookmark);
+			db.postData(DBNAME, bookmark);
 			break;
 		case 1:
 			Sms sms = new Sms();
@@ -105,14 +105,14 @@ public class BookMarkFragment extends Fragment implements OnDataListener {
 			sms.setAddress("01031107800");
 			sms.setBody("안녕 나는 김연아야 사랑해");
 			sms.setDate(System.currentTimeMillis());
-			db.postData(DbName, sms);
+			db.postData(DBNAME, sms);
 			break;
 		case 2:
 			Photo photo = new Photo();
 			photo.setType("photo");
 			photo.setFileName("화끈한이미지");
 			photo.setImgPath("c/file");
-			db.postData(DbName, photo);
+			db.postData(DBNAME, photo);
 			break;
 		case 3:
 			Call call = new Call();
@@ -120,14 +120,14 @@ public class BookMarkFragment extends Fragment implements OnDataListener {
 			call.setDate("오늘");
 			call.setNumber("01031107800");
 			call.setName("오카미사");
-			db.postData(DbName, call);
+			db.postData(DBNAME, call);
 			break;
 		case 4:
 			Location location = new Location();
 			location.setType("location");
 			location.setLatitude(127);
 			location.setLongitude(37);
-			db.postData(DbName, location);
+			db.postData(DBNAME, location);
 
 			break;
 		}
@@ -135,7 +135,7 @@ public class BookMarkFragment extends Fragment implements OnDataListener {
 
 	public void getLifelog() {
 		DbConnector db = new DbConnector(this, mContext.getApplicationContext());
-		db.getData(DbName, get_edittext.getText().toString());
+		db.getData(DBNAME, get_edittext.getText().toString());
 	}
 
 	@Override
@@ -145,12 +145,11 @@ public class BookMarkFragment extends Fragment implements OnDataListener {
 		// Mylog.i(TAG, data);
 		try {
 			JSONObject jsonObject = new JSONObject(data);
-			Mylog.i(TAG, "version : " + jsonObject.getString("count"));
-			Mylog.i(TAG, "count : " + jsonObject.getString("version"));
+			Mylog.i(TAG, "version : " + jsonObject.getString("version"));
+			Mylog.i(TAG, "count : " + jsonObject.getString("count"));
 			JSONArray jsonArray = jsonObject.getJSONArray("data");
 			List<Lifelog> list = new ArrayList<Lifelog>();
 			for (int i = 0; i < jsonArray.length(); i++) {
-
 				list.add(gson.fromJson(jsonArray.getString(i), Bookmark.class));
 			}
 

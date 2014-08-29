@@ -4,25 +4,14 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore.Images;
-import android.provider.MediaStore.Images.Thumbnails;
-import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.listAdapter.PhotoListAdapter;
 import com.tleaf.lifelog.model.Photo;
-import com.tleaf.lifelog.network.CouchDBConnector;
-import com.tleaf.lifelog.network.CouchDBTask;
-import com.tleaf.lifelog.util.Mylog;
 import com.tleaf.lifelog.util.PhotoAction;
 import com.tleaf.lifelog.util.PhotoStorage;
 

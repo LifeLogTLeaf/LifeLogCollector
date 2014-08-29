@@ -36,18 +36,22 @@ public class CouchDBLiteTask implements DbAccessInterface {
 	private ClassLoader classLoader;
 	private Context context;
 	private OnDataListener listener;
+	private String requestMethod, dbName, requestUrl;
 
 	/**
 	 * 2014.08.18 by young 생성자
 	 */
-	public CouchDBLiteTask(Context context, OnDataListener onDataListener) {
-		this.context = context;
-		this.listener = onDataListener;
+	public CouchDBLiteTask() {
+
+	}
+
+	public void setClassloader() {
 		// 클래스 로더를 메인 액티비티것을 사용해줘야 하느데 이 부분은 잘 모르겠다..
 		// 해결해야할 아주 중요한 부분이다.
 		classLoader = context.getClassLoader();
 		Thread.currentThread().setContextClassLoader(classLoader);
-		Mylog.i(TAG, "[현재 쓰레드의 클래스로더] " + Thread.currentThread().getContextClassLoader().toString());
+		Mylog.i(TAG, "[현재 쓰레드의 클래스로더] "
+				+ Thread.currentThread().getContextClassLoader().toString());
 
 	}
 
@@ -62,11 +66,17 @@ public class CouchDBLiteTask implements DbAccessInterface {
 		// TODO Auto-generated method stub
 		Mylog.i(TAG, "데이터 삽입중... ");
 		Dbtask dbtask = new Dbtask();
-		if (option != null) {
-			dbtask.setMethod(option.getType());
-			dbtask.setDbName(option.getDbName());
+		context = option.getContext();
+		listener = option.getListener();
+		dbName = option.getDbName();
+		requestMethod = option.getRequestMethod();
+		setClassloader();
+		
+		if(option.getRequestMethod().equals("post")){
+			dbtask.execute(lifelog);
+		}else if(option.getRequestMethod().equals("replication")){
+			dbtask.execute();
 		}
-		dbtask.execute(lifelog);
 	}
 
 	/**
@@ -76,29 +86,20 @@ public class CouchDBLiteTask implements DbAccessInterface {
 	private class Dbtask extends android.os.AsyncTask<Lifelog, Void, String>
 			implements ChangeListener {
 		private Manager mManger; // The Manager is used later to access database
-		private String method, dbName;
-
-		public void setMethod(String method) {
-			this.method = method;
-		}
-
-		public void setDbName(String dbName) {
-			this.dbName = dbName;
-		}
 
 		@Override
 		protected String doInBackground(Lifelog... data) {
 			// TODO Auto-generated method stub
 			String result = null;
 			init();
-			switch (method) {
+			switch (requestMethod) {
 			case "post":
 				result = createDocument(data[0]);
 				break;
 			case "get":
 
 				break;
-			case "signup":
+			case "replication":
 				result = startReplication();
 				break;
 			}
