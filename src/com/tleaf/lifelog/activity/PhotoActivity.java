@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tleaf.lifelog.R;
+import com.tleaf.lifelog.listAdapter.PhotoListAdapter;
 import com.tleaf.lifelog.model.Photo;
 import com.tleaf.lifelog.network.CouchDBConnector;
 import com.tleaf.lifelog.util.PhotoAction;
