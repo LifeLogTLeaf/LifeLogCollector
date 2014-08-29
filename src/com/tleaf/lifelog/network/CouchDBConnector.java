@@ -13,11 +13,9 @@ import org.ektorp.CouchDbInstance;
 import org.ektorp.android.http.AndroidHttpClient;
 import org.ektorp.http.HttpClient;
 import org.ektorp.impl.StdCouchDbInstance;
-import org.mozilla.javascript.ast.ArrayLiteral;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import com.tleaf.lifelog.model.Lifelog;
 import com.tleaf.lifelog.model.Photo;
@@ -99,9 +97,11 @@ public class CouchDBConnector extends
 		return attInput;
 	}
 
+	// <? extends Lifelog>란 lifelog를 상속받는 모델을 모두 허용한다는 것들이다
 	@Override
 	protected String doInBackground(ArrayList<? extends Lifelog>... data) {
 		boolean result = false;
+		ArrayList<? extends Lifelog> arrFileList = data[0];
 		try {
 			HttpClient client = new AndroidHttpClient.Builder().url(URL)
 					.username(USER_NAME).password(USER_PASSWORD).build();
@@ -109,26 +109,32 @@ public class CouchDBConnector extends
 			CouchDbInstance dbInstance = new StdCouchDbInstance(client);
 			CouchDbConnector db = dbInstance.createConnector(db_name, true);
 			// 사진에 대한 작업인지 확인하기 위한 작업, 리펙토링 해야
-			for (int i = 0; i < data[0].size(); i++) {
-				System.out.println(data[0].size() + " 중에 " + (i + 1) + "개 작업중");
-				Photo photo = (Photo) data[0].get(i);
+			int listSize = arrFileList.size();
+			int processCnt = 0;
+			while (!arrFileList.isEmpty()) {
+				int numZero=0;
+				arrFileList.remove(numZero);
+				processCnt++;
+				System.out.println(listSize + " 중에 " + processCnt + "개 작업중");
+				
+				Photo photo = (Photo) arrFileList.get(numZero);
 				String filePath = photo.getImgPath();
-				try{
-				if (filePath != null) {
-					System.out.println(photo.getFileName());
-					AttachmentInputStream attInput = addAttachmentStream(photo);
-					// 이것으로 바로 전송
-					db.createAttachment(photo.getFileName(), attInput);
-				}
-				}catch(Exception e){
-					//사진 전송에 실패했을 경우.
-					//통상적으로 이미 사진이 업로드 되어있을떄 생기거나, out Of Memory일 가능성이 매우 높다
+				try {
+					if (filePath != null) {
+						System.out.println(photo.getFileName());
+						AttachmentInputStream attInput = addAttachmentStream(photo);
+						// 이것으로 바로 전송
+						db.createAttachment(photo.getFileName(), attInput);
+					}
+				} catch (Exception e) {
+					// 사진 전송에 실패했을 경우.
+					// 통상적으로 이미 사진이 업로드 되어있을떄 생기거나, out Of Memory일 가능성이 매우 높다
 					e.getStackTrace();
 				}
 				// 사진작업 끝
 			}
 			if (http_method.equals("post")) {
-//				result = requestPost(db, data[0].get(0));
+				// result = requestPost(db, data[0].get(0));
 			} else if (http_method.equals("get")) {
 
 			}

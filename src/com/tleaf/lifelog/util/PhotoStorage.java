@@ -44,21 +44,23 @@ public class PhotoStorage {
 						.getColumnIndex(Images.ImageColumns.DATE_TAKEN));
 
 				// 업로드 된 시간보다 이전의 파일이라면 더이상 탐색하지 않고 스킵한다
-				while (Long.parseLong(FINAL_DATE) > Long.parseLong(date_taken)) {
-					//스킵 중에 디렉토리의 마지막까지 왔다면 종료
-					if (mManagedCursor.isLast()) {
-						break;
-					}
-					//아니라면 계속해서 뒤로 넘기면서 값을 확인
-					else {
-						mManagedCursor.moveToNext();
-						// 촬영날짜. 1/1000초 단위
-						date_taken = mManagedCursor
-								.getString(mManagedCursor
-										.getColumnIndex(Images.ImageColumns.DATE_TAKEN));
-					}
-				}
-				
+//				while (Long.parseLong(FINAL_DATE) > Long.parseLong(date_taken)) {
+//					System.out.println(Long.parseLong(FINAL_DATE)-Long.parseLong(date_taken));
+//					//스킵 중에 디렉토리의 마지막까지 왔다면 종료
+//					if (mManagedCursor.isLast()) {
+//						System.out.println("break");
+//						break;
+//					}
+//					//아니라면 계속해서 뒤로 넘기면서 값을 확인
+//					else {
+//						
+//						mManagedCursor.moveToNext();
+//						// 촬영날짜. 1/1000초 단위
+//						date_taken = mManagedCursor
+//								.getString(mManagedCursor
+//										.getColumnIndex(Images.ImageColumns.DATE_TAKEN));
+//					}
+//				}
 
 				String mini_thumb_magic = mManagedCursor
 						.getString(mManagedCursor
@@ -137,16 +139,17 @@ public class PhotoStorage {
 				// 초단위
 
 				// 업데이트된 시간보다 이후의 파일이라면 업데이트 목록에 올림
-
 				if (Long.parseLong(FINAL_DATE) < Long.parseLong(date_taken)) {
-					recentDate = date_taken;
-					Log.i("system", data);
+					if (Long.parseLong(recentDate) < Long.parseLong(date_taken)) {
+						recentDate = date_taken;
+					}
+					
 
 					// BitmapFactory.Options opt = new BitmapFactory.Options();
 					// opt.inSampleSize = 4;
 					// Bitmap bm = BitmapFactory.decodeFile(data, opt);
 					Photo photoData = new Photo();
-					photoData.setFileName(title + ", " + date_taken);
+					photoData.setFileName(title);
 					photoData.setImgPath(data);
 					arrFileList.add(photoData);
 
@@ -171,7 +174,7 @@ public class PhotoStorage {
 		}
 
 		if (Long.parseLong(FINAL_DATE) < Long.parseLong(recentDate)) {
-			System.out.println("최종시간 변경 : " + FINAL_DATE);
+			Mylog.i("photo","최종시간 변경 : " + recentDate);
 			FINAL_DATE = recentDate;
 		}
 		mManagedCursor.close();

@@ -27,17 +27,17 @@ import com.tleaf.lifelog.util.PhotoAction;
 import com.tleaf.lifelog.util.PhotoStorage;
 
 public class PhotoActivity extends Activity {
-	ImageView imgView;
-	TextView txtView;
-	ListView listView;
-	PhotoListAdapter arrAdapter;
-	ArrayList<String> arrList;
+	private ImageView imgView;
+	private TextView txtView;
+	private ListView listView;
+	private PhotoListAdapter arrAdapter;
+	private ArrayList<String> arrList;
 
-	ImageView img;
-	PhotoAction shareAction;
+	private ImageView img;
+	private PhotoAction shareAction;
 
-	ArrayList<Photo> arrFileList;
-	PhotoStorage photoStorage;
+	private ArrayList<Photo> arrFileList;
+	private PhotoStorage photoStorage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +51,9 @@ public class PhotoActivity extends Activity {
 			imgView.setImageURI(shareAction.getImgUri());
 
 		} else {
-//			startService(new Intent("com.tleaf.lifelog.service.UploaderService"));
+			startService(new Intent("com.tleaf.lifelog.service.UploaderService"));
 			initWidget();
-//			 업로드 되지 않은 파일 목록을 표시하는 과정
+			// 업로드 되지 않은 파일 목록을 표시하는 과정
 			photoStorage = new PhotoStorage(getApplication());
 			arrFileList = photoStorage.getImagesInfo();
 

@@ -88,15 +88,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 	}
 
-	/**
-	 * 메인 액티비티에서 발생하는 버튼 터치에 대한 이벤트 리스너 입니다.
-	 */
-	public void onClick(View v) {
-		if (v.getId() == R.id.btn_photo) {
-			Intent intent = new Intent(this, PhotoActivity.class);
-			startActivity(intent);
-		}
-	}
+
 
 	/* 2014.08.20 슬기가 주석처리한 부분. */
 	// @Override public void onTabUnselected(ActionBar.Tab tab,

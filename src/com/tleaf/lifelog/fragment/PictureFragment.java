@@ -3,7 +3,11 @@
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -20,6 +24,7 @@ import com.tleaf.lifelog.listAdapter.PhotoListAdapter;
 import com.tleaf.lifelog.listAdapter.SmsListAdapter;
 import com.tleaf.lifelog.model.Photo;
 import com.tleaf.lifelog.pkg.FragmentListener;
+import com.tleaf.lifelog.util.NotiAlert;
 import com.tleaf.lifelog.util.PhotoAction;
 import com.tleaf.lifelog.util.PhotoStorage;
 public class PictureFragment extends Fragment { 
@@ -30,8 +35,6 @@ public class PictureFragment extends Fragment {
 	private int pos = -1;
 
 	private FragmentListener fListener;
-	
-	
 	
 	ImageView imgView;
 	TextView txtView;
@@ -58,7 +61,7 @@ public class PictureFragment extends Fragment {
 		rootView = inflater.inflate(R.layout.activity_photo, container, false);
 		Log.e("first onCreateView", "");
 		
-//		startService(new Intent("com.tleaf.lifelog.service.UploaderService"));
+		mContext.startService(new Intent("com.tleaf.lifelog.service.UploaderService"));
 		initWidget();
 //		 업로드 되지 않은 파일 목록을 표시하는 과정
 		photoStorage = new PhotoStorage(mContext);
@@ -78,6 +81,8 @@ public class PictureFragment extends Fragment {
 		txtView = (TextView) rootView.findViewById(R.id.txtFileName);
 		listView = (ListView) rootView.findViewById(R.id.list);
 	}
+
+
 
 
 }

@@ -48,7 +48,7 @@ public class PhotoListAdapter extends BaseAdapter{
 		String imgPath=arrFileList.get(pos).getImgPath();
 		BitmapFactory.Options opt = new BitmapFactory.Options();
 		//이것으로 이미지 사이즈를 조정하나?? 알아봐야겠다
-        opt.inSampleSize = 1;
+        opt.inSampleSize = 64;
         Bitmap bm = BitmapFactory.decodeFile(imgPath, opt);
 		profile.setImageBitmap(bm);
 		

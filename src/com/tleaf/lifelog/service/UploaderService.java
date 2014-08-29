@@ -2,6 +2,9 @@ package com.tleaf.lifelog.service;
 
 import java.util.ArrayList;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -16,17 +19,23 @@ import com.tleaf.lifelog.network.CouchDBLiteTask;
 import com.tleaf.lifelog.network.WiFiListener;
 import com.tleaf.lifelog.network.WiFiListener.OnChangeNetworkStatusListener;
 import com.tleaf.lifelog.util.Mylog;
+import com.tleaf.lifelog.util.NotiAlert;
 import com.tleaf.lifelog.util.PhotoStorage;
-/**이곳은 서비스 클래스가 돌아간다
- * 서비스클래스의 생명주기는 onCreate -> onStartCommand
- * -> (running) -> stopService -> onDestroy 이다 
- * 기존에 onStart도 있었지만, 구글에서 지양하고 있다.
+
+/**
+ * 이곳은 서비스 클래스가 돌아간다 서비스클래스의 생명주기는 onCreate -> onStartCommand -> (running) ->
+ * stopService -> onDestroy 이다 기존에 onStart도 있었지만, 구글에서 지양하고 있다.
  * 
- * 현재 작동기능 : 사진 업로드 */
-public class UploaderService extends Service implements OnChangeNetworkStatusListener{
+ * 현재 작동기능 : 사진 업로드
+ */
+public class UploaderService extends Service implements
+		OnChangeNetworkStatusListener {
 	private static final String TAG = "UPLOADER SERVICE";
 	private static boolean isWiFi = false;
 	private UploadThread uploadThread;
+	int fileSize = 0;
+
+	private NotificationManager nm = null;
 
 	public static void setWiFi(boolean isWiFi) {
 		UploaderService.isWiFi = isWiFi;
@@ -40,7 +49,7 @@ public class UploaderService extends Service implements OnChangeNetworkStatusLis
 		// TODO Auto-generated method stub
 		super.onCreate();
 		Mylog.i(TAG, "income Service");
-
+		callNoti("서버에 전송합니다");
 		initWiFiReceiver();
 	}
 
@@ -56,7 +65,7 @@ public class UploaderService extends Service implements OnChangeNetworkStatusLis
 		return super.onStartCommand(intent, flags, startId);
 	}
 
-	/**wifi환경을 설정해주는 메소드 */
+	/** wifi환경을 설정해주는 메소드 */
 	void initWiFiReceiver() {
 		wiFiMonitor = new WiFiListener(this);
 		wiFiMonitor.setOnChangeNetworkStatusListener(changedListener);
@@ -82,26 +91,27 @@ public class UploaderService extends Service implements OnChangeNetworkStatusLis
 		return null;
 	}
 
-	
-	/**데이터를 카우db에 보내도록 연결해주는 쓰레드 */
+	/** 데이터를 카우db에 보내도록 연결해주는 쓰레드 */
 	class UploadThread extends Thread {
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
 			super.run();
+			ArrayList<Photo> arrFileList;
+			PhotoStorage photoStrg = new PhotoStorage(getBaseContext());
 			try {
+
 				while (isWiFi) {
-					Thread.sleep(500);
-					ArrayList<Photo> arrFileList;
+					Thread.sleep(1000);
 					// 쓰레드를 사용해서 돌려야 하나
 					// 카메라 이벤트가 발생할 경우 파일 목록을 읽어온다
-					PhotoStorage photoStrg = new PhotoStorage(getBaseContext());
+					photoStrg = new PhotoStorage(getBaseContext());
 					arrFileList = photoStrg.getImagesInfo();
-					if (!arrFileList.isEmpty()) {
 
+					if (!arrFileList.isEmpty()) {
 						CouchDBConnector couchDBTask = new CouchDBConnector(
 								"photo", "post", "insert-photo");
-						couchDBTask.setContext(getApplication());
+						couchDBTask.setContext(getBaseContext());
 						couchDBTask.execute(arrFileList);
 					}
 
@@ -211,10 +221,35 @@ public class UploaderService extends Service implements OnChangeNetworkStatusLis
 		}
 	};
 
+	public void callNoti(String message) {
+		nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+		// PendingIntent를 등록 하고, noti를 클릭시에 어떤 클래스를 호출 할 것인지 등록.
+		PendingIntent intent = PendingIntent.getActivity(this, 0, new Intent(
+				this, NotiAlert.class), 0);
+
+		// status bar 에 등록될 메시지(Tiker, 아이콘, 그리고 noti가 실행될 시간)
+		Notification notification = new Notification(
+				android.R.drawable.btn_star, message,
+				System.currentTimeMillis());
+
+		// List에 표시될 항목
+		notification.setLatestEventInfo(this, "파일 업로드", message, intent);
+
+		// noti를 클릭 했을 경우 자동으로 noti Icon 제거
+		// notification.flags = notification.flags |
+		// notification.FLAG_AUTO_CANCEL;
+
+		// 1234 notification 의 고유아이디
+		nm.notify(1234, notification);
+		// Toast.makeText(UploaderService.this, "Notification Registered.",
+		// Toast.LENGTH_SHORT).show();
+	}
+
 	@Override
 	public void OnChanged(int status) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
