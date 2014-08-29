@@ -19,7 +19,6 @@ import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.model.Photo;
 import com.tleaf.lifelog.network.CouchDBConnector;
 import com.tleaf.lifelog.util.PhotoAction;
-import com.tleaf.lifelog.util.adapter.PhotoListAdapter;
 
 public class PhotoActivity extends Activity {
 	ImageView imgView;
