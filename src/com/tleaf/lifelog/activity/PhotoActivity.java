@@ -20,16 +20,16 @@ import com.tleaf.lifelog.model.Photo;
 import com.tleaf.lifelog.util.PhotoAction;
 
 public class PhotoActivity extends Activity {
-	ImageView imgView;
-	TextView txtView;
-	ListView listView;
-	PhotoListAdapter arrAdapter;
-	ArrayList<String> arrList;
+	private ImageView imgView;
+	private TextView txtView;
+	private ListView listView;
+	private PhotoListAdapter arrAdapter;
+	private ArrayList<String> arrList;
 
-	ImageView img;
-	PhotoAction shareAction;
+	private ImageView img;
+	private PhotoAction shareAction;
 
-	ArrayList<Photo> arrFileList;
+	private ArrayList<Photo> arrFileList;
 	public final static String FINAL_DATE = "1408640101000";
 
 	@Override

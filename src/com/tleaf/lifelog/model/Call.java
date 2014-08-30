@@ -1,6 +1,11 @@
 ﻿package com.tleaf.lifelog.model;
 
+import java.util.Date;
+import android.provider.CallLog;
+import java.util.Map;
+
 public class Call extends Lifelog{
+
 	private String name;
 	private String number;
 	private String callType;
@@ -50,16 +55,20 @@ public class Call extends Lifelog{
 	public int getDuration() {
 		return duration;
 	}
-
+	
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
-
-
 	
-//	int nameidx = cursor.getColumnIndex(CallLog.Calls.CACHED_NAME);
-//	int dateidx = cursor.getColumnIndex(CallLog.Calls.DATE);
-//	int numidx = cursor.getColumnIndex(CallLog.Calls.NUMBER);
-//	int duridx = cursor.getColumnIndex(CallLog.Calls.DURATION);
-	// int typeidx = cursor.getColumnIndex(CallLog.Calls.TYPE);
 }
+
+
+
+
+
+//int nameidx = cursor.getColumnIndex(CallLog.Calls.CACHED_NAME);
+//int dateidx = cursor.getColumnIndex(CallLog.Calls.DATE);
+//int numidx = cursor.getColumnIndex(CallLog.Calls.NUMBER);
+//int duridx = cursor.getColumnIndex(CallLog.Calls.DURATION);
+// int typeidx = cursor.getColumnIndex(CallLog.Calls.TYPE);
+

@@ -1,17 +1,31 @@
-﻿package com.tleaf.lifelog.util;
+package com.tleaf.lifelog.util;
+
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.tleaf.lifelog.model.Location;
 
 public class Util {
 
+	public final static String BOOKMARK = "bookmark";
+	public final static String CALL = "call";
+	public final static String PHOTO = "photo";
+	public final static String SMS = "sms";
+	public final static String POSITON = "position";
+
+	
 	private final static String RECEIVE ="수신";
 	private final static String SEND ="발신";
 	
 	private final static String TAG = "UTIL";
 
+	public static String formatLongTime(Long time) {
+        Date date = new Date(time);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentDate = dateFormat.format(date);
+        return currentDate;
+	}
+	
 	/*public static long getCurrentTime() {
 		long now = System.currentTimeMillis();
         Date date = new Date(now);
@@ -43,9 +57,9 @@ public class Util {
 
 	}
 	 */	
-	public static Location getCurrentPostion() {
-		return new Location();
-	}
+//	public static Location getCurrentPostion() {
+//		return new Location();
+//	}
 
 	public static long getCurrentTime() {
 		long time = System.currentTimeMillis();

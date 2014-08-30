@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.provider.Telephony.Sms;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,8 +29,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tleaf.lifelog.R;
-import com.tleaf.lifelog.db.DataManager;
-import com.tleaf.lifelog.listAdapter.SmsListAdapter;
 import com.tleaf.lifelog.map.LatLngInterpolator;
 import com.tleaf.lifelog.map.MarkerAnimation;
 import com.tleaf.lifelog.pkg.FragmentListener;
@@ -39,10 +36,7 @@ import com.tleaf.lifelog.pkg.FragmentListener;
 public class PositionFragment extends Fragment {
 
 	private Context mContext;
-	private ArrayList<Sms> arItem = null;
 	private ListView lv;
-	private SmsListAdapter mAdapter = null;
-	private DataManager dataManager;
 	private int pos = -1;
 	private MapView mapView;
 	private GoogleMap map;

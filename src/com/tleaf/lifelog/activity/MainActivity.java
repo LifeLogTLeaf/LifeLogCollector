@@ -3,8 +3,12 @@ package com.tleaf.lifelog.activity;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
+import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -17,105 +21,105 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 
-import com.facebook.Session;
 import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.pkg.FragmentListener;
 import com.tleaf.lifelog.pkg.PagerAdapter;
 import com.tleaf.lifelog.util.Mylog;
+import com.tleaf.lifelog.util.Preference;
+import com.tleaf.lifelog.util.Util;
 
-public class MainActivity extends FragmentActivity implements
-		ActionBar.TabListener, FragmentListener {
-	static public PagerAdapter mPagerAdapter;
-	static public ViewPager mViewPager;
-	int saleBookNo;
-	String isbn;
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener, FragmentListener {
+
+	public static PagerAdapter mPagerAdapter;
+	public static ViewPager mViewPager;
+	private Preference pref;
+//	private boolean installation;
+	private Context context;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		// 2014.08.20 by young 슬기가 작성한 페이저뷰 설정 부분을
-		// 따로 init 메소드로 보내서 설정하게 했습니다.
-		init();
-		
-	}
-	
-	
-	
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
+		context = getApplicationContext();
+		pref = new Preference(context);
+		setInstallTime();
+
+		initViewPager();
 	}
 
-
-
-	/* 2014.08.20 by young 메인액티비티에서 필요한 부분을 초기화시켜주는 메소드입니다. */
-	private void init(){
+	private void initViewPager(){
+	
 		mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
 		final ActionBar actionBar = getActionBar();
-		
+
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mPagerAdapter);
-		mViewPager
-				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-					@Override
-					public void onPageSelected(int position) {
-						actionBar.setSelectedNavigationItem(position);
-					}
-				});
+		mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+			@Override
+			public void onPageSelected(int position) {
+				actionBar.setSelectedNavigationItem(position);
+			}
+		});
 
 		for (int i = 0; i < mPagerAdapter.getCount(); i++) {
-			actionBar.addTab(actionBar.newTab()
+			actionBar.addTab(
+					actionBar.newTab()
 					.setText(mPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
 		}
 	}
 
-	@Override
-	public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
-        // When the given tab is selected, switch to the corresponding page in the ViewPager.
-        mViewPager.setCurrentItem(tab.getPosition());
-		// When the given tab is selected, switch to the corresponding page in
-		// the ViewPager.
+	public void onPause() {
+		super.onPause();
+		setInstallTime();
 	}
 
-	@Override
-	public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) {
-		// TODO Auto-generated method stub
 
+	@Override
+	public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 	}
 
 	@Override
-	public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) {
-		// TODO Auto-generated method stub
-
+	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+		// When the given tab is selected, switch to the corresponding page in the ViewPager.
+		mViewPager.setCurrentItem(tab.getPosition());
 	}
 
-	/**
-	 *	메인 액티비티에서 발생하는 버튼 터치에 대한 이벤트 리스너 입니다. 
-	 */
-	public void onClick(View v) {
-		/*if (v.getId() == R.id.btn_photo) {
-			Intent intent = new Intent(this, PhotoActivity.class);
-			startActivity(intent);
-		}*/
+	@Override
+	public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 	}
 
-	/* 2014.08.20 슬기가 주석처리한 부분. */
-	// @Override public void onTabUnselected(ActionBar.Tab tab,
-	// FragmentTransaction fragmentTransaction) { }
-	//
-	// @Override public void onTabSelected(ActionBar.Tab tab,
-	// FragmentTransaction fragmentTransaction) { // When the given tab is
-	// selected, switch to the corresponding page in the ViewPager.
-	// mViewPager.setCurrentItem(tab.getPosition()); }
-	//
-	// @Override public void onTabReselected(ActionBar.Tab tab,
-	// FragmentTransaction fragmentTransaction) { }
 
+	private void setInstallTime() {
+		if(!pref.getBooleanPref("installation")) { 
+			long currentTime = Util.getCurrentTime();
+			Mylog.i("installTime", Util.formatLongTime(currentTime));
+			pref.setLongPref("installTime", Util.getCurrentTime());
+			pref.setBooleanPref("installation", true);
+			Mylog.i("installation true", ""+pref.getBooleanPref("installation"));
+		}
+	}
+
+	/* 2014.08.18 By Young 페이스북 연동에 필요한 해쉬키를 로드한다. */
+	private void loadHashKey() {
+		// Add code to print out the key hash
+		try {
+			PackageInfo info = getPackageManager().getPackageInfo(
+					getPackageName(), PackageManager.GET_SIGNATURES);
+			for (Signature signature : info.signatures) {
+				MessageDigest md = MessageDigest.getInstance("SHA");
+				md.update(signature.toByteArray());
+				Log.d("KeyHash:",
+						Base64.encodeToString(md.digest(), Base64.DEFAULT));
+				System.out.println("hello");
+			}
+		} catch (NameNotFoundException e) {
+
+		} catch (NoSuchAlgorithmException e) {
+
+		}
+	}
 
 	/* 2014.08.20 By Young 백그라운드 서비스인 데이터 업로드 서비스를 실핸한다. */
 	private void startUploaderService() {

@@ -1,6 +1,7 @@
 package com.tleaf.lifelog.listAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,21 +11,20 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.tleaf.lifelog.R;
-import com.tleaf.lifelog.model.Sms;
+import com.tleaf.lifelog.model.Call;
+import com.tleaf.lifelog.model.Lifelog;
 import com.tleaf.lifelog.util.Util;
 
 
-public class SmsListAdapter extends BaseAdapter {
+public class AllListAdapter extends BaseAdapter {
 	private Context mContext;
 	private LayoutInflater inflater;
-	private ArrayList<Sms> mArr;
+	private List<Lifelog> mArr;
 	private int mLayout;
 
-	private TextView txt_sms_address;
-	private TextView txt_sms_date;
-	private TextView txt_sms_body;
+	private TextView txt;
 
-	public SmsListAdapter(Context context, int layout, ArrayList<Sms> arr) {
+	public AllListAdapter(Context context, int layout, List<Lifelog> arr) {
 		mContext = context;
 		inflater = (LayoutInflater)context.getSystemService(
 				Context.LAYOUT_INFLATER_SERVICE);
@@ -36,7 +36,7 @@ public class SmsListAdapter extends BaseAdapter {
 		return mArr.size();
 	}
 
-	public Sms getItem(int position) {
+	public Lifelog getItem(int position) {
 		return mArr.get(position);
 	}
 
@@ -48,13 +48,9 @@ public class SmsListAdapter extends BaseAdapter {
 		if (convertView == null) {
 			convertView = inflater.inflate(mLayout, parent, false);
 		}
-		txt_sms_address = (TextView)convertView.findViewById(R.id.txt_sms_address);
-		txt_sms_date = (TextView)convertView.findViewById(R.id.txt_sms_date);
-		txt_sms_body = (TextView)convertView.findViewById(R.id.txt_sms_body);
 
-		txt_sms_address.setText(mArr.get(position).getAddress());
-		txt_sms_date.setText(Util.formatLongTime(mArr.get(position).getDate()));
-		txt_sms_body.setText(mArr.get(position).getBody());
+		txt = (TextView)convertView.findViewById(R.id.txt);
+		txt.setText(mArr.get(position).toString());
 		
 		return convertView;
 	}

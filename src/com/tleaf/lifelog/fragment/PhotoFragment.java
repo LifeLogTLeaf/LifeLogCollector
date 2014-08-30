@@ -16,7 +16,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.tleaf.lifelog.R;
-import com.tleaf.lifelog.db.DataManager;
 import com.tleaf.lifelog.listAdapter.SmsListAdapter;
 import com.tleaf.lifelog.pkg.FragmentListener;
 public class PhotoFragment extends Fragment { 
@@ -25,7 +24,6 @@ public class PhotoFragment extends Fragment {
 	private ArrayList<Sms> arItem = null;
 	private ListView lv;
 	private SmsListAdapter mAdapter = null;
-	private DataManager dataManager;
 	private int pos = -1;
 
 	private FragmentListener fListener;
@@ -42,12 +40,6 @@ public class PhotoFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_list, container, false);
 		Log.e("first onCreateView", "");
-
-		dataManager = new DataManager(mContext);
-		arItem = new ArrayList<Sms>();
-		//서버에서 받아오기
-		//arItem = dataManager.getSmsList(); 		
-//		mAdapter = new SmsListAdapter(mContext, R.layout.item_sms, arItem);
 
 		lv = (ListView) rootView.findViewById(R.id.list);
 		lv.setAdapter(mAdapter);
@@ -77,26 +69,9 @@ public class PhotoFragment extends Fragment {
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case 1:
-			deleteItem(pos);
-			pos = -1;
 			break;
 		case 2:
-//			Intent intent = new Intent(mContext, MapActivity.class);
-//			Log.e("arItem.get(pos).isbn", ""+arItem.get(pos).getDealLocation());
-//			intent.putExtra("location", arItem.get(pos).getDealLocation());
-//			startActivity(intent);
 		}
 		return true;
-	}
-
-	private void deleteItem(int position) {
-//		if (dataManager.deleteSms(arItem.get(pos).getIsbn())) {
-//			arItem.remove(position);
-//			lv.clearChoices();
-//			mAdapter.notifyDataSetChanged();
-//			utill.tst(mContext, "�����Ϸ�");
-//		} else {
-//			utill.tst(mContext, "��������");
-//		}
 	}
 }

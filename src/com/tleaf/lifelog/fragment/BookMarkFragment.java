@@ -121,7 +121,6 @@ public class BookMarkFragment extends Fragment implements DBListener {
 	@Override
 	public void onSendData(String data) {
 		Mylog.i(TAG, data);
-
 	}
 
 }

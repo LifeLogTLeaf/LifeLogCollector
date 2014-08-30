@@ -6,12 +6,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
 import com.facebook.Session;
+import com.tleaf.lifelog.fragment.AllFragment;
 import com.tleaf.lifelog.fragment.CallFragment;
 import com.tleaf.lifelog.fragment.FbPostFragmnet;
 import com.tleaf.lifelog.fragment.PhotoFragment;
 import com.tleaf.lifelog.fragment.PositionFragment;
 import com.tleaf.lifelog.fragment.SmsFragment;
-
 
 public class PagerAdapter extends FragmentPagerAdapter {
 
@@ -27,15 +27,16 @@ public class PagerAdapter extends FragmentPagerAdapter {
 	public Fragment getItem(int i) {
 		switch (i) {
 		case 0:
-			return new SmsFragment();
+			return new AllFragment();
 		case 1:
-			return new CallFragment();
+			return new SmsFragment();
 		case 2:
-			return new FbPostFragmnet();
+			return new CallFragment();
 		case 3:
-			return new PhotoFragment();
+			return new FbPostFragmnet();
 		case 4:
-			
+			return new PhotoFragment();
+		case 5:
 			return new PositionFragment();
 		}
 		return null;
@@ -43,7 +44,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
 	@Override
 	public int getCount() {
-		return 5;
+		return 6;
 	}
 
 	@Override
@@ -52,18 +53,21 @@ public class PagerAdapter extends FragmentPagerAdapter {
 		String title = null;
 		switch (position) {
 		case 0:
-			title = "SMS";
+			title = "All";
 			break;
 		case 1:
-			title = "Call";
+			title = "SMS";
 			break;
 		case 2:
-			title = "post";
+			title = "Call";
 			break;
 		case 3:
-			title = "Picture";
+			title = "post";
 			break;
 		case 4:
+			title = "Picture";
+			break;
+		case 5:
 			title = "Position";
 			break;
 

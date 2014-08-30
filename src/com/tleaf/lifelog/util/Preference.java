@@ -21,7 +21,7 @@ public class Preference {
 	}
 
 	public String getStringPref(String key) {
-		return pref.getString(key, "no data");
+		return pref.getString(key, "no data"); //defalutVaule
 	}
 
 	public void setBooleanPref(String key, Boolean value) {
@@ -32,6 +32,16 @@ public class Preference {
 
 	public boolean getBooleanPref(String key) {
 		return pref.getBoolean(key, false);
+	}
+
+	
+	public void setLongPref(String key, long value) {
+		edit.putLong(key, value);
+		edit.commit();
+	}
+
+	public long getLongPref(String key) {
+		return pref.getLong(key, 0); //defalutVaule
 	}
 
 }
