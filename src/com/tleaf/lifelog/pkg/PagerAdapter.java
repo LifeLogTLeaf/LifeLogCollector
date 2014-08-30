@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 
 import com.tleaf.lifelog.fragment.BookMarkFragment;
 import com.tleaf.lifelog.fragment.CallFragment;
-import com.tleaf.lifelog.fragment.PictureFragment;
+import com.tleaf.lifelog.fragment.PhotoFragment;
 import com.tleaf.lifelog.fragment.PositionFragment;
 import com.tleaf.lifelog.fragment.SmsFragment;
 
@@ -30,7 +30,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
 		case 2:
 			return new BookMarkFragment();
 		case 3:
-			return new PictureFragment();
+			return new PhotoFragment();
 		case 4:
 			
 			return new PositionFragment();
