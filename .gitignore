@@ -25,4 +25,4 @@ proguard/
 .settings/
 .DS_Store
 .classpath
-project.properites
+project.properties
