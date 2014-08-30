@@ -43,7 +43,7 @@
         <!-- Google Maps -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyAM3ILiI2QRjQtSD6UlevzP_zds2YiJLII" />
+            android:value="AIzaSyAch_kqT0-nHR3KpRdEc66jABSBm7-ZyFQ" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

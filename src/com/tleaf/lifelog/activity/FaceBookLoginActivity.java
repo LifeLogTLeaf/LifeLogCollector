@@ -152,7 +152,7 @@ public class FaceBookLoginActivity extends Activity implements StatusCallback,
 					public void onCompleted(Response response) {
 						/* handle the result */
 						Mylog.i(TAG, response.getRawResponse());
-						UserInfo UserInfo = new UserInfo();
+						UserInfo userInfo = new UserInfo();
 						FacebookUserInfo FacebookUserInfo = new FacebookUserInfo();
 						// access Token 저장
 						FacebookUserInfo.setFacebookAccesskey(session
@@ -162,20 +162,20 @@ public class FaceBookLoginActivity extends Activity implements StatusCallback,
 								.getApplicationId());
 						// facebook permission 저장
 						// UserInfo.setFacebookPermission(session.getPermissions());
-						UserInfo.setUserFacebookUserInfo(FacebookUserInfo);
+						userInfo.setUserFacebookUserInfo(FacebookUserInfo);
 
 						try {
 							JSONObject json = new JSONObject(response
 									.getRawResponse());
-							UserInfo.setGender(json.getString("gender"));
-							UserInfo.setUserName(json.getString("name"));
-							UserInfo.setUserId(userId);
+							userInfo.setGender(json.getString("gender"));
+							userInfo.setUserName(json.getString("name"));
+							userInfo.setUserId(userId);
 							pre.setBooleanPref("userLogin", true);
 							pre.setStringPref("fbAccesstoken",
 									session.getAccessToken());
 							pre.setStringPref("userId", userId);
 
-							db.postData(userId, UserInfo, "server",
+							db.postData(userId, userInfo, "server",
 									"facebooklogin");
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block

@@ -42,7 +42,7 @@ import com.tleaf.lifelog.util.Mylog;
  */
 public class ServerDB implements DBInterface {
 	private static final String TAG = "서버DB";
-	private String URL = "http://172.16.101.161:8080/api/";
+	private String URL = "http://192.168.0.10:8080/api/";
 	// 소켓옵션
 	private static final int SOCKET_TIMEOUT = 5000;
 	private static final int CONNECTION_TIMEOUT = 5000;
