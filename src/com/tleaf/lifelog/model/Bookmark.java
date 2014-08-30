@@ -21,5 +21,4 @@ public class Bookmark extends Lifelog {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
 }

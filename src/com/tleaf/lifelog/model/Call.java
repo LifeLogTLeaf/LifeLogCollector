@@ -1,7 +1,5 @@
 ﻿package com.tleaf.lifelog.model;
 
-import java.util.Map;
-
 public class Call extends Lifelog{
 	private String name;
 	private String number;
@@ -34,7 +32,7 @@ public class Call extends Lifelog{
 	public void setNumber(String number) {
 		this.number = number;
 	}
-	
+
 	public String getCallType() {
 		return callType;
 	}

@@ -1,20 +1,16 @@
 package com.tleaf.lifelog.pkg;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
-import android.view.LayoutInflater;
 
 import com.facebook.Session;
-import com.tleaf.lifelog.fragment.BookMarkFragment;
 import com.tleaf.lifelog.fragment.CallFragment;
 import com.tleaf.lifelog.fragment.FbPostFragmnet;
-import com.tleaf.lifelog.fragment.PictureFragment;
+import com.tleaf.lifelog.fragment.PhotoFragment;
 import com.tleaf.lifelog.fragment.PositionFragment;
 import com.tleaf.lifelog.fragment.SmsFragment;
-import com.tleaf.lifelog.util.Mylog;
 
 
 public class PagerAdapter extends FragmentPagerAdapter {
@@ -37,7 +33,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
 		case 2:
 			return new FbPostFragmnet();
 		case 3:
-			return new PictureFragment();
+			return new PhotoFragment();
 		case 4:
 			
 			return new PositionFragment();
