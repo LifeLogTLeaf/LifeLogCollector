@@ -7,14 +7,21 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 
+import com.facebook.Session;
 import com.tleaf.lifelog.fragment.BookMarkFragment;
 import com.tleaf.lifelog.fragment.CallFragment;
+import com.tleaf.lifelog.fragment.FbPostFragmnet;
 import com.tleaf.lifelog.fragment.PictureFragment;
 import com.tleaf.lifelog.fragment.PositionFragment;
 import com.tleaf.lifelog.fragment.SmsFragment;
+import com.tleaf.lifelog.util.Mylog;
 
 
 public class PagerAdapter extends FragmentPagerAdapter {
+
+	public void setSession(Session session) {
+		
+	}
 
 	public PagerAdapter(FragmentManager fm) {
 		super(fm);
@@ -28,7 +35,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
 		case 1:
 			return new CallFragment();
 		case 2:
-			return new BookMarkFragment();
+			return new FbPostFragmnet();
 		case 3:
 			return new PictureFragment();
 		case 4:
@@ -55,7 +62,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
 			title = "Call";
 			break;
 		case 2:
-			title = "BookMark";
+			title = "post";
 			break;
 		case 3:
 			title = "Picture";

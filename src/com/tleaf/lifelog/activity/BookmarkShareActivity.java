@@ -13,15 +13,17 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.tleaf.lifelog.R;
+import com.tleaf.lifelog.dbaccess.DAO;
+import com.tleaf.lifelog.dbaccess.DBListener;
 import com.tleaf.lifelog.model.Bookmark;
-import com.tleaf.lifelog.network.DbConnector;
-import com.tleaf.lifelog.network.OnDataListener;
+import com.tleaf.lifelog.model.Lifelog;
 import com.tleaf.lifelog.util.Mylog;
+import com.tleaf.lifelog.util.Preference;
 
-/**O
+/**
  * Created by jangyoungjin on 8/10/14.
  */
-public class BookmarkShareActivity extends Activity implements OnDataListener {
+public class BookmarkShareActivity extends Activity implements DBListener {
 	private static final String TAG = "북마크 엑티비티";
 	private EditText dbname_edittext;
 	private String title, url, time, dbName;
@@ -102,14 +104,16 @@ public class BookmarkShareActivity extends Activity implements OnDataListener {
 		Bookmark bookmark = new Bookmark();
 		bookmark.setUrl(url);
 		bookmark.setTitle(title);
-		bookmark.setType("bookmark");
-		DbConnector db = new DbConnector(this, getApplicationContext());
-		db.postData(dbName, bookmark);
+		bookmark.setlogType("bookmark");
+		Preference pre = new Preference(getApplicationContext());
+		DAO db = new DAO(this, getApplicationContext());
+		db.postData(pre.getStringPref("userId"), bookmark, "touch");
 	}
 
-	@Override
+	// @Override
 	public void onSendData(String data) {
 		// TODO Auto-generated method stub
+		
 		Mylog.i(TAG, "status : " + data);
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {

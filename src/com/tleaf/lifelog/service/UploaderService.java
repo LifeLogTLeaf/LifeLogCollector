@@ -4,12 +4,10 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-import com.tleaf.lifelog.network.CouchDBLiteTask;
 import com.tleaf.lifelog.util.Mylog;
 
 public class UploaderService extends Service{
 	private static final String TAG = "UPLOADER SERVICE";
-	private CouchDBLiteTask connector;
 	
 	
 	@Override

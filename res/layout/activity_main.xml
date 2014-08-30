@@ -15,6 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onClick"
-        android:text="btn" />
+        android:text="btn"
+        android:visibility="gone" />
 
 </RelativeLayout>

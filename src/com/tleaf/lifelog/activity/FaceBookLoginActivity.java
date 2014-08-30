@@ -1,20 +1,22 @@
-package com.tleaf.lifelog.fragment;
+package com.tleaf.lifelog.activity;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.util.Base64;
+import android.util.Log;
 
 import com.facebook.HttpMethod;
 import com.facebook.Request;
@@ -26,52 +28,48 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
 import com.tleaf.lifelog.R;
+import com.tleaf.lifelog.dbaccess.DAO;
+import com.tleaf.lifelog.dbaccess.DBListener;
 import com.tleaf.lifelog.model.FacebookUserInfo;
 import com.tleaf.lifelog.model.UserInfo;
 import com.tleaf.lifelog.util.Mylog;
+import com.tleaf.lifelog.util.Preference;
 
-public class LoginFragment extends Fragment implements StatusCallback {
-	private static final String TAG = "LOGIN FRAGMENT";
-	private FragmentManager mFragmentManager;
+public class FaceBookLoginActivity extends Activity implements StatusCallback,
+		DBListener {
+	private static final String TAG = "로그인 액티비티";
 	private UiLifecycleHelper uiHelper; // to track the session and trigger a
 										// session state change listener.
 	private ArrayList<String> mPermissionList;
-
-	public LoginFragment(FragmentManager fm) {
-		this.mFragmentManager = fm;
-	}
+	private DAO db;
+	private Preference pre;
+	private String userId = "user2"; // 더미 데이터 입니다.
+	private Session session;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		Mylog.i(TAG, "Login Fragment is created");
-		uiHelper = new UiLifecycleHelper(getActivity(), this);
+		setContentView(R.layout.activity_facebook);
+		loadHashKey();
+
+		db = new DAO(this, getApplicationContext());
+		pre = new Preference(getApplicationContext());
+
+		uiHelper = new UiLifecycleHelper(this, this);
 		uiHelper.onCreate(savedInstanceState);
-
-	}
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		RelativeLayout rootView = (RelativeLayout) inflater.inflate(
-				R.layout.activity_facebook, container, false);
-		LoginButton facebook_login_btn = (LoginButton) rootView
-				.findViewById(R.id.facebook_login_btn);
-		facebook_login_btn.setFragment(this);
+		LoginButton facebook_login_btn = (LoginButton) findViewById(R.id.facebook_login_btn);
 
 		mPermissionList = new ArrayList<String>();
 		mPermissionList.add("read_stream");
-		facebook_login_btn.setReadPermissions(mPermissionList);
-		// facebook_login_btn.setReadPermissions(Arrays.asList("user_likes",
-		// "user_status", "read_stream"));
 
-		return rootView;
+		facebook_login_btn.setReadPermissions(mPermissionList);
+
 	}
 
 	@Override
-	public void onResume() {
+	protected void onResume() {
+		// TODO Auto-generated method stub
 		super.onResume();
 		// For scenarios where the main activity is launched and user
 		// session is not null, the session state change notification
@@ -91,13 +89,15 @@ public class LoginFragment extends Fragment implements StatusCallback {
 	}
 
 	@Override
-	public void onPause() {
+	protected void onPause() {
+		// TODO Auto-generated method stub
 		super.onPause();
 		uiHelper.onPause();
 	}
 
 	@Override
-	public void onDestroy() {
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
 		super.onDestroy();
 		uiHelper.onDestroy();
 	}
@@ -109,24 +109,26 @@ public class LoginFragment extends Fragment implements StatusCallback {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		// TODO Auto-generated method stub
-		super.onAttach(activity);
-		Mylog.i(TAG, "Login fragment is attached");
-	}
-
-	@Override
 	public void call(Session session, SessionState state, Exception exception) {
 		// TODO Auto-generated method stub
-		Mylog.i(TAG, "session call start");
-		onSessionStateChange(session, state, exception);
+
 	}
 
 	private void onSessionStateChange(Session session, SessionState state,
 			Exception exception) {
 		if (state.isOpened()) {
-			Mylog.i(TAG, "Logged in... ");
-			sendUserDataToServer(session);
+			if (pre.getBooleanPref("userLogin")) {
+				// 세션의 유효성도 검사해야합니다.
+				Mylog.i(TAG, "Already Logged in... ");
+				Intent intent = new Intent(FaceBookLoginActivity.this,
+						MainActivity.class);
+				intent.putExtra("session", session);
+				startActivity(intent);
+				finish();
+			} else {
+				Mylog.i(TAG, "Logging in... ");
+				sendUserDataToServer(session);
+			}
 		} else if (state.isClosed()) {
 			Mylog.i(TAG, "Logged out...");
 		} else {
@@ -139,20 +141,18 @@ public class LoginFragment extends Fragment implements StatusCallback {
 	 * 서버에 저장해서 관리한다. ( 법률적 이슈 남아있음 - 페이스북 제공 데이터의 가공처 )
 	 */
 	private void sendUserDataToServer(final Session session) {
+		this.session = session;
+		
 		// 그래프 API를 사용해서 호출할때 쓰는 소스코드
 		if (session == null)
 			return;
-
-		// 새로운 도큐먼트 생성이 아니라 업데이트로 가기 때문에
-		// 여기서 먼저 디비에서 .UserInfor라는 데이터를 가져와서 rev 값을 읽어온다
-		// 그리고 이 rev값을 이용해서 업데이트를 진행한다. 추후
-		final UserInfo UserInfo = new UserInfo();
-
+		
 		RequestAsyncTask reqeust2 = new Request(session, "/me", null,
 				HttpMethod.GET, new Request.Callback() {
 					public void onCompleted(Response response) {
 						/* handle the result */
 						Mylog.i(TAG, response.getRawResponse());
+						UserInfo UserInfo = new UserInfo();
 						FacebookUserInfo FacebookUserInfo = new FacebookUserInfo();
 						// access Token 저장
 						FacebookUserInfo.setFacebookAccesskey(session
@@ -161,7 +161,7 @@ public class LoginFragment extends Fragment implements StatusCallback {
 						FacebookUserInfo.setFacebookId(session
 								.getApplicationId());
 						// facebook permission 저장
-						// UserInfor.setFacebookPermission(session.getPermissions());
+						// UserInfo.setFacebookPermission(session.getPermissions());
 						UserInfo.setUserFacebookUserInfo(FacebookUserInfo);
 
 						try {
@@ -169,36 +169,71 @@ public class LoginFragment extends Fragment implements StatusCallback {
 									.getRawResponse());
 							UserInfo.setGender(json.getString("gender"));
 							UserInfo.setUserName(json.getString("name"));
-							
+							UserInfo.setUserId(userId);
+							pre.setBooleanPref("userLogin", true);
+							pre.setStringPref("fbAccesstoken",
+									session.getAccessToken());
+							pre.setStringPref("userId", userId);
+
+							db.postData(userId, UserInfo, "server",
+									"facebooklogin");
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 
-						// UI쓰레드에서 메인프래그먼트를 실행하게 해준다.
-						getActivity().runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								Mylog.i(TAG, "replace to MAIN FRAGMENT...");
-								// FragmentTransaction ft =
-								// mFragmentManager.beginTransaction();
-								// MainFragment mainFragment = new
-								// MainFragment(mFragmentManager);
-								// ft.replace(R.id.fragment_container,
-								// mainFragment);
-								// ft.commit();
-								FragmentTransaction ft = mFragmentManager
-										.beginTransaction();
-								MainFragment mainFragment = new MainFragment(
-										mFragmentManager);
-								ft.replace(R.id.fragment_container,
-										mainFragment);
-								ft.commit();
-							}
-						});
 					}
 				}).executeAsync();
 
+	}
+
+	@Override
+	public void onSendData(String data) {
+		// TODO Auto-generated method stub
+		// UI쓰레드에서 메인프래그먼트를 실행하게 해준다.
+		if (data == null) {
+			return;
+		}
+
+		JSONObject json = null;
+		String result = null;
+		try {
+			json = new JSONObject(data);
+			result = json.getString("result");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Mylog.i(TAG, result);
+		if (result.equals("true")) {
+			runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					Intent intent = new Intent(FaceBookLoginActivity.this, MainActivity.class);
+					intent.putExtra("session", session);
+					startActivity(intent);
+					finish();
+				}
+			});
+		}
+	}
+
+	/* 2014.08.18 By Young 페이스북 연동에 필요한 해쉬키를 로드한다. */
+	private void loadHashKey() {
+		// Add code to print out the key hash
+		try {
+			PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+			for (Signature signature : info.signatures) {
+				MessageDigest md = MessageDigest.getInstance("SHA");
+				md.update(signature.toByteArray());
+				Mylog.i("KeyHash:",Base64.encodeToString(md.digest(), Base64.DEFAULT));
+			}
+		} catch (NameNotFoundException e) {
+
+		} catch (NoSuchAlgorithmException e) {
+
+		}
 	}
 
 }

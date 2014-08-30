@@ -41,17 +41,4 @@ public class Sms extends Lifelog {
 		this.body = body;
 	}
 
-	@Override
-	public void setMap(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		map.put("address", this.address);
-		map.put("body", this.body);
-		map.put("date", this.date);
-		map.put("longitude", super.getLongitude());
-		map.put("latitude", super.getLatitude());
-		map.put("locationTime", super.getLocationTime());
-		map.put("type", super.getType());
-		map.put("logTime", super.getLogTime());
-	}
-
 }

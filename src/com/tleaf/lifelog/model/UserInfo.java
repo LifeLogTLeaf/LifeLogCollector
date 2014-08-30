@@ -2,10 +2,19 @@ package com.tleaf.lifelog.model;
 
 import java.util.Map;
 
-public class UserInfo extends Lifelog {
+public class UserInfo {
 	private String userName;
 	private String gender;
+	private String userId;
 	private FacebookUserInfo userFacebookInfo;
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 
 	public String getUserName() {
 		return userName;
@@ -29,18 +38,5 @@ public class UserInfo extends Lifelog {
 
 	public void setUserFacebookUserInfo(FacebookUserInfo userFacebookUserInfo) {
 		this.userFacebookInfo = userFacebookUserInfo;
-	}
-
-	@Override
-	public void setMap(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		map.put("username", this.userName);
-		map.put("gender", this.gender);
-		map.put("userfacebookinfo", this.userFacebookInfo);
-		map.put("longitude", super.getLongitude());
-		map.put("latitude", super.getLatitude());
-		map.put("locationTime", super.getLocationTime());
-		map.put("type", super.getType());
-		map.put("logTime", super.getLogTime());
 	}
 }

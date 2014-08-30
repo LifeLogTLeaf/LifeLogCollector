@@ -1,10 +1,11 @@
-﻿package com.tleaf.lifelog.network;
+package com.tleaf.lifelog.dbaccess;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 
 import org.ektorp.AttachmentInputStream;
 import org.ektorp.CouchDbConnector;
@@ -12,9 +13,11 @@ import org.ektorp.CouchDbInstance;
 import org.ektorp.android.http.AndroidHttpClient;
 import org.ektorp.http.HttpClient;
 import org.ektorp.impl.StdCouchDbInstance;
+import org.mozilla.javascript.ast.ArrayLiteral;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.tleaf.lifelog.model.Lifelog;
 import com.tleaf.lifelog.model.Photo;
@@ -24,7 +27,8 @@ import com.tleaf.lifelog.util.Mylog;
  * Created by jangyoungjin on 8/1/14. 카우치 데이터베이스에 직접적으로 접속해서 데이터를 저장하는 쓰레드
  * 클래스입니다.
  */
-public class CouchDBTask extends AsyncTask<Lifelog, Void, String> {
+public class YoonCouchDB extends
+		AsyncTask<ArrayList<? extends Lifelog>, Void, String> {
 	private static final String TAG = "카우치 디비 통신";
 	private static final String URL = "http://54.191.147.237:5984";
 	private static final String USER_NAME = "couchdb";
@@ -38,7 +42,8 @@ public class CouchDBTask extends AsyncTask<Lifelog, Void, String> {
 	/**
 	 * 생성자
 	 * 
-	 * @param dbName : 데이터베이스 이름
+	 * @param dbName
+	 *            : 데이터베이스 이름
 	 * @param method
 	 *            : CRUD
 	 * @param DBListener
@@ -46,7 +51,7 @@ public class CouchDBTask extends AsyncTask<Lifelog, Void, String> {
 	 * @param request_name
 	 *            : 요청명 (실질적으로 디비에는 전송되지 않는다 )
 	 */
-	public CouchDBTask(String dbName, String method, String request_name) {
+	public YoonCouchDB(String dbName, String method, String request_name) {
 		this.db_name = dbName;
 		this.http_method = method;
 		// this.mDBListener = DBListener;
@@ -80,6 +85,7 @@ public class CouchDBTask extends AsyncTask<Lifelog, Void, String> {
 	AttachmentInputStream addAttachmentStream(Photo photo) {
 		String imagePath = photo.getImgPath();
 		File file = new File(imagePath);
+
 		InputStream is = null;
 		try {
 			is = new FileInputStream(file);
@@ -90,11 +96,10 @@ public class CouchDBTask extends AsyncTask<Lifelog, Void, String> {
 		AttachmentInputStream attInput = new AttachmentInputStream(
 				photo.getFileName(), is, "image/png");
 		return attInput;
-
 	}
 
 	@Override
-	protected String doInBackground(Lifelog... data) {
+	protected String doInBackground(ArrayList<? extends Lifelog>... data) {
 		boolean result = false;
 		try {
 			HttpClient client = new AndroidHttpClient.Builder().url(URL)
@@ -103,17 +108,18 @@ public class CouchDBTask extends AsyncTask<Lifelog, Void, String> {
 			CouchDbInstance dbInstance = new StdCouchDbInstance(client);
 			CouchDbConnector db = dbInstance.createConnector(db_name, true);
 			// 사진에 대한 작업인지 확인하기 위한 작업, 리펙토링 해야
-
-			Photo photo = (Photo) data[0];
-			String filePath = photo.getImgPath();
-			if (filePath != null) {
-				AttachmentInputStream attInput = addAttachmentStream(photo);
-				db.createAttachment(photo.getFileName(), attInput);
+			for (int i = 0; i < data[0].size(); i++) {
+				System.out.println(data[0].size() + " 중에 " + (i + 1) + "개 작업중");
+				Photo photo = (Photo) data[0].get(i);
+				String filePath = photo.getImgPath();
+				if (filePath != null) {
+					AttachmentInputStream attInput = addAttachmentStream(photo);
+					db.createAttachment(photo.getFileName(), attInput);//이것으로 바로 전송 
+				}
+				// 사진작업 끝
 			}
-			// 사진작업 끝
-
 			if (http_method.equals("post")) {
-				result = requestPost(db, data[0]);
+				result = requestPost(db, data[0].get(0));
 			} else if (http_method.equals("get")) {
 
 			}

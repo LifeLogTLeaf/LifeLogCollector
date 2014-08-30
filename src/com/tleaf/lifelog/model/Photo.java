@@ -21,16 +21,4 @@ public class Photo extends Lifelog {
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
-
-	@Override
-	public void setMap(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		map.put("fileName", this.fileName);
-		map.put("imgPath", this.imgPath);
-		map.put("longitude", super.getLongitude());
-		map.put("latitude", super.getLatitude());
-		map.put("locationTime", super.getLocationTime());
-		map.put("type", super.getType());
-		map.put("logTime", super.getLogTime());
-	}
 }
