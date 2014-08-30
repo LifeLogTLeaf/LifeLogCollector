@@ -48,12 +48,10 @@ public class SmsListAdapter extends BaseAdapter {
 		if (convertView == null) {
 			convertView = inflater.inflate(mLayout, parent, false);
 		}
-
 		txt_sms_address = (TextView)convertView.findViewById(R.id.txt_sms_address);
 		txt_sms_date = (TextView)convertView.findViewById(R.id.txt_sms_date);
 		txt_sms_body = (TextView)convertView.findViewById(R.id.txt_sms_body);
 
-//		Log.e("salebookno", ""+mArr.get(position).getSaleBookNo());
 		txt_sms_address.setText(mArr.get(position).getAddress());
 		txt_sms_date.setText(Util.formatLongTime(mArr.get(position).getDate()));
 		txt_sms_body.setText(mArr.get(position).getBody());

@@ -34,21 +34,21 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public static PagerAdapter mPagerAdapter;
 	public static ViewPager mViewPager;
 	private Preference pref;
-	private boolean installation;
+//	private boolean installation;
 	private Context context;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		init();
-	}
-
-	/* 2014.08.20 by young 메인액티비티에서 필요한 부분을 초기화시켜주는 메소드입니다. */
-	private void init(){
 		context = getApplicationContext();
 		pref = new Preference(context);
 		setInstallTime();
 
+		initViewPager();
+	}
+
+	private void initViewPager(){
+	
 		mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
 		final ActionBar actionBar = getActionBar();
 

@@ -35,11 +35,6 @@ public class MyCallLog {
 		int numidx = cursor.getColumnIndex(CallLog.Calls.NUMBER);
 		int duridx = cursor.getColumnIndex(CallLog.Calls.DURATION);
 		int typeidx = cursor.getColumnIndex(CallLog.Calls.TYPE);
-
-//		StringBuilder result = new StringBuilder();
-//		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd HH:mm");
-//		result.append("총 기록 개수 : " + cursor.getCount() + "개\n");
-//		int count = 0;
 		while (cursor.moveToNext()) {
 
 			Call call = new Call();
@@ -70,19 +65,8 @@ public class MyCallLog {
 			}
 			call.setCallType(stype);
 			call.setDate(cursor.getLong(dateidx));
-
-			
-//			String sdate = formatter.format(new Date(date));
-//			result.append(sdate + ",");
-
-			
 			call.setDuration(cursor.getInt(duridx));
-//			result.append(duration + "초\n");
 
-			// 최대 100개까지만
-//			if (count++ == 100) {
-//				break;
-//			}
 			arr.add(call);
 		}
 		cursor.close();
@@ -91,4 +75,29 @@ public class MyCallLog {
 	}
 }
 
+
+
+
+
+
+
+
+
+//StringBuilder result = new StringBuilder();
+//SimpleDateFormat formatter = new SimpleDateFormat("MM/dd HH:mm");
+//result.append("총 기록 개수 : " + cursor.getCount() + "개\n");
+//int count = 0;
+
+
+
+//String sdate = formatter.format(new Date(date));
+//result.append(sdate + ",");
+
+
+//result.append(duration + "초\n");
+
+// 최대 100개까지만
+//if (count++ == 100) {
+//	break;
+//}
 

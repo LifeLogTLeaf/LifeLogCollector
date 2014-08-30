@@ -26,29 +26,6 @@ public abstract class Lifelog {
 	private long logTime;
 	private String logType;
 
-	public double getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(double latitude) {
-		this.latitude = latitude;
-	}
-
-	public double getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
-	}
-
-	public long getLocationTime() {
-		return locationTime;
-	}
-
-	public void setLocationTime(long locationTime) {
-		this.locationTime = locationTime;
-	}
 
 	public Lifelog() {
 		this.logTime = Util.getCurrentTime();
@@ -74,6 +51,30 @@ public abstract class Lifelog {
 		this.rev = rev;
 	}
 
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+
+	public long getLocationTime() {
+		return locationTime;
+	}
+
+	public void setLocationTime(long locationTime) {
+		this.locationTime = locationTime;
+	}
+
 	public long getLogTime() {
 		return logTime;
 	}
@@ -91,4 +92,6 @@ public abstract class Lifelog {
 	}
 
 	public abstract void setMap(Map<String, Object> map);
+	
+//	public Map<String, String> 
 }

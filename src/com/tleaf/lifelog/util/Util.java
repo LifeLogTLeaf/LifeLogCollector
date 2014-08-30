@@ -8,6 +8,13 @@ import com.tleaf.lifelog.model.Location;
 
 public class Util {
 
+	public final static String BOOKMARK = "bookmark";
+	public final static String CALL = "call";
+	public final static String PHOTO = "photo";
+	public final static String SMS = "sms";
+	public final static String POSITON = "position";
+
+	
 	private final static String RECEIVE ="수신";
 	private final static String SEND ="발신";
 	

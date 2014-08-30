@@ -22,7 +22,6 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
 import com.tleaf.lifelog.R;
-import com.tleaf.lifelog.db.DataManager;
 import com.tleaf.lifelog.listAdapter.SmsListAdapter;
 import com.tleaf.lifelog.pkg.FragmentListener;
 
@@ -32,7 +31,6 @@ public class PositionFragment extends Fragment {
 	private ArrayList<Sms> arItem = null;
 	private ListView lv;
 	private SmsListAdapter mAdapter = null;
-	private DataManager dataManager;
 	private int pos = -1;
 	private MapView mapView;
 	private GoogleMap map;

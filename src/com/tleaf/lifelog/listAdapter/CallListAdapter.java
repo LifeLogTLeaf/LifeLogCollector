@@ -59,7 +59,6 @@ public class CallListAdapter extends BaseAdapter {
 		txt_call_date = (TextView)convertView.findViewById(R.id.txt_call_date);
 		txt_call_duration = (TextView)convertView.findViewById(R.id.txt_call_duration);
 
-		//		Log.e("salebookno", ""+mArr.get(position).getSaleBookNo());
 		txt_call_name.setText(mArr.get(position).getName());
 		txt_call_number.setText(mArr.get(position).getNumber());
 		txt_call_type.setText(mArr.get(position).getCallType());

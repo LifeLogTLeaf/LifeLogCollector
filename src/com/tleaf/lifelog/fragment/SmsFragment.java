@@ -1,6 +1,12 @@
 package com.tleaf.lifelog.fragment;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,21 +20,32 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.listAdapter.SmsListAdapter;
 import com.tleaf.lifelog.log.SmsLog;
+import com.tleaf.lifelog.model.Bookmark;
+import com.tleaf.lifelog.model.Call;
+import com.tleaf.lifelog.model.Lifelog;
+import com.tleaf.lifelog.model.Location;
+import com.tleaf.lifelog.model.Photo;
 import com.tleaf.lifelog.model.Sms;
+import com.tleaf.lifelog.network.DbConnector;
+import com.tleaf.lifelog.network.OnDataListener;
 import com.tleaf.lifelog.pkg.FragmentListener;
+import com.tleaf.lifelog.util.Mylog;
 
-public class SmsFragment extends Fragment {
-
+public class SmsFragment extends Fragment implements OnDataListener {
+	private final String TAG = "sms fragment";
+	
 	private Context mContext;
 	private ArrayList<Sms> arItem = null;
 	private ListView lv;
 	private SmsListAdapter mAdapter = null;
 	private int pos = -1;
-
 	private FragmentListener fListener;
+	private String DBNAME = "jin";
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -45,17 +62,11 @@ public class SmsFragment extends Fragment {
 		Log.e("first onCreateView", "");
 
 		arItem = new ArrayList<Sms>();
-		// 서버에서 받아오기
-		// arItem = dataManager.getSmsList();
-
-//		for (int i = 0; i < 30; i++)
-//			arItem.add(new Sms("최슬기", 20140819, "메시지"));
-
 		SmsLog sl= new SmsLog(mContext);
 		arItem = sl.collectSms();
+		saveSmsInDb(arItem);
+		
 		mAdapter = new SmsListAdapter(mContext, R.layout.item_sms, arItem);
-
-
 		lv = (ListView) rootView.findViewById(R.id.list);
 		lv.setAdapter(mAdapter);
 		lv.setOnItemLongClickListener(mItemLongClickListener);
@@ -85,27 +96,36 @@ public class SmsFragment extends Fragment {
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case 1:
-			deleteItem(pos);
-			pos = -1;
 			break;
 		case 2:
-			// Intent intent = new Intent(mContext, MapActivity.class);
-			// Log.e("arItem.get(pos).isbn",
-			// ""+arItem.get(pos).getDealLocation());
-			// intent.putExtra("location", arItem.get(pos).getDealLocation());
-			// startActivity(intent);
 		}
 		return true;
 	}
 
-	private void deleteItem(int position) {
-		// if (dataManager.deleteSms(arItem.get(pos).getIsbn())) {
-		// arItem.remove(position);
-		// lv.clearChoices();
-		// mAdapter.notifyDataSetChanged();
-		// utill.tst(mContext, "�����Ϸ�");
-		// } else {
-		// utill.tst(mContext, "��������");
-		//
+	public void saveSmsInDb(ArrayList<Sms> arrItem) {
+		DbConnector db = new DbConnector(this, mContext);
+		for(int i=0; i<arrItem.size(); i++)
+			db.postData(DBNAME, arrItem.get(i));
 	}
+
+	@Override
+	public void onSendData(String data) {
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		// Mylog.i(TAG, data);
+		try {
+			JSONObject jsonObject = new JSONObject(data);
+			Mylog.i(TAG, "version : " + jsonObject.getString("version"));
+			Mylog.i(TAG, "count : " + jsonObject.getString("count"));
+			JSONArray jsonArray = jsonObject.getJSONArray("data");
+			List<Sms> list = new ArrayList<Sms>();
+			for (int i = 0; i < jsonArray.length(); i++) {
+				list.add(gson.fromJson(jsonArray.getString(i), Sms.class));
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	
 }

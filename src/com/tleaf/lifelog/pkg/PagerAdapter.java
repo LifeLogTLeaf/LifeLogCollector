@@ -1,12 +1,11 @@
 package com.tleaf.lifelog.pkg;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
-import android.view.LayoutInflater;
 
+import com.tleaf.lifelog.fragment.AllFragment;
 import com.tleaf.lifelog.fragment.BookMarkFragment;
 import com.tleaf.lifelog.fragment.CallFragment;
 import com.tleaf.lifelog.fragment.PictureFragment;
@@ -24,15 +23,16 @@ public class PagerAdapter extends FragmentPagerAdapter {
 	public Fragment getItem(int i) {
 		switch (i) {
 		case 0:
-			return new SmsFragment();
+			return new AllFragment();
 		case 1:
-			return new CallFragment();
+			return new SmsFragment();
 		case 2:
-			return new BookMarkFragment();
+			return new CallFragment();
 		case 3:
-			return new PictureFragment();
+			return new BookMarkFragment();
 		case 4:
-			
+			return new PictureFragment();
+		case 5:
 			return new PositionFragment();
 		}
 		return null;
@@ -49,18 +49,21 @@ public class PagerAdapter extends FragmentPagerAdapter {
 		String title = null;
 		switch (position) {
 		case 0:
-			title = "SMS";
+			title = "All";
 			break;
 		case 1:
-			title = "Call";
+			title = "SMS";
 			break;
 		case 2:
-			title = "BookMark";
+			title = "Call";
 			break;
 		case 3:
-			title = "Picture";
+			title = "BookMark";
 			break;
 		case 4:
+			title = "Picture";
+			break;
+		case 5:
 			title = "Position";
 			break;
 
