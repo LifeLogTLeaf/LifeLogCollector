@@ -1,7 +1,5 @@
 package com.tleaf.lifelog.model;
 
-import java.util.Map;
-
 public class Sms extends Lifelog {
 	private String address;
 	private long date;
@@ -40,18 +38,4 @@ public class Sms extends Lifelog {
 	public void setBody(String body) {
 		this.body = body;
 	}
-
-	@Override
-	public void setMap(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		map.put("address", this.address);
-		map.put("body", this.body);
-		map.put("date", this.date);
-		map.put("longitude", super.getLongitude());
-		map.put("latitude", super.getLatitude());
-		map.put("locationTime", super.getLocationTime());
-		map.put("logType", super.getLogType());
-		map.put("logTime", super.getLogTime());
-	}
-
 }

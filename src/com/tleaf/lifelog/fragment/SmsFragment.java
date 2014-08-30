@@ -2,7 +2,6 @@ package com.tleaf.lifelog.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,20 +22,15 @@ import android.widget.ListView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tleaf.lifelog.R;
-import com.tleaf.lifelog.listAdapter.SmsListAdapter;
+import com.tleaf.lifelog.dbaccess.DAO;
+import com.tleaf.lifelog.dbaccess.DBListener;
+import com.tleaf.lifelog.listadapter.SmsListAdapter;
 import com.tleaf.lifelog.log.SmsLog;
-import com.tleaf.lifelog.model.Bookmark;
-import com.tleaf.lifelog.model.Call;
-import com.tleaf.lifelog.model.Lifelog;
-import com.tleaf.lifelog.model.Location;
-import com.tleaf.lifelog.model.Photo;
 import com.tleaf.lifelog.model.Sms;
-import com.tleaf.lifelog.network.DbConnector;
-import com.tleaf.lifelog.network.OnDataListener;
 import com.tleaf.lifelog.pkg.FragmentListener;
 import com.tleaf.lifelog.util.Mylog;
 
-public class SmsFragment extends Fragment implements OnDataListener {
+public class SmsFragment extends Fragment implements DBListener {
 	private final String TAG = "sms fragment";
 	
 	private Context mContext;
@@ -103,9 +97,9 @@ public class SmsFragment extends Fragment implements OnDataListener {
 	}
 
 	public void saveSmsInDb(ArrayList<Sms> arrItem) {
-		DbConnector db = new DbConnector(this, mContext);
+		DAO db = new DAO(this, mContext);
 		for(int i=0; i<arrItem.size(); i++)
-			db.postData(DBNAME, arrItem.get(i));
+			db.postData("jin", arrItem.get(i), "touch");
 	}
 
 	@Override

@@ -6,7 +6,6 @@ import java.util.Map;
 
 public class Call extends Lifelog{
 
-
 	private String name;
 	private String number;
 	private String callType;
@@ -38,7 +37,6 @@ public class Call extends Lifelog{
 	public void setNumber(String number) {
 		this.number = number;
 	}
-	
 	public String getCallType() {
 		return callType;
 	}
@@ -60,25 +58,16 @@ public class Call extends Lifelog{
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
-
 	
-	@Override
-	public void setMap(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		map.put("name", this.name);
-		map.put("date", this.date);
-		map.put("number", this.number);
-		map.put("longitude", super.getLongitude());
-		map.put("latitude", super.getLatitude());
-		map.put("locationTime", super.getLocationTime());
-		map.put("logType", super.getLogType());
-		map.put("logTime", super.getLogTime());
-	}
-
-	
-//	int nameidx = cursor.getColumnIndex(CallLog.Calls.CACHED_NAME);
-//	int dateidx = cursor.getColumnIndex(CallLog.Calls.DATE);
-//	int numidx = cursor.getColumnIndex(CallLog.Calls.NUMBER);
-//	int duridx = cursor.getColumnIndex(CallLog.Calls.DURATION);
-	// int typeidx = cursor.getColumnIndex(CallLog.Calls.TYPE);
 }
+
+
+
+
+
+//int nameidx = cursor.getColumnIndex(CallLog.Calls.CACHED_NAME);
+//int dateidx = cursor.getColumnIndex(CallLog.Calls.DATE);
+//int numidx = cursor.getColumnIndex(CallLog.Calls.NUMBER);
+//int duridx = cursor.getColumnIndex(CallLog.Calls.DURATION);
+// int typeidx = cursor.getColumnIndex(CallLog.Calls.TYPE);
+

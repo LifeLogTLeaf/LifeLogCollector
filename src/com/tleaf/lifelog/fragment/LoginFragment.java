@@ -56,7 +56,7 @@ public class LoginFragment extends Fragment implements StatusCallback {
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		RelativeLayout rootView = (RelativeLayout) inflater.inflate(
-				R.layout.fragment_login, container, false);
+				R.layout.activity_facebook, container, false);
 		LoginButton facebook_login_btn = (LoginButton) rootView
 				.findViewById(R.id.facebook_login_btn);
 		facebook_login_btn.setFragment(this);

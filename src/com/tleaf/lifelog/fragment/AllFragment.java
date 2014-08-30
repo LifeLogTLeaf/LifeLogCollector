@@ -1,6 +1,7 @@
 package com.tleaf.lifelog.fragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -22,19 +23,18 @@ import android.widget.ListView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tleaf.lifelog.R;
-import com.tleaf.lifelog.listAdapter.AllListAdapter;
+import com.tleaf.lifelog.dbaccess.DAO;
+import com.tleaf.lifelog.dbaccess.DBListener;
+import com.tleaf.lifelog.listadapter.AllListAdapter;
 import com.tleaf.lifelog.model.Bookmark;
 import com.tleaf.lifelog.model.Call;
 import com.tleaf.lifelog.model.Lifelog;
-import com.tleaf.lifelog.model.Location;
 import com.tleaf.lifelog.model.Photo;
 import com.tleaf.lifelog.model.Sms;
-import com.tleaf.lifelog.network.DbConnector;
-import com.tleaf.lifelog.network.OnDataListener;
 import com.tleaf.lifelog.pkg.FragmentListener;
 import com.tleaf.lifelog.util.Mylog;
 import com.tleaf.lifelog.util.Util;
-public class AllFragment  extends Fragment implements OnDataListener  { 
+public class AllFragment  extends Fragment implements DBListener  { 
 	private static final String TAG = "AllFragment";
 
 	private Context mContext;
@@ -61,9 +61,11 @@ public class AllFragment  extends Fragment implements OnDataListener  {
 
 		list = new ArrayList<Lifelog>();
 
-		String DBNAME = "jin";
-		DbConnector db = new DbConnector(this, mContext.getApplicationContext());
-		db.getData(DBNAME, "lifelogs");
+	
+		DAO db = new DAO(this, mContext);
+		HashMap<String, String> param = new HashMap<>();
+		param.put("userid", "jin");
+		db.getData("jin", "lifelogs", param, "server");
 
 		Mylog.i("list.size()", ""+list.size());
 		//		if(list.size() <= 0)
@@ -128,9 +130,9 @@ public class AllFragment  extends Fragment implements OnDataListener  {
 				case Util.PHOTO:
 					log = gson.fromJson(jsonArray.getString(i), Photo.class);
 					break;
-				case Util.POSITON:
-					log = gson.fromJson(jsonArray.getString(i), Location.class);
-					break;
+//				case Util.POSITON:
+//					log = gson.fromJson(jsonArray.getString(i), Location.class);
+//					break;
 				case Util.SMS:
 					log = gson.fromJson(jsonArray.getString(i), Sms.class);
 					break;

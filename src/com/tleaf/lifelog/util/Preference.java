@@ -9,13 +9,15 @@ public class Preference {
 	private SharedPreferences.Editor edit;
 
 	public Preference(Context context) {
-		pref = context.getSharedPreferences("lifelog_pref", 0);
+		pref = context.getSharedPreferences("tleaf_lifelog", 0);
 		edit = pref.edit();
 	}
 
 	public void setStringPref(String key, String value) {
 		edit.putString(key, value); // 저장
 		edit.commit();
+		Log.i("prefrence", "prefrence boolean : " + key + "," + value);
+		
 	}
 
 	public String getStringPref(String key) {

@@ -4,6 +4,12 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+    
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_OWNER_DATA" />
     <uses-permission android:name="android.permission.READ_OWNER_DATA" />
@@ -16,9 +22,9 @@
     <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    
+
     <!-- 2014.08.24 by Young -->
-    <!-- Permission for save bookmakr  -->
+    <!-- Permission for save bookmakr -->
     <uses-permission android:name="com.android.browser.permission.READ_HISTORY_BOOKMARKS" />
 
     <uses-sdk
@@ -58,7 +64,7 @@
             android:name="com.facebook.LoginActivity"
             android:label="@string/app_name" />
 
-        <!-- Main Activity -->
+        <!-- Photo Activity -->
         <activity
             android:name="com.tleaf.lifelog.activity.PhotoActivity"
             android:label="@string/app_name" >
@@ -81,6 +87,8 @@
             <!-- share permission end -->
 
         </activity>
+
+        <!-- Main Activity -->
         <activity
             android:name="com.tleaf.lifelog.activity.MainActivity"
             android:label="@string/app_name"
@@ -106,6 +114,13 @@
             </intent-filter>
         </activity>
 
+        <!-- 2014.08.24 by Young -->
+        <!-- Facebook login Activity -->
+        <activity
+            android:name="com.tleaf.lifelog.activity.FaceBookLoginActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+
         <!-- Uploader Service -->
         <service
             android:name="com.tleaf.lifelog.service.UploaderService"
@@ -114,12 +129,14 @@
                 <action android:name="com.tleaf.service.uploader" />
             </intent-filter>
         </service>
-    </application>
 
-    <uses-permission android:name="android.permission.READ_CALL_LOG" />
-    <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+        <receiver
+            android:name="com.tleaf.lifelog.cardsms.SmsReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+    </application>
 
 </manifest>

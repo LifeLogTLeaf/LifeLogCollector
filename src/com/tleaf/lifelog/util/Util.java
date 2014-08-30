@@ -4,7 +4,6 @@ package com.tleaf.lifelog.util;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.tleaf.lifelog.model.Location;
 
 public class Util {
 
@@ -58,9 +57,9 @@ public class Util {
 
 	}
 	 */	
-	public static Location getCurrentPostion() {
-		return new Location();
-	}
+//	public static Location getCurrentPostion() {
+//		return new Location();
+//	}
 
 	public static long getCurrentTime() {
 		long time = System.currentTimeMillis();

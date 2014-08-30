@@ -13,12 +13,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tleaf.lifelog.R;
-import com.tleaf.lifelog.listAdapter.PhotoListAdapter;
+import com.tleaf.lifelog.listadapter.PhotoListAdapter;
 import com.tleaf.lifelog.model.Photo;
-import com.tleaf.lifelog.network.CouchDBConnector;
 import com.tleaf.lifelog.util.PhotoAction;
 
 public class PhotoActivity extends Activity {
@@ -55,19 +53,19 @@ public class PhotoActivity extends Activity {
 
 			listView.setAdapter(arrAdapter);
 
-			CouchDBConnector couchDBTask = new CouchDBConnector("photo",
-					"post", "insert-photo");
-			couchDBTask.setContext(getApplication());
+//			CouchDBConnector couchDBTask = new CouchDBConnector("photo",
+//					"post", "insert-photo");
+//			couchDBTask.setContext(getApplication());
 
 			// 리스트의 사진들을 하나씩 업로드 한다 
 //			while (arrFileList.isEmpty()==false) {
-				Toast.makeText(getApplicationContext(), arrFileList.size()+"개 남았습니다", 1000).show();
-				
-				couchDBTask.execute(arrFileList);
-				arrAdapter = new PhotoListAdapter(this,
-						R.layout.layout_photo_preview, arrFileList);
-				Toast.makeText(getApplicationContext(),"전송완료 ", 1000).show();
-				listView.setAdapter(arrAdapter);
+//				Toast.makeText(getApplicationContext(), arrFileList.size()+"개 남았습니다", 1000).show();
+//				
+//				couchDBTask.execute(arrFileList);
+//				arrAdapter = new PhotoListAdapter(this,
+//						R.layout.layout_photo_preview, arrFileList);
+//				Toast.makeText(getApplicationContext(),"전송완료 ", 1000).show();
+//				listView.setAdapter(arrAdapter);
 //			}
 
 		}
@@ -80,9 +78,9 @@ public class PhotoActivity extends Activity {
 		String imgPath = getPathFromUri(imgUri);
 		lifeLog.setFileName(fileName);
 		lifeLog.setImgPath(imgPath);
-		CouchDBConnector couchDBTask = new CouchDBConnector("photo", "post",
-				"insert-photo");
-		couchDBTask.setContext(getApplicationContext());
+		//CouchDBConnector couchDBTask = new CouchDBConnector("photo", "post",
+		//		"insert-photo");
+		//couchDBTask.setContext(getApplicationContext());
 //		couchDBTask.execute(lifeLog);
 	}
 
@@ -100,7 +98,7 @@ public class PhotoActivity extends Activity {
 	public void onClick(View view) {
 		// 2014.08.21 by Young
 		// 네트워크 모듈을 위헤서 주석처림했음.
-		//dbConnecnt();
+		//SdbConnecnt();
 
 	}
 

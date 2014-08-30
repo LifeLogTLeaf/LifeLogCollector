@@ -22,7 +22,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.tleaf.lifelog.R;
-import com.tleaf.lifelog.network.OnDataListener;
 import com.tleaf.lifelog.pkg.FragmentListener;
 import com.tleaf.lifelog.pkg.PagerAdapter;
 import com.tleaf.lifelog.util.Mylog;

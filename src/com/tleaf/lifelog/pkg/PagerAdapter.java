@@ -6,9 +6,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
 import com.tleaf.lifelog.fragment.AllFragment;
-import com.tleaf.lifelog.fragment.BookMarkFragment;
 import com.tleaf.lifelog.fragment.CallFragment;
-import com.tleaf.lifelog.fragment.PictureFragment;
+import com.tleaf.lifelog.fragment.FbPostFragmnet;
+import com.tleaf.lifelog.fragment.PhotoFragment;
 import com.tleaf.lifelog.fragment.PositionFragment;
 import com.tleaf.lifelog.fragment.SmsFragment;
 
@@ -29,9 +29,9 @@ public class PagerAdapter extends FragmentPagerAdapter {
 		case 2:
 			return new CallFragment();
 		case 3:
-			return new BookMarkFragment();
+			return new FbPostFragmnet();
 		case 4:
-			return new PictureFragment();
+			return new PhotoFragment();
 		case 5:
 			return new PositionFragment();
 		}
@@ -40,7 +40,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
 	@Override
 	public int getCount() {
-		return 5;
+		return 6;
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
 			title = "Call";
 			break;
 		case 3:
-			title = "BookMark";
+			title = "post";
 			break;
 		case 4:
 			title = "Picture";

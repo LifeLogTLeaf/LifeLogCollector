@@ -18,7 +18,7 @@ import android.widget.ListView;
 
 import com.tleaf.lifelog.R;
 import com.tleaf.lifelog.activity.PhotoActivity;
-import com.tleaf.lifelog.listAdapter.SmsListAdapter;
+import com.tleaf.lifelog.listadapter.SmsListAdapter;
 import com.tleaf.lifelog.pkg.FragmentListener;
 public class PictureFragment extends Fragment { 
 

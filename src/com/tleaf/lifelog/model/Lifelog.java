@@ -1,7 +1,5 @@
 package com.tleaf.lifelog.model;
 
-import java.util.Map;
-
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import com.tleaf.lifelog.util.Util;
@@ -25,31 +23,6 @@ public abstract class Lifelog {
 
 	private long logTime;
 	private String logType;
-
-
-	public Lifelog() {
-		this.logTime = Util.getCurrentTime();
-	}
-
-	public Lifelog(long logTime) {
-		this.logTime = logTime;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getRev() {
-		return rev;
-	}
-
-	public void setRev(String rev) {
-		this.rev = rev;
-	}
 
 	public double getLatitude() {
 		return latitude;
@@ -75,6 +48,30 @@ public abstract class Lifelog {
 		this.locationTime = locationTime;
 	}
 
+	public Lifelog() {
+		this.logTime = Util.getCurrentTime();
+	}
+
+	public Lifelog(long logTime) {
+		this.logTime = logTime;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getRev() {
+		return rev;
+	}
+
+	public void setRev(String rev) {
+		this.rev = rev;
+	}
+
 	public long getLogTime() {
 		return logTime;
 	}
@@ -83,15 +80,15 @@ public abstract class Lifelog {
 		this.logTime = logTime;
 	}
 
-	public String getLogType() {
+	public String getlogType() {
 		return logType;
 	}
 
-	public void setLogType(String logType) {
+	public void setlogType(String logType) {
 		this.logType = logType;
 	}
 
-	public abstract void setMap(Map<String, Object> map);
-	
-//	public Map<String, String> 
+	public String genId(String userName) {
+		return userName + "-" + this.logTime + "-" + this.logType;
+	}
 }
