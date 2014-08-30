@@ -1,7 +1,5 @@
 ﻿package com.tleaf.lifelog.model;
 
-import java.util.Map;
-
 public class Call extends Lifelog{
 	private String name;
 	private String date;
@@ -37,18 +35,6 @@ public class Call extends Lifelog{
 		this.type = type;
 	}
 	*/
-	@Override
-	public void setMap(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		map.put("name", this.name);
-		map.put("date", this.date);
-		map.put("number", this.number);
-		map.put("longitude", super.getLongitude());
-		map.put("latitude", super.getLatitude());
-		map.put("locationTime", super.getLocationTime());
-		map.put("type", super.getType());
-		map.put("logTime", super.getLogTime());
-	}
 
 	
 //	int nameidx = cursor.getColumnIndex(CallLog.Calls.CACHED_NAME);

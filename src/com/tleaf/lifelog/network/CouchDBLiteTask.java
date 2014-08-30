@@ -1,17 +1,16 @@
 ﻿package com.tleaf.lifelog.network;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.http.util.ByteArrayBuffer;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 
 import android.content.Context;
 
-import com.couchbase.lite.AsyncTask;
 import com.couchbase.lite.CouchbaseLiteException;
 import com.couchbase.lite.Database;
 import com.couchbase.lite.Document;
@@ -21,7 +20,7 @@ import com.couchbase.lite.replicator.Replication;
 import com.couchbase.lite.replicator.Replication.ChangeEvent;
 import com.couchbase.lite.replicator.Replication.ChangeListener;
 import com.couchbase.lite.replicator.Replication.ReplicationStatus;
-import com.google.android.gms.common.api.a.d;
+import com.google.gson.Gson;
 import com.tleaf.lifelog.model.Lifelog;
 import com.tleaf.lifelog.util.Mylog;
 
@@ -148,10 +147,23 @@ public class CouchDBLiteTask implements DbAccessInterface {
 			}
 		}
 
-		/* 2014.08.18 by young 도큐먼트 생성. */
+		/** 2014.08.18 by young 도큐먼트 생성. 
+		 * 2014.8.27 by susu LifeLog 클래스에 있는 setMap 메소드 대신 mapper 사용
+		 */
 		private String createDocument(Lifelog lifelog) {
-			Map<String, Object> data = new HashMap<String, Object>();
-			lifelog.setMap(data);
+			
+			Map<String, Object> data = null;
+			
+			// Convert Java Object to JSON format String
+			Gson gson = new Gson(); String jsonString = gson.toJson(lifelog);
+			
+			// Convert JSON String to HashMap<String,Object>			
+			ObjectMapper mapper = new ObjectMapper();
+			try {
+				data = mapper.readValue(jsonString, new TypeReference<HashMap<String,Object>>(){});
+			} catch (IOException e2) {
+				e2.printStackTrace();
+			}
 
 			Database database = null;
 			try {

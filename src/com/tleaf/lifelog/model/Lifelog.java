@@ -1,7 +1,5 @@
 package com.tleaf.lifelog.model;
 
-import java.util.Map;
-
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import com.tleaf.lifelog.util.Util;
@@ -89,6 +87,4 @@ public abstract class Lifelog {
 	public void setType(String type) {
 		this.type = type;
 	}
-
-	public abstract void setMap(Map<String, Object> map);
 }
