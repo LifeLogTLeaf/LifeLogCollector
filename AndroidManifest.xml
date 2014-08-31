@@ -15,6 +15,12 @@
     <uses-permission android:name="android.permission.READ_OWNER_DATA" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- Permissions for Network State -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    
     <!-- Permissions for Location Service -->
     <uses-permission android:name="com.tleaf.lifelog.permission.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -122,11 +128,13 @@
         </activity>
 
         <!-- Uploader Service -->
-        <service
-            android:name="com.tleaf.lifelog.service.UploaderService"
+          <service
+            android:name=".service.UploaderService"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
             <intent-filter>
-                <action android:name="com.tleaf.service.uploader" />
+                <action android:name="com.tleaf.lifelog.service.UploaderService" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
 
